@@ -15,10 +15,7 @@ public class ComboBox {
     public ComboBox() {
         // create a new JComboBox object
         SelectComboBox = new JComboBox<>();
-        
-        SelectComboBox.addItem("Select your type");
-        SelectComboBox.addItem("Agent");
-        SelectComboBox.addItem("Alien");
+
         
     }
     
