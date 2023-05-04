@@ -9,13 +9,30 @@ import oru.inf.InfException;
 import javax.swing.JOptionPane;
 import javax.swing.*;
 import java.awt.event.*;
+
+
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
+
+// ...
+
+
+
+
 /**
  *
  * @author antti
  */
 public class LoginForm extends javax.swing.JFrame {
-
+    private String agentID = "";
+    private String password = ""; 
     private static InfDB idb;
+    // Create a connection to the database
+
     /**
      * Creates new form LoginForm
      */
@@ -35,7 +52,7 @@ public class LoginForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
         passwordButton = new javax.swing.JPasswordField();
         userNameButton = new javax.swing.JTextField();
         comboLogin = new javax.swing.JComboBox<>();
@@ -48,10 +65,10 @@ public class LoginForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
 
@@ -67,7 +84,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        comboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Admin", "Agent", "Alien" }));
+        comboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Agent", "Alien" }));
         comboLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboLoginActionPerformed(evt);
@@ -93,7 +110,7 @@ public class LoginForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(loginButton)
                 .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
@@ -132,7 +149,7 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(loginButton)
                     .addComponent(ChangePasswordButton))
                 .addGap(37, 37, 37))
         );
@@ -143,16 +160,16 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+ 
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordButtonActionPerformed
-        // TODO add your handling code here:
+        password = String.valueOf(passwordButton.getPassword());
     }//GEN-LAST:event_passwordButtonActionPerformed
 
     private void userNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameButtonActionPerformed
-        // TODO add your handling code here:
+        agentID = userNameButton.getText();
     }//GEN-LAST:event_userNameButtonActionPerformed
 
     private void comboLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLoginActionPerformed
@@ -212,11 +229,11 @@ public class LoginForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChangePasswordButton;
     private javax.swing.JComboBox<String> comboLogin;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordButton;
     private javax.swing.JTextField userNameButton;
     // End of variables declaration//GEN-END:variables
