@@ -78,7 +78,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel2.setText("Password");
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("Select your type");
 
         ChangePasswordButton.setText("Change password");
         ChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -162,12 +162,14 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_comboLoginActionPerformed
 
     private void ChangePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangePasswordButtonActionPerformed
-        ChangePasswordButton.addActionListener((ActionEvent e) -> {
-            // Create a new instance of the ChangePasswordFrame
-            ChangePasswordFrame changePasswordFrame = new ChangePasswordFrame();
-            changePasswordFrame.setVisible(true); // Show the new frame
-        });
-
+        ChangePasswordButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        // Create a new instance of the ChangePasswordFrame
+        ChangePasswordFrame changePasswordFrame = new ChangePasswordFrame();
+        changePasswordFrame.setVisible(true); // Show the new frame
+    }
+});
 
     }//GEN-LAST:event_ChangePasswordButtonActionPerformed
 

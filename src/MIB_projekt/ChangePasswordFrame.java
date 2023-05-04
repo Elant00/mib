@@ -6,6 +6,18 @@ package MIB_projekt;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+
+
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import oru.inf.InfDB;
+import oru.inf.InfException;
 
 /**
  *
@@ -37,6 +49,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         UsernameChangeP1 = new javax.swing.JLabel();
         UsernameChangeP2 = new javax.swing.JLabel();
         confirmChangesButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +78,13 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             }
         });
 
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -72,19 +92,22 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UsernameChangeP, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UsernameChangeP2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UsernameChangeP1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(oldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .addComponent(UserNameCP)
-                    .addComponent(newPassword))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(confirmChangesButton)
-                .addGap(30, 30, 30))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(UsernameChangeP, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UsernameChangeP2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UsernameChangeP1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(oldPassword)
+                            .addComponent(UserNameCP)
+                            .addComponent(newPassword))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addComponent(confirmChangesButton)
+                        .addGap(30, 30, 30))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +125,9 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                     .addComponent(newPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UsernameChangeP1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(confirmChangesButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(confirmChangesButton)
+                    .addComponent(cancelButton))
                 .addGap(36, 36, 36))
         );
 
@@ -118,6 +143,21 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private void confirmChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmChangesButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmChangesButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+
+    // Create a new ActionListener for the Cancel button
+    cancelButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Get the JFrame window for the current event
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource());
+            // Close or dispose of the window
+            frame.dispose();
+        }
+    });
+   
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,6 +197,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private javax.swing.JLabel UsernameChangeP;
     private javax.swing.JLabel UsernameChangeP1;
     private javax.swing.JLabel UsernameChangeP2;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmChangesButton;
     private javax.swing.JPasswordField newPassword;
     private javax.swing.JPasswordField oldPassword;
