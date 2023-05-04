@@ -36,8 +36,8 @@ public class LoginForm extends javax.swing.JFrame {
 
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        EnterPath = new javax.swing.JTextField();
+        passwordButton = new javax.swing.JPasswordField();
+        userNameButton = new javax.swing.JTextField();
         comboLogin = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -55,15 +55,15 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        passwordButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                passwordButtonActionPerformed(evt);
             }
         });
 
-        EnterPath.addActionListener(new java.awt.event.ActionListener() {
+        userNameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EnterPathActionPerformed(evt);
+                userNameButtonActionPerformed(evt);
             }
         });
 
@@ -104,8 +104,8 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(EnterPath, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1)))
+                            .addComponent(userNameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(passwordButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -124,11 +124,11 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EnterPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userNameButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -137,8 +137,8 @@ public class LoginForm extends javax.swing.JFrame {
                 .addGap(37, 37, 37))
         );
 
-        EnterPath.getAccessibleContext().setAccessibleName("");
-        EnterPath.getAccessibleContext().setAccessibleDescription("");
+        userNameButton.getAccessibleContext().setAccessibleName("");
+        userNameButton.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -147,13 +147,13 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void passwordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_passwordButtonActionPerformed
 
-    private void EnterPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterPathActionPerformed
+    private void userNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_EnterPathActionPerformed
+    }//GEN-LAST:event_userNameButtonActionPerformed
 
     private void comboLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLoginActionPerformed
         // create a new combobox
@@ -165,9 +165,9 @@ public class LoginForm extends javax.swing.JFrame {
         ChangePasswordButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        // Create a new instance of the ChangePasswordFrame
+        // skapa en ny instans av changepassword
         ChangePasswordFrame changePasswordFrame = new ChangePasswordFrame();
-        changePasswordFrame.setVisible(true); // Show the new frame
+        changePasswordFrame.setVisible(true); // Visa nya framen
     }
 });
 
@@ -211,13 +211,13 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChangePasswordButton;
-    private javax.swing.JTextField EnterPath;
     private javax.swing.JComboBox<String> comboLogin;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField passwordButton;
+    private javax.swing.JTextField userNameButton;
     // End of variables declaration//GEN-END:variables
 }
