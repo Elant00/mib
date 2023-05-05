@@ -169,6 +169,7 @@ public class LoginForm extends javax.swing.JFrame {
         String usernameString = userNameField.getText();
         char[] charPassword = passwordField.getPassword();
         String passwordString = new String(charPassword);
+        
         if(usernameString.isEmpty() || passwordString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
         }
@@ -176,6 +177,7 @@ public class LoginForm extends javax.swing.JFrame {
             String sqlQuestion = "Select Losenord from agent where Epost = '" + usernameString + "'"; 
             
                 String sqlAnswer = idb.fetchSingle(sqlQuestion);
+                
                 if(passwordString.equals(sqlAnswer)){
                     dispose();
                     AgentHomePage agentPage = new AgentHomePage();
