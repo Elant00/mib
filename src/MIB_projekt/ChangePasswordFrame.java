@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -25,11 +26,14 @@ import oru.inf.InfException;
  */
 public class ChangePasswordFrame extends javax.swing.JFrame {
 
+    
+    private static InfDB idb;
     /**
      * Creates new form ChangePasswordFram
      */
-    public ChangePasswordFrame() {
+    public ChangePasswordFrame(InfDB iidb) {
         initComponents();
+        idb = iidb;
      
     }
 
@@ -141,6 +145,31 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_oldPasswordActionPerformed
 
     private void confirmChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmChangesButtonActionPerformed
+    String email = UserNameCP.getText();
+    char[] oldPasswordChar = oldPassword.getPassword();
+    String oldPasswordString = new String(oldPasswordChar);    
+    char[] ändraLösen = newPassword.getPassword();
+    String nyttLösen = new String(ändraLösen);
+    String frågaTillSql = "Select Losenord from agent where Epost = '" + email + "'";
+   
+       try {
+        String svarFrånSql = idb.fetchSingle(frågaTillSql);
+
+        // Kontrollera om det gamla lösenordet matchar med e-posten
+        if (oldPasswordString.equals(svarFrånSql)){
+            // Om lösenorden matchar, ändra lösenordet
+            String updateTillSql = "UPDATE Agent SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
+            idb.update(updateTillSql);
+            JOptionPane.showMessageDialog(null, "Lösenordet har ändrats!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
+        }
+    } catch (InfException ex) {
+        Logger.getLogger(ChangePasswordFrame.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
+     
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmChangesButtonActionPerformed
 
@@ -187,8 +216,12 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new ChangePasswordFrame().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            
+            @Override
+            public void run() {
+                new ChangePasswordFrame(idb).setVisible(true);
+            }
         });
     }
 
