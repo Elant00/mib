@@ -29,7 +29,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     
     private static InfDB idb;
     /**
-     * Creates new form ChangePasswordFram
+     * Creates new form ChangePasswordFrame
      */
     public ChangePasswordFrame(InfDB iidb) {
         initComponents();
