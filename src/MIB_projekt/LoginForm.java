@@ -164,10 +164,44 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        String selectedType = comboLogin.getSelectedItem().toString();
+        if(selectedType.equals("Agent")){
         String usernameString = userNameField.getText();
-        String passwordString = new String(passwordField.getPassword());
+        char[] charPassword = passwordField.getPassword();
+        String passwordString = new String(charPassword);
         if(usernameString.isEmpty() || passwordString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
+        }
+           try {
+            String sqlQuestion = "Select Losenord from agent where Epost = '" + usernameString + "'"; 
+            
+                String sqlAnswer = idb.fetchSingle(sqlQuestion);
+                if(passwordString.equals(sqlAnswer)){
+                    dispose();
+                    AgentHomePage agentPage = new AgentHomePage();
+                    agentPage.setVisible(true);
+                }
+                
+                if(!passwordString.equals(sqlAnswer)){
+                    JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
+                }
+           
+          
+          } catch (InfException ex) {
+                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        } 
+        
+        if (selectedType.equals("Alien")){
+            String alienUser = userNameField.getText();
+            char[] alienPassChar = passwordField.getPassword();
+            String alienPassword = new String (alienPassChar);
+            
+            if(alienUser.isEmpty() || alienPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
+        }
+            
+            
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
