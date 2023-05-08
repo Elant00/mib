@@ -54,6 +54,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         UsernameChangeP2 = new javax.swing.JLabel();
         confirmChangesButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +90,8 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agent", "Alien" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,11 +115,17 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                         .addComponent(confirmChangesButton)
                         .addGap(30, 30, 30))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addGap(20, 20, 20)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(UserNameCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UsernameChangeP, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -145,6 +154,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_oldPasswordActionPerformed
 
     private void confirmChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmChangesButtonActionPerformed
+    String selectedType = jComboBox1.getSelectedItem().toString();
     String email = UserNameCP.getText();
     char[] oldPasswordChar = oldPassword.getPassword();
     String oldPasswordString = new String(oldPasswordChar);    
@@ -154,6 +164,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Your new password is too long, make it 6 charachters or shorter! ");
     }
     
+    if(selectedType.equals("Agent")){
     String frågaTillSql = "Select Losenord from agent where Epost = '" + email + "'";
    
        try {
@@ -173,9 +184,28 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     } catch (InfException ex) {
         Logger.getLogger(ChangePasswordFrame.class.getName()).log(Level.SEVERE, null, ex);
     }
+    }   
+    
+    else{
+    String frågaTillSql2 = "Select Losenord from Alien where Epost = '" + email + "'";
+    
+       try {
+        String svarFrånSql2 = idb.fetchSingle(frågaTillSql2);
         
-     
-        
+        if((!oldPasswordString.equals(svarFrånSql2)) && nyttLösen.length()<7){
+            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
+    }
+        // Kontrollera om det gamla lösenordet matchar med e-posten
+        if(oldPasswordString.equals(svarFrånSql2)){
+            String updateTillSql2 = "UPDATE alien SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
+            idb.update(updateTillSql2);
+            JOptionPane.showMessageDialog(null, "Lösenordet har ändrats!");
+        }
+    } 
+       catch (InfException ex) {
+        Logger.getLogger(ChangePasswordFrame.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmChangesButtonActionPerformed
 
@@ -238,6 +268,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private javax.swing.JLabel UsernameChangeP2;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmChangesButton;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPasswordField newPassword;
     private javax.swing.JPasswordField oldPassword;
     // End of variables declaration//GEN-END:variables
