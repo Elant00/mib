@@ -4,17 +4,21 @@
  */
 package MIB_projekt;
 
+import oru.inf.InfDB;
+
 /**
  *
  * @author antti
  */
 public class AgentHomePage extends javax.swing.JFrame {
 
+    private static InfDB idb;
     /**
-     * Creates new form AgentHomePage
+     * Creates new form ChangePasswordFrame
      */
-    public AgentHomePage() {
+    public AgentHomePage(InfDB iidb) {
         initComponents();
+        idb = iidb;
     }
 
     /**
@@ -26,32 +30,90 @@ public class AgentHomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        alienAction = new javax.swing.JButton();
+        agentActions = new javax.swing.JButton();
+        registerAlien = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Din mamma");
+        jLabel2.setText("WELCOME AGENT");
+
+        alienAction.setText("Existing aliens");
+        alienAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alienActionActionPerformed(evt);
+            }
+        });
+
+        agentActions.setText("Agent actions");
+        agentActions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agentActionsActionPerformed(evt);
+            }
+        });
+
+        registerAlien.setText("Register alien");
+        registerAlien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerAlienActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addGap(139, 139, 139)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(registerAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agentActions, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(alienAction, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(jLabel1)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(registerAlien)
+                .addGap(27, 27, 27)
+                .addComponent(alienAction)
+                .addGap(27, 27, 27)
+                .addComponent(agentActions)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void alienActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alienActionActionPerformed
+        dispose();
+        AlienActionPage alienAction = new AlienActionPage(idb);
+        alienAction.setVisible(true);
+    }//GEN-LAST:event_alienActionActionPerformed
+
+    private void agentActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agentActionsActionPerformed
+        dispose();
+        AgentInformation agentInformation = new AgentInformation();
+        agentInformation.setVisible(true);
+    }//GEN-LAST:event_agentActionsActionPerformed
+
+    private void registerAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerAlienActionPerformed
+        dispose();
+        RegisterAlien registerAlien = new RegisterAlien();
+        registerAlien.setVisible(true);
+    }//GEN-LAST:event_registerAlienActionPerformed
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -82,12 +144,15 @@ public class AgentHomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgentHomePage().setVisible(true);
+                new AgentHomePage(idb).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton agentActions;
+    private javax.swing.JButton alienAction;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton registerAlien;
     // End of variables declaration//GEN-END:variables
 }
