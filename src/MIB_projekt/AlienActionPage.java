@@ -98,7 +98,9 @@ public class AlienActionPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listAliensAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensAreaActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        AlienByArea alienArea = new AlienByArea(idb);
+        alienArea.setVisible(true);
     }//GEN-LAST:event_listAliensAreaActionPerformed
 
     /**
