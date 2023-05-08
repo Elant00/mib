@@ -5,18 +5,19 @@
             <url>src/MIB_projekt/LoginForm.java</url>
             <bookmark id="1">
                 <name/>
-                <line>249</line>
+                <line>265</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/ChangePasswordFrame.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/RegisterAlien.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AgentInformation.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienActionPage.java</file>
             <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/LoginForm.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/Start.java</file>
             <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AgentHomePage.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienHomePage.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienByArea.java</file>
         </group>
     </open-files>
 </project-private>

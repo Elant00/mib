@@ -50,6 +50,11 @@ public class AlienActionPage extends javax.swing.JFrame {
         });
 
         listAliensRace.setText("List aliens");
+        listAliensRace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listAliensRaceActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("SORTED BY AREA");
 
@@ -99,9 +104,18 @@ public class AlienActionPage extends javax.swing.JFrame {
 
     private void listAliensAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensAreaActionPerformed
         dispose();
+
         AlienByArea alienArea = new AlienByArea(idb);
         alienArea.setVisible(true);
+
+       
+
     }//GEN-LAST:event_listAliensAreaActionPerformed
+
+    private void listAliensRaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensRaceActionPerformed
+        dispose();
+        
+    }//GEN-LAST:event_listAliensRaceActionPerformed
 
     /**
      * @param args the command line arguments
