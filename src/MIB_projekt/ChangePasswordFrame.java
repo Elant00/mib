@@ -29,7 +29,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     
     private static InfDB idb;
     /**
-     * Creates new form ChangePasswordFram
+     * Creates new form ChangePasswordFrame
      */
     public ChangePasswordFrame(InfDB iidb) {
         initComponents();
@@ -150,20 +150,26 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     String oldPasswordString = new String(oldPasswordChar);    
     char[] ändraLösen = newPassword.getPassword();
     String nyttLösen = new String(ändraLösen);
+    if(nyttLösen.length() > 6){
+        JOptionPane.showMessageDialog(this, "Your new password is too long, make it 6 charachters or shorter! ");
+    }
+    
     String frågaTillSql = "Select Losenord from agent where Epost = '" + email + "'";
    
        try {
         String svarFrånSql = idb.fetchSingle(frågaTillSql);
+        
+        if((!oldPasswordString.equals(svarFrånSql)) && nyttLösen.length()<7) {
+            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
+        }
 
         // Kontrollera om det gamla lösenordet matchar med e-posten
         if (oldPasswordString.equals(svarFrånSql)){
             // Om lösenorden matchar, ändra lösenordet
-            String updateTillSql = "UPDATE Agent SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
+            String updateTillSql = "UPDATE agent SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
             idb.update(updateTillSql);
             JOptionPane.showMessageDialog(null, "Lösenordet har ändrats!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
-        }
+        } 
     } catch (InfException ex) {
         Logger.getLogger(ChangePasswordFrame.class.getName()).log(Level.SEVERE, null, ex);
     }
