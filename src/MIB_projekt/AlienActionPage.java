@@ -99,8 +99,12 @@ public class AlienActionPage extends javax.swing.JFrame {
 
     private void listAliensAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensAreaActionPerformed
         dispose();
+
         AlienByArea alienArea = new AlienByArea(idb);
         alienArea.setVisible(true);
+
+       
+
     }//GEN-LAST:event_listAliensAreaActionPerformed
 
     /**

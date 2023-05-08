@@ -92,13 +92,15 @@ public class AlienByArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        textSearch = jTextField1.getText();
         addInformation();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void addInformation(){
         try {
         // Get the matching aliens
-        String sqlQuestion = "SELECT * FROM alien WHERE Plats = '" + textSearch + "'";
+        String sqlQuestion = "SELECT * FROM mibdb.alien WHERE Plats = '" + textSearch + "'";
         ArrayList<HashMap<String, String>> alienRows = idb.fetchRows(sqlQuestion);
 
         // Convert the HashMap rows into String[] arrays
