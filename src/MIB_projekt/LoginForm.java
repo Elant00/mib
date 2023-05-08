@@ -97,7 +97,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel2.setText("Password:");
 
-        jLabel3.setText("Select your type");
+        jLabel3.setText("YOUR TYPE:");
 
         ChangePasswordButton.setText("Change password");
         ChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +115,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(loginButton)
                 .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(ChangePasswordButton))
@@ -126,14 +126,14 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(userNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(passwordField)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +181,7 @@ public class LoginForm extends javax.swing.JFrame {
                 
                 if(passwordString.equals(sqlAnswer)){
                     dispose();
-                    AgentHomePage agentPage = new AgentHomePage();
+                    AgentHomePage agentPage = new AgentHomePage(idb);
                     agentPage.setVisible(true);
                 }
                 
