@@ -165,10 +165,11 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         String selectedType = comboLogin.getSelectedItem().toString();
-        if(selectedType.equals("Agent")){
         String usernameString = userNameField.getText();
         char[] charPassword = passwordField.getPassword();
         String passwordString = new String(charPassword);
+        if(selectedType.equals("Agent")){
+        
         
         if(usernameString.isEmpty() || passwordString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
@@ -202,8 +203,23 @@ public class LoginForm extends javax.swing.JFrame {
             if(alienUser.isEmpty() || alienPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You must enter an username as well as a password. Try again!");
         }
-          
+          try {
+             String sqlQuestionAlien = "SELECT Losenord from alien WHERE Epost = '" + usernameString + "'";
+             
+             String sqlAnswerAlien = idb.fetchSingle(sqlQuestionAlien);
+             if(passwordString.equals(sqlAnswerAlien)){
+                 dispose();
+                 AlienHomePage alienHomeP = new AlienHomePage();
+                 alienHomeP.setVisible(true);
+             }
+             
+             if(!passwordString.equals(sqlAnswerAlien)){
+                 JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
+             }
             
+        } catch (InfException ex) {
+                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
