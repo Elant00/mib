@@ -86,7 +86,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        comboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Agent", "Alien" }));
+        comboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Agent", "Alien" }));
         comboLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboLoginActionPerformed(evt);
@@ -168,6 +168,40 @@ public class LoginForm extends javax.swing.JFrame {
         String usernameString = userNameField.getText();
         char[] charPassword = passwordField.getPassword();
         String passwordString = new String(charPassword);
+        
+        if(selectedType.equals("Admin")){
+            if(usernameString.isEmpty() || passwordString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
+            }
+            try {
+                String sqlQuestion = "SELECT Losenord from agent where Epost = '" + usernameString + "'";
+                String sqlQuestionAdmin = "SELECT Administrator from agent";
+                String sqlAnswerP = idb.fetchSingle(sqlQuestion);
+                String sqlAnswerA = idb.fetchSingle(sqlQuestionAdmin);
+                
+                
+                if(passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("J")){
+                    dispose();
+                    AdminHomePage adminHome = new AdminHomePage(idb);
+                    adminHome.setVisible(true);
+                }
+                
+                if(passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("N")){
+                    JOptionPane.showMessageDialog(this, "You are not an administrator, please select Agent as login type");
+                }
+                
+                if(!passwordString.equals(sqlAnswerP)){
+                    JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
+                }
+                
+            } catch (InfException ex) {
+                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
+        
+        
+        
+        
         if(selectedType.equals("Agent")){
         
         
@@ -220,7 +254,8 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (InfException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             } 
-        }
+        
+        } 
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
