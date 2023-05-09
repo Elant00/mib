@@ -63,6 +63,11 @@ public class AlienActionPage extends javax.swing.JFrame {
         jLabel3.setText("SORT BY DATE");
 
         listAliensDate.setText("List aliens");
+        listAliensDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listAliensDateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,6 +122,12 @@ public class AlienActionPage extends javax.swing.JFrame {
         AlienByRace alienRace = new AlienByRace(idb);
         alienRace.setVisible(true);
     }//GEN-LAST:event_listAliensRaceActionPerformed
+
+    private void listAliensDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensDateActionPerformed
+        dispose();
+        AlienByDate alienDate = new AlienByDate(idb);
+        alienDate.setVisible(true);
+    }//GEN-LAST:event_listAliensDateActionPerformed
 
     /**
      * @param args the command line arguments
