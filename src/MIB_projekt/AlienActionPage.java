@@ -114,7 +114,8 @@ public class AlienActionPage extends javax.swing.JFrame {
 
     private void listAliensRaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensRaceActionPerformed
         dispose();
-        
+        AlienByRace alienRace = new AlienByRace(idb);
+        alienRace.setVisible(true);
     }//GEN-LAST:event_listAliensRaceActionPerformed
 
     /**
