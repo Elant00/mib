@@ -85,6 +85,12 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
 
         jLabel6.setText("Change responsible agent");
 
+        phoneNumberField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneNumberFieldActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Enter alienID here:");
 
         changeName.setText("Confirm change");
@@ -95,14 +101,39 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         });
 
         changeEmail.setText("Confirm change");
+        changeEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeEmailActionPerformed(evt);
+            }
+        });
 
         changePassword.setText("Confirm change");
+        changePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePasswordActionPerformed(evt);
+            }
+        });
 
         changePhone.setText("Confirm change");
+        changePhone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePhoneActionPerformed(evt);
+            }
+        });
 
         changeArea.setText("Confirm change");
+        changeArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeAreaActionPerformed(evt);
+            }
+        });
 
         changeAgent.setText("Confirm change");
+        changeAgent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeAgentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,21 +247,161 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
+        String newPass = passwordField.getText();
+        String alienID = alienIDText.getText();
+        String sqlQuestion = "UPDATE alien set Losenord = '" + newPass + "' WHERE Alien_ID = '" + alienID + "'";
+        
+        if(newPass.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill the textbox with a password");
+        }
+        
+        try{
+            if(!newPass.isEmpty()){
+                idb.update(sqlQuestion);
+            }
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void changeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeNameActionPerformed
+        
         String alienIdt = alienIDText.getText();
         String newName = nameField.getText();
+        
         String sqlQuestion = "UPDATE alien SET Namn = '" + newName + "' WHERE Alien_ID = '" + alienIdt + "'";
+        if(alienIdt.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill the textbox with a name");
+        }
         
         try{
-        idb.update(sqlQuestion);
-        JOptionPane.showMessageDialog(this, "Name has been updated");
+        if(!alienIdt.isEmpty()){
+            idb.update(sqlQuestion);
+            JOptionPane.showMessageDialog(this, "Name has been updated");
+        }
         } catch (InfException ex) {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_changeNameActionPerformed
+
+    private void changeEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeEmailActionPerformed
+        String alienID = alienIDText.getText();
+        String newEmail = emailField.getText();
+        
+        
+        String sqlQuestion = "UPDATE alien SET Epost = '" + newEmail + "' WHERE Alien_ID = '" + alienID + "'";
+        
+        if(newEmail.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill the textbox with an email");
+        }
+        
+        if(!newEmail.contains("@")){
+            JOptionPane.showMessageDialog(this, "Don't forget the @ when entering a new email");
+        }   
+        try{
+        if(!newEmail.isEmpty() && newEmail.contains("@")){
+            idb.update(sqlQuestion);
+            JOptionPane.showMessageDialog(this, "Email has been updated");
+        }
+            
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+    }//GEN-LAST:event_changeEmailActionPerformed
+
+    private void phoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberFieldActionPerformed
+        
+    }//GEN-LAST:event_phoneNumberFieldActionPerformed
+
+    private void changePhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePhoneActionPerformed
+        String newPhone = phoneNumberField.getText();
+        String alienID = alienIDText.getText();
+        
+        String sqlQuestion = "UPDATE alien set Telefon = '" + newPhone + "' WHERE Alien_ID = '" + alienID + "'";
+        
+        if(newPhone.isEmpty()){
+            JOptionPane.showMessageDialog(this, "You need to enter a new phone number");
+        }
+        
+        
+        try{
+            if(!newPhone.isEmpty()){
+                idb.update(sqlQuestion);
+                JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
+            }
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+        
+    }//GEN-LAST:event_changePhoneActionPerformed
+
+    private void changePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordActionPerformed
+        String newPass = passwordField.getText();
+        String alienID = alienIDText.getText();
+        
+        String sqlQuestion = "UPDATE alien SET Losenord = '" + newPass + "' WHERE Alien_ID = '" + newPass +"'";
+        
+        if(newPass.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please enter a new password");
+        }
+        try{
+            if(!newPass.isEmpty()){
+                idb.update(sqlQuestion);
+                JOptionPane.showMessageDialog(this, "Password has been updated");
+            }
+            
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+        
+    }//GEN-LAST:event_changePasswordActionPerformed
+
+    private void changeAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAreaActionPerformed
+        String newArea = areaField.getText();
+        String alienID = alienIDText.getText();
+        
+        String sqlQuestion = "UPDATE alien SET plats = '" + newArea + "' WHERE Alien_ID = '" + alienID + "'";
+        
+        if(newArea.isEmpty()){
+            JOptionPane.showMessageDialog(this, "You muster enter an area");
+        }
+        
+        try{
+            if(!newArea.isEmpty()){
+                idb.update(sqlQuestion);
+                JOptionPane.showMessageDialog(this, "Area has been updated");
+            }
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+    }//GEN-LAST:event_changeAreaActionPerformed
+
+    private void changeAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAgentActionPerformed
+        String newAgent = responsibleAgentField.getText();
+        String alienID = alienIDText.getText();
+        
+        String sqlQuestion = "UPDATE alien SET Ansvarig_Agent = '" + newAgent + "' WHERE Alien_ID = '" + alienID + "*";
+        String sqlCheckAgent = "SELECT namn from agent where Agent_ID = '" + newAgent + "'";
+        
+        if(newAgent.isEmpty()){
+            JOptionPane.showMessageDialog(this, "You must enter a value");
+        }
+        try{
+        String sqlCheck = idb.fetchSingle(sqlCheckAgent);
+        if(sqlCheck == null){
+            JOptionPane.showMessageDialog(this, "There is no excisting agent with this ID");
+        }
+        
+        if(!newAgent.isEmpty()){
+            idb.update(sqlQuestion);
+        }
+        
+        
+        }catch (InfException ex) {
+        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+        
+    }//GEN-LAST:event_changeAgentActionPerformed
 
     /**
      * @param args the command line arguments

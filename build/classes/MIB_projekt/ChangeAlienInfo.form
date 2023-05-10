@@ -202,6 +202,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="phoneNumberField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="phoneNumberFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="areaField">
     </Component>
@@ -224,26 +227,41 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm change"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changeEmailActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="changePassword">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm change"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changePasswordActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="changePhone">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm change"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changePhoneActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="changeArea">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm change"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changeAreaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="changeAgent">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm change"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changeAgentActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
