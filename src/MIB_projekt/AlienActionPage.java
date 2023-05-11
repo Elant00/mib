@@ -6,6 +6,7 @@ package MIB_projekt;
 
 import oru.inf.InfDB;
 
+
 /**
  *
  * @author antti
@@ -140,7 +141,6 @@ public class AlienActionPage extends javax.swing.JFrame {
 
     private void listAliensAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAliensAreaActionPerformed
         dispose();
-
         AlienByArea alienArea = new AlienByArea(idb);
         alienArea.setVisible(true);
 
@@ -169,7 +169,7 @@ public class AlienActionPage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
         AgentHomePage alienPage = new AgentHomePage(idb);
-        alienPage.setVisible(true);        // TODO add your handling code here:
+        alienPage.setVisible(true);        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
