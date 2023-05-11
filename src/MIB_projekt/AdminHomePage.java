@@ -52,6 +52,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         jButton1.setText("Register a new agent");
 
         jButton2.setText("Change information ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Get info about specific agent");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +158,12 @@ public class AdminHomePage extends javax.swing.JFrame {
         ChangeAlienInfo changeAlien = new ChangeAlienInfo(idb);
         changeAlien.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();
+        ChangeInformationAgent infoAgent = new ChangeInformationAgent(idb);
+        infoAgent.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
