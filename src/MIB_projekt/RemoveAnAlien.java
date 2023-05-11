@@ -85,11 +85,18 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         String sqlSquid = "DELETE FROM squid WHERE Alien_ID = '" + alienID + "'";
         String sqlBogloditen = "DELETE FROM boglodite WHERE Alien_ID = '" + alienID + "'";
         String sqlAlien = "DELETE FROM alien WHERE Alien_ID = '" + alienID + "'";
+        String sqlCheck = "SELECT Namn from alien where Alien_ID = " + alienID;
+        
+        
         
         if(alienID.isEmpty()){
             JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
         }
         try{
+            String sqlCheckA = idb.fetchSingle(sqlCheck);
+            if(sqlCheckA == null){
+                JOptionPane.showMessageDialog(this, "There is no Alien with this ID");
+            }
             
             if(!alienID.isEmpty()){
                 idb.delete(sqlWorm);
