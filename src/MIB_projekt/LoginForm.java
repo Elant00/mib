@@ -243,7 +243,7 @@ public class LoginForm extends javax.swing.JFrame {
              String sqlAnswerAlien = idb.fetchSingle(sqlQuestionAlien);
              if(passwordString.equals(sqlAnswerAlien)){
                  dispose();
-                 AlienHomePage alienHomeP = new AlienHomePage();
+                 AlienHomePage alienHomeP = new AlienHomePage(idb);
                  alienHomeP.setVisible(true);
              }
              
