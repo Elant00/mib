@@ -39,10 +39,8 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         backButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         passwordField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        emailField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         responsibleAgentField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -52,7 +50,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         alienIDText = new javax.swing.JTextField();
         changeName = new javax.swing.JButton();
-        changeEmail = new javax.swing.JButton();
         changePassword = new javax.swing.JButton();
         changePhone = new javax.swing.JButton();
         changeArea = new javax.swing.JButton();
@@ -75,8 +72,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Change Email:");
-
         jLabel3.setText("Change password:");
 
         jLabel4.setText("Change phonenumber:");
@@ -97,13 +92,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         changeName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changeNameActionPerformed(evt);
-            }
-        });
-
-        changeEmail.setText("Confirm change");
-        changeEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeEmailActionPerformed(evt);
             }
         });
 
@@ -160,10 +148,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,7 +161,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(changeName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changePhone, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,13 +180,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(changeName)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(changeEmail)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -283,31 +260,6 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_changeNameActionPerformed
-
-    private void changeEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeEmailActionPerformed
-        String alienID = alienIDText.getText();
-        String newEmail = emailField.getText();
-        
-        
-        String sqlQuestion = "UPDATE alien SET Epost = '" + newEmail + "' WHERE Alien_ID = '" + alienID + "'";
-        
-        if(newEmail.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please fill the textbox with an email");
-        }
-        
-        if(!newEmail.contains("@")){
-            JOptionPane.showMessageDialog(this, "Don't forget the @ when entering a new email");
-        }   
-        try{
-        if(!newEmail.isEmpty() && newEmail.contains("@")){
-            idb.update(sqlQuestion);
-            JOptionPane.showMessageDialog(this, "Email has been updated");
-        }
-            
-        }catch (InfException ex) {
-        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    }//GEN-LAST:event_changeEmailActionPerformed
 
     private void phoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberFieldActionPerformed
         
@@ -444,13 +396,10 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
     private javax.swing.JButton backButton;
     private javax.swing.JButton changeAgent;
     private javax.swing.JButton changeArea;
-    private javax.swing.JButton changeEmail;
     private javax.swing.JButton changeName;
     private javax.swing.JButton changePassword;
     private javax.swing.JButton changePhone;
-    private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
