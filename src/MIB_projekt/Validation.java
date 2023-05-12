@@ -15,10 +15,20 @@ public class Validation {
     String textField = textFieldCheck;
     boolean isempty = false;
     
-    if(!textField.isEmpty()){
+    if(textField.isEmpty()){
         isempty = true;
     }
     return isempty;
+}
+    
+    public boolean checkIfNull(String textCheck){
+        String textToCheck = textCheck;
+        boolean isNull = false;
+        
+        if(textToCheck == null){
+            isNull = true;
+        }
+        return isNull;
 }
     
     

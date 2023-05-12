@@ -50,6 +50,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         jLabel1.setText("Change information about agents");
 
         jButton1.setText("Register a new agent");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Change information ");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +71,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         });
 
         jButton4.setText("Change administrative status");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Remove an agent");
 
@@ -73,6 +83,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         jLabel2.setText("Change information about aliens");
 
         jButton6.setText("Register a new alien");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Remove an alien");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +179,22 @@ public class AdminHomePage extends javax.swing.JFrame {
         ChangeInformationAgent infoAgent = new ChangeInformationAgent(idb);
         infoAgent.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        dispose();
+        RegisterAlien newAlien = new RegisterAlien();
+        newAlien.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        dispose();
+        UpdateAdministrativeStatus adminStatus = new UpdateAdministrativeStatus(idb);
+        adminStatus.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
