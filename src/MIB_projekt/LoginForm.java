@@ -175,9 +175,12 @@ public class LoginForm extends javax.swing.JFrame {
             }
             try {
                 String sqlQuestion = "SELECT Losenord from agent where Epost = '" + usernameString + "'";
-                String sqlQuestionAdmin = "SELECT Administrator from agent";
+                String getAgentID = "SELECT Agent_ID from agent where Epost = '" + usernameString + "'"; 
+                String agentID = idb.fetchSingle(getAgentID);
+                String sqlQuestionAdmin = "SELECT Administrator from agent WHERE Agent_ID = "  + agentID;
                 String sqlAnswerP = idb.fetchSingle(sqlQuestion);
                 String sqlAnswerA = idb.fetchSingle(sqlQuestionAdmin);
+                
                 
                 
                 if(passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("J")){

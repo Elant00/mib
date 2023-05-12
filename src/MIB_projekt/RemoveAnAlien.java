@@ -16,6 +16,8 @@ import oru.inf.InfException;
  */
 public class RemoveAnAlien extends javax.swing.JFrame {
 
+    Validation validator = new Validation();
+    
     private static InfDB idb;
     // Create a connection to the database
 
@@ -89,7 +91,7 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         
         
         
-        if(alienID.isEmpty()){
+        if(validator.isEmpty(alienID)){
             JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
         }
         try{
