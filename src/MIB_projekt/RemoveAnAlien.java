@@ -87,7 +87,7 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         String sqlSquid = "DELETE FROM squid WHERE Alien_ID = '" + alienID + "'";
         String sqlBogloditen = "DELETE FROM boglodite WHERE Alien_ID = '" + alienID + "'";
         String sqlAlien = "DELETE FROM alien WHERE Alien_ID = '" + alienID + "'";
-        String sqlCheck = "SELECT Namn from alien where Alien_ID = " + alienID;
+        String sqlCheck = "SELECT Alien_ID from alien where Alien_ID = " + alienID;
         
         
         
