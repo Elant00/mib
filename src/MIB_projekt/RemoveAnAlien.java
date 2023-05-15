@@ -16,6 +16,8 @@ import oru.inf.InfException;
  */
 public class RemoveAnAlien extends javax.swing.JFrame {
 
+    Validation validator = new Validation();
+    
     private static InfDB idb;
     // Create a connection to the database
 
@@ -85,11 +87,11 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         String sqlSquid = "DELETE FROM squid WHERE Alien_ID = '" + alienID + "'";
         String sqlBogloditen = "DELETE FROM boglodite WHERE Alien_ID = '" + alienID + "'";
         String sqlAlien = "DELETE FROM alien WHERE Alien_ID = '" + alienID + "'";
-        String sqlCheck = "SELECT Namn from alien where Alien_ID = " + alienID;
+        String sqlCheck = "SELECT Alien_ID from alien where Alien_ID = " + alienID;
         
         
         
-        if(alienID.isEmpty()){
+        if(validator.isEmpty(alienID)){
             JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
         }
         try{

@@ -4,7 +4,14 @@
  */
 package MIB_projekt;
 
+import java.awt.Dimension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oru.inf.InfDB;
+import oru.inf.InfException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +42,14 @@ public class RegisterEquipment extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboType = new javax.swing.JComboBox<>();
+        RegisterButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        AgentIDText = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        EquipmentIdText = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        EquipmentNameText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,10 +57,41 @@ public class RegisterEquipment extends javax.swing.JFrame {
 
         jLabel2.setText("Type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vapen", "Kommunikation", "Teknik" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vapen", "Kommunikation", "Teknik" }));
+        comboType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                comboTypeActionPerformed(evt);
+            }
+        });
+
+        RegisterButton.setText("Register");
+        RegisterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Your AgnetID:");
+
+        AgentIDText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgentIDTextActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("New equipment ID:");
+
+        EquipmentIdText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EquipmentIdTextActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Equipment name:");
+
+        EquipmentNameText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EquipmentNameTextActionPerformed(evt);
             }
         });
 
@@ -54,36 +99,144 @@ public class RegisterEquipment extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(RegisterButton)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(133, 133, 133))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AgentIDText)
+                    .addComponent(EquipmentIdText)
+                    .addComponent(EquipmentNameText)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jLabel2)
-                        .addGap(63, 63, 63)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(139, Short.MAX_VALUE))
+                        .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(199, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(AgentIDText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(EquipmentIdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(EquipmentNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(RegisterButton)
+                .addGap(26, 26, 26))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void comboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeActionPerformed
+        
+    }//GEN-LAST:event_comboTypeActionPerformed
+
+    private void AgentIDTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgentIDTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_AgentIDTextActionPerformed
+
+    private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
+    String agentId = AgentIDText.getText();
+    String selectedType = comboType.getSelectedItem().toString();
+    String equipmentId = EquipmentIdText.getText();
+    String equipmentName = EquipmentNameText.getText();
+    
+    try {
+        idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+    } catch (InfException ex) {
+        Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    
+    if (selectedType.equalsIgnoreCase("Vapen")) {
+        
+        JFrame frame = new JFrame("Enter kaliber quantity:");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JButton button = new JButton("Update Quantity");
+        button.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog(frame, "Enter a quantity:");
+            if (input != null && !input.isEmpty()) {
+                try {
+                    String tableName1 = "";
+                    tableName1 = "Vapen";
+                    int quantity = Integer.parseInt(input);
+                    idb.insert("INSERT INTO Vapen (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'" + quantity + ")");
+                    JOptionPane.showMessageDialog(frame, "Quantity updated successfully!");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Invalid quantity. Please enter a valid integer.");
+                } catch (InfException ex) {
+                    Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        // Lägg till knappen i JFrame
+        frame.getContentPane().add(button);
+        frame.pack();
+        frame.setVisible(true);
+        
+    } else if (selectedType.equalsIgnoreCase("Teknik")) {
+        
+        
+        JFrame frame = new JFrame("Enter teknik information:");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        frame.pack();
+        frame.setVisible(true);
+        
+    } else if (selectedType.equalsIgnoreCase("Kommunikation")) {
+        
+        
+        // Öppna en annan ruta för kommunikationsinformation
+        // Liknande som för vapen och teknik
+        
+    }
+        
+        
+        
+        
+            
+            
+           
+  
+        
+    }//GEN-LAST:event_RegisterButtonActionPerformed
+
+    private void EquipmentIdTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EquipmentIdTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EquipmentIdTextActionPerformed
+
+    private void EquipmentNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EquipmentNameTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EquipmentNameTextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,8 +274,15 @@ public class RegisterEquipment extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField AgentIDText;
+    private javax.swing.JTextField EquipmentIdText;
+    private javax.swing.JTextField EquipmentNameText;
+    private javax.swing.JButton RegisterButton;
+    private javax.swing.JComboBox<String> comboType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

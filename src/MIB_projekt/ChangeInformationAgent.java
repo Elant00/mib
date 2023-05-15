@@ -44,6 +44,7 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         agentIDt = new javax.swing.JTextField();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +68,13 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
 
         jLabel3.setText("Enter agent_id here:");
 
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,26 +83,27 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(officeName, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(agentIDt, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(newAreaT, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(agentIDt, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(109, 109, 109))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +124,9 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(officeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton1)))
-                .addGap(88, 88, 88))
+                .addGap(33, 33, 33)
+                .addComponent(backButton)
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -124,22 +135,35 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         String newArea = newAreaT.getText();
         String agent = agentIDt.getText();
-        String sqlQuestion = "UPDATE omradeschef SET Agent_ID = '" + agent + "' WHERE Omrade = " +newArea;
-        String sqlCheck = "Select Omrades_ID from omrade where Omrades_ID = " + newArea;
+        String sqlQuestion = "UPDATE omradeschef SET Omrade = '" + newArea + "' WHERE Agent_ID = " + agent;
+        String sqlCheck = "Select Omrades_ID from omrade where Omrades_ID = '" + newArea + "'";
         
         if(validator.isEmpty(newArea) || validator.isEmpty(agent)){
             JOptionPane.showMessageDialog(this, "You have to enter a value into both an Agent_ID as well as an Area");
         }
         try{
             String sqlCheckA = idb.fetchSingle(sqlCheck);
-            if(sqlCheckA == null){
-                JOptionPane.showMessageDialog(this, "There is no area with this ID registered");
+            
+            if(validator.checkIfNull(sqlCheckA)){
+                JOptionPane.showMessageDialog(this, "There is no area with this ID, please register this ID before using this page");
             }
             
-            if(sqlCheckA != null){
-                idb.update(sqlQuestion);
-                JOptionPane.showMessageDialog(this, "Agent " + agent + " is now the cheif of area " + newArea);
-            }
+           if(!validator.checkIfNull(sqlCheck)){
+               idb.update(sqlQuestion);
+               JOptionPane.showMessageDialog(this, "The cheif for area " + newArea + "has been updated");
+           }
+           String checkIfHasCheif = "SELECT " + newArea + " from omradeschef";
+           String ifOmradehasCheif = "UPDATE omradeschef SET Agent_ID = " + agent + " WHERE Omrade = " + newArea;
+           String answerSql = idb.fetchSingle(checkIfHasCheif);
+           
+           
+           if(!validator.checkIfNull(answerSql)){
+               idb.update(ifOmradehasCheif);
+               JOptionPane.showMessageDialog(this, "The cheif for area " + newArea + "has been updated");
+
+           }
+           
+            
         }catch (InfException ex) {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
@@ -159,14 +183,34 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
         try{
             String sqlCheckA = idb.fetchSingle(sqlCheck);
             
-            if(sqlCheck == null){
+            if(validator.checkIfNull(sqlCheckA)){
                 JOptionPane.showMessageDialog(this, "There is not office with the name " + newOffice);
+            }
+            
+            if(!validator.isEmpty(newOffice) || !validator.isEmpty(agent)){
+                idb.update(sqlQuestion);
+                JOptionPane.showMessageDialog(this, "The office chief of " + newOffice + " has been updated to agent_ID " + agent);
+            }
+            String checkIfAlready = "SELECT '" + newOffice + "' FROM kontorschef";
+            String checkIfAnswer = idb.fetchSingle(checkIfAlready);
+            String ifAlready = "UPDATE Agent_ID SET = " + agent + " WHERE Kontorsbeteckning = '" + newOffice + "'";
+            
+            if(!validator.checkIfNull(checkIfAnswer)){
+                idb.update(ifAlready);
+                JOptionPane.showMessageDialog(this, "The office chief of " + newOffice + " has been updated to agent_ID " + agent);
             }
             
         }catch (InfException ex) {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        dispose();
+        AdminHomePage newAdmin = new AdminHomePage(idb);
+        newAdmin.setVisible(true);
+        
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,6 +249,7 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField agentIDt;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
