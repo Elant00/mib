@@ -97,12 +97,14 @@ public class AgentHomePage extends javax.swing.JFrame {
         dispose();
         AlienActionPage alienAction = new AlienActionPage(idb);
         alienAction.setVisible(true);
+        
+        
     }//GEN-LAST:event_alienActionActionPerformed
 
     private void agentActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agentActionsActionPerformed
         dispose();
-        AgentInformation agentInformation = new AgentInformation();
-        agentInformation.setVisible(true);
+        AgentActionPage actionPage = new AgentActionPage(idb);
+        actionPage.setVisible(true);
     }//GEN-LAST:event_agentActionsActionPerformed
 
     private void registerAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerAlienActionPerformed
