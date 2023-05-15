@@ -12,6 +12,8 @@ import oru.inf.InfException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.util.Date;
+
 
 
 /**
@@ -51,6 +53,9 @@ public class RegisterEquipment extends javax.swing.JFrame {
         EquipmentIdText = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         EquipmentNameText = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        dateText = new javax.swing.JTextPane();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +101,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(dateText);
+
+        jLabel5.setText("Date of the day:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,9 +124,11 @@ public class RegisterEquipment extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addComponent(AgentIDText)
                     .addComponent(EquipmentIdText)
                     .addComponent(EquipmentNameText)
@@ -147,7 +158,11 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(EquipmentNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(RegisterButton)
                 .addGap(26, 26, 26))
         );
@@ -168,10 +183,24 @@ public class RegisterEquipment extends javax.swing.JFrame {
     String selectedType = comboType.getSelectedItem().toString();
     String equipmentId = EquipmentIdText.getText();
     String equipmentName = EquipmentNameText.getText();
+    String newDate = dateText.getText();
     
+    try {
+    String query = "SELECT * FROM Utrustning WHERE Utrustnings_ID = '" + equipmentId + "'";
+    String result = idb.fetchSingle(query);
+
+    if (result == null) {
+  
+  
     try {
         idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
     } catch (InfException ex) {
+        Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    try {
+        idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
+    }  catch (InfException ex) {
         Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
     }
     
@@ -199,7 +228,7 @@ public class RegisterEquipment extends javax.swing.JFrame {
             }
         });
         
-        // Lägg till knappen i JFrame
+        
         frame.getContentPane().add(button);
         frame.pack();
         frame.setVisible(true);
@@ -260,6 +289,13 @@ public class RegisterEquipment extends javax.swing.JFrame {
         frame.setVisible(true);
         
     }
+    }
+    else {
+        JOptionPane.showMessageDialog(null, "Error! The weapon with ID " + equipmentId + " already exists in the database.");
+    }
+    } catch (InfException ex) {
+    Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
     private void EquipmentIdTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EquipmentIdTextActionPerformed
@@ -311,10 +347,13 @@ public class RegisterEquipment extends javax.swing.JFrame {
     private javax.swing.JTextField EquipmentNameText;
     private javax.swing.JButton RegisterButton;
     private javax.swing.JComboBox<String> comboType;
+    private javax.swing.JTextPane dateText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
