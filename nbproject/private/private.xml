@@ -12,9 +12,24 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/AgentActionPage.java</file>
             <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/RegisterEquipment.java</file>
             <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/LoginForm.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/Björn/Downloads/Ny%20mapp/mib/src/MIB_projekt/SelectNewResponsibleAgent.java</file>
+            <file>file:/C:/Users/Björn/Downloads/Ny%20mapp/mib/src/MIB_projekt/AgentHomePage.java</file>
+            <file>file:/C:/Users/Björn/Downloads/Ny%20mapp/mib/src/MIB_projekt/RegisterAlien.java</file>
+            <file>file:/C:/Users/Björn/Downloads/Ny%20mapp/mib/src/MIB_projekt/LoginForm.java</file>
+=======
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienActionPage.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienByRace.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/LoginForm.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AdminHomePage.java</file>
+            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienByArea.java</file>
+>>>>>>> 3f1b29b55d2fae3d7bde7b1040d580554263f4de
+>>>>>>> main
         </group>
     </open-files>
 </project-private>

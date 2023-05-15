@@ -109,7 +109,7 @@ public class AgentHomePage extends javax.swing.JFrame {
 
     private void registerAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerAlienActionPerformed
         dispose();
-        RegisterAlien registerAlien = new RegisterAlien();
+        RegisterAlien registerAlien = new RegisterAlien(idb);
         registerAlien.setVisible(true);
     }//GEN-LAST:event_registerAlienActionPerformed
 
