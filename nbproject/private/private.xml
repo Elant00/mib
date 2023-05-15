@@ -5,18 +5,16 @@
             <url>src/MIB_projekt/LoginForm.java</url>
             <bookmark id="1">
                 <name/>
-                <line>300</line>
+                <line>249</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienActionPage.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienByRace.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/LoginForm.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AdminHomePage.java</file>
-            <file>file:/C:/Users/antti/OneDrive/Dokument/GitHub/mib/src/MIB_projekt/AlienByArea.java</file>
+            <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/AgentActionPage.java</file>
+            <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/RegisterEquipment.java</file>
+            <file>file:/Users/emilrydberg/Documents/GitHub/mib/src/MIB_projekt/LoginForm.java</file>
         </group>
     </open-files>
 </project-private>

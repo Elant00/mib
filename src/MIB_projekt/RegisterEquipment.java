@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author emilrydberg
@@ -177,19 +178,19 @@ public class RegisterEquipment extends javax.swing.JFrame {
     
     if (selectedType.equalsIgnoreCase("Vapen")) {
         
-        JFrame frame = new JFrame("Enter kaliber quantity:");
+        JFrame frame = new JFrame("Extra information:");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        JButton button = new JButton("Update Quantity");
+        JButton button = new JButton("Add extra information");
         button.addActionListener(e -> {
-            String input = JOptionPane.showInputDialog(frame, "Enter a quantity:");
+            String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
             if (input != null && !input.isEmpty()) {
                 try {
-                    String tableName1 = "";
-                    tableName1 = "Vapen";
+                    
+                    String tableName = "Vapen";
                     int quantity = Integer.parseInt(input);
-                    idb.insert("INSERT INTO Vapen (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'" + quantity + ")");
-                    JOptionPane.showMessageDialog(frame, "Quantity updated successfully!");
+                    idb.insert("INSERT INTO " + tableName + "  (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
+                    JOptionPane.showMessageDialog(frame, "Updated successfully!");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Invalid quantity. Please enter a valid integer.");
                 } catch (InfException ex) {
@@ -206,28 +207,59 @@ public class RegisterEquipment extends javax.swing.JFrame {
     } else if (selectedType.equalsIgnoreCase("Teknik")) {
         
         
-        JFrame frame = new JFrame("Enter teknik information:");
+        JFrame frame = new JFrame("Extra information:");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        JButton button = new JButton("Add extra information");
+        button.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
+            if (input != null && !input.isEmpty()) {
+                try {
+                    
+                    String tableName = "Teknik";
+                    String kraftkalla = input;
+                    idb.insert("INSERT INTO " + tableName + "  (Teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
+                    JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Wrong! Please enter a valid name.");
+                } catch (InfException ex) {
+                    Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        frame.getContentPane().add(button);
         frame.pack();
         frame.setVisible(true);
         
     } else if (selectedType.equalsIgnoreCase("Kommunikation")) {
         
+        JFrame frame = new JFrame("Extra information:");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        // Öppna en annan ruta för kommunikationsinformation
-        // Liknande som för vapen och teknik
+        JButton button = new JButton("Add extra information");
+        button.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
+            if (input != null && !input.isEmpty()) {
+                try {
+                    
+                    String tableName = "Kommunikation";
+                    String overforingsTeknik = input;
+                    idb.insert("INSERT INTO " + tableName + "  (Kommunikation.Utrustnings_ID, Overforingsteknik) Values('" + equipmentId + "', '" + overforingsTeknik + "')");
+                    JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Wrong! Please enter a valid name.");
+                } catch (InfException ex) {
+                    Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        frame.getContentPane().add(button);
+        frame.pack();
+        frame.setVisible(true);
         
     }
-        
-        
-        
-        
-            
-            
-           
-  
-        
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
     private void EquipmentIdTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EquipmentIdTextActionPerformed
