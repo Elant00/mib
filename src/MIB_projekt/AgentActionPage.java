@@ -90,6 +90,11 @@ public class AgentActionPage extends javax.swing.JFrame {
         });
 
         AreaChiefButton.setText("Enter");
+        AreaChiefButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AreaChiefButtonActionPerformed(evt);
+            }
+        });
 
         toplistButton.setText("Enter");
 
@@ -175,6 +180,10 @@ public class AgentActionPage extends javax.swing.JFrame {
     private void EditAlienButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditAlienButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EditAlienButtonActionPerformed
+
+    private void AreaChiefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AreaChiefButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AreaChiefButtonActionPerformed
 
     /**
      * @param args the command line arguments
