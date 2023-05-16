@@ -163,7 +163,9 @@ public class AgentActionPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void OwnedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OwnedButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        OwnedEquipment equipment = new OwnedEquipment (idb);
+        equipment.setVisible (true);
     }//GEN-LAST:event_OwnedButtonActionPerformed
 
     private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
