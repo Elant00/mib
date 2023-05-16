@@ -27,7 +27,7 @@ public class OwnedEquipment extends javax.swing.JFrame {
     
     private static InfDB idb;
     /**
-     * Creates new form ChangePasswordFram
+     * Creates new form OwnedEquipment
      * @param iidb
      */
     public OwnedEquipment (InfDB iidb) {
