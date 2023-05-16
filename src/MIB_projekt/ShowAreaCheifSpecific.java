@@ -40,10 +40,11 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         ChooseAreaComboBox = new javax.swing.JComboBox<>();
         SearchButton = new javax.swing.JButton();
-        CurrentAreaChiefText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         BackButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,12 +64,6 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
             }
         });
 
-        CurrentAreaChiefText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CurrentAreaChiefTextActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Current area chief:");
 
         jLabel3.setText("Area chief");
@@ -80,31 +75,34 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
             }
         });
 
+        TextArea.setColumns(20);
+        TextArea.setRows(5);
+        jScrollPane1.setViewportView(TextArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(BackButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(SearchButton)
-                .addGap(37, 37, 37))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(BackButton)
+                        .addGap(164, 164, 164)
+                        .addComponent(SearchButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(29, 29, 29)
+                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ChooseAreaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CurrentAreaChiefText)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(171, 171, 171)
                         .addComponent(jLabel3)))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,11 +113,13 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ChooseAreaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CurrentAreaChiefText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 47, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchButton)
                     .addComponent(BackButton))
@@ -129,28 +129,25 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CurrentAreaChiefTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CurrentAreaChiefTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CurrentAreaChiefTextActionPerformed
-
     private void ChooseAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseAreaComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ChooseAreaComboBoxActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-        String area = ChooseAreaComboBox.getSelectedItem().toString();
-        
-        
+  
         try {
-            String query = "SELECT Namn from Agent omradeschef on agent.agent_id = omradeschef.agent_id"
-                    + "Join omrade on omradeschef.omrade = omrade.omrades_id where benamning = '" + area + "'";
+            String area = ChooseAreaComboBox.getSelectedItem().toString();
+            String query = "SELECT Namn FROM Agent "
+                    + "JOIN omradeschef ON agent.agent_id = omradeschef.agent_id "
+                    + "JOIN omrade ON omradeschef.omrade = omrade.omrades_id where benamning = '" + area + "'";
             String result = idb.fetchSingle(query);
-            CurrentAreaChiefText.setText(result);
+            TextArea.setText(result);
+
+        } catch (InfException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        catch (InfException ex) {
-                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-        
+
+
         
     }//GEN-LAST:event_SearchButtonActionPerformed
 
@@ -198,10 +195,11 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JComboBox<String> ChooseAreaComboBox;
-    private javax.swing.JTextField CurrentAreaChiefText;
     private javax.swing.JButton SearchButton;
+    private javax.swing.JTextArea TextArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

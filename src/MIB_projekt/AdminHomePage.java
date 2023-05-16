@@ -187,7 +187,7 @@ public class AdminHomePage extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         dispose();
-        RegisterAlien newAlien = new RegisterAlien();
+        RegisterAlien newAlien = new RegisterAlien(idb);
         newAlien.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
