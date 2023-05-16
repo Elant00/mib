@@ -180,11 +180,15 @@ public class AgentActionPage extends javax.swing.JFrame {
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
     private void EditAlienButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditAlienButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        EditAlienInfo edit = new EditAlienInfo (idb);
+        edit.setVisible(true);
     }//GEN-LAST:event_EditAlienButtonActionPerformed
 
     private void AreaChiefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AreaChiefButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        ShowAreaCheifSpecific chief = new ShowAreaCheifSpecific(idb);
+        chief.setVisible(true);
     }//GEN-LAST:event_AreaChiefButtonActionPerformed
 
     /**
