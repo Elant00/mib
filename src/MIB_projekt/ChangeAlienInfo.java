@@ -4,6 +4,10 @@
  */
 package MIB_projekt;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -14,7 +18,10 @@ import oru.inf.InfException;
  */
 public class ChangeAlienInfo extends javax.swing.JFrame {
 
-  
+    Validation validator = new Validation();
+    
+    
+    
    private static InfDB idb;
     // Create a connection to the database
 
@@ -54,6 +61,9 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         changePhone = new javax.swing.JButton();
         changeArea = new javax.swing.JButton();
         changeAgent = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        newRaceText = new javax.swing.JTextField();
+        changeName1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,48 +133,66 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Change race to:");
+
+        changeName1.setText("Confirm change");
+        changeName1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeName1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(responsibleAgentField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(areaField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(alienIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(changeName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changePhone, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(responsibleAgentField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(areaField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(28, 28, 28)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(alienIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(newRaceText, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(changeName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changePhone, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changeAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changeName1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -180,7 +208,12 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(changeName)))
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newRaceText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changeName1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -208,9 +241,9 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                         .addComponent(changeArea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(changeAgent)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(backButton)
-                .addGap(25, 25, 25))
+                .addGap(13, 13, 13))
         );
 
         pack();
@@ -247,8 +280,8 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         String newName = nameField.getText();
         
         String sqlQuestion = "UPDATE alien SET Namn = '" + newName + "' WHERE Alien_ID = '" + alienIdt + "'";
-        if(alienIdt.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please fill the textbox with a name");
+        if(validator.isEmpty(newName) && validator.isEmpty(alienIdt)){
+            JOptionPane.showMessageDialog(this, "Please fill the textbox with a name and enter an Alien_ID");
         }
         
         try{
@@ -355,6 +388,88 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         
     }//GEN-LAST:event_changeAgentActionPerformed
 
+    
+    
+    
+    private void changeName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeName1ActionPerformed
+        String newRace = newRaceText.getText();
+        String alienID = alienIDText.getText();
+        boolean isBoglodite = false;
+        boolean isWorm = false;
+        boolean isSquid = false;
+        
+        
+        String sqlQuestionBoglo = "INSERT INTO boglodite (Alien_ID) VALUES (" + alienID + ")";
+        String sqlRemoveBoglo = "DELETE FROM boglodite WHERE Alien_ID = " + alienID;
+       
+        String sqlQuestionWorm = "INSERT INTO worm (Alien_ID) VALUES (" + alienID + ")";
+        String sqlRemoveWorm = "DELETE FROM worm WHERE Alien_ID = " + alienID;
+        
+        String sqlQuestionSquid = "INSERT INTO squid (Alien_ID) VALUES (" + alienID + ")";
+        String sqlRemoveSquid = "DELETE FROM squid WHERE Alien_ID = " + alienID;
+        
+        String sqlCheckWhatRace = "SELECT COALESCE(" +
+            "(SELECT 'squid' FROM squid WHERE Alien_ID = " + alienID + "), " + 
+            "(SELECT 'worm' FROM worm WHERE Alien_ID = " + alienID + "), " +
+            "(SELECT 'boglodite' FROM boglodite WHERE Alien_ID = " + alienID + ") " +
+            ");";
+
+        
+        try{
+            ArrayList<HashMap<String, String>> list = idb.fetchRows(sqlCheckWhatRace);
+            for(HashMap<String, String> alienRace : list){
+                for(String key : alienRace.keySet()){
+                    String raceType = alienRace.get(key);
+                    if(raceType.equals("boglodite")){
+                        isBoglodite = true;
+                    }
+                    else if(raceType.equals("worm")){
+                        isWorm = true;
+                    }
+                    else if(raceType.equals("squid")){
+                        isSquid = true;
+                    }
+                }
+            }
+            
+            if(isBoglodite){
+                idb.delete(sqlRemoveBoglo);
+            }
+            
+            if(isWorm){
+                idb.delete(sqlRemoveWorm);
+            }
+            
+            if(isSquid){
+                idb.delete(sqlRemoveSquid);
+            }
+            
+            if(newRace.equals("boglodite")){
+            idb.insert(sqlQuestionBoglo);
+            JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+            }
+            
+            else if(newRace.equals("worm")){
+             idb.insert(sqlQuestionWorm);
+             JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+            }
+            
+            else if(newRace.equals("squid")){
+                idb.insert(sqlQuestionSquid);
+                JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+            }
+            
+            
+            
+            
+        } catch (InfException ex) {
+    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }//GEN-LAST:event_changeName1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -397,15 +512,18 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
     private javax.swing.JButton changeAgent;
     private javax.swing.JButton changeArea;
     private javax.swing.JButton changeName;
+    private javax.swing.JButton changeName1;
     private javax.swing.JButton changePassword;
     private javax.swing.JButton changePhone;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField nameField;
+    private javax.swing.JTextField newRaceText;
     private javax.swing.JTextField passwordField;
     private javax.swing.JTextField phoneNumberField;
     private javax.swing.JTextField responsibleAgentField;

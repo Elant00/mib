@@ -227,7 +227,7 @@ public class RegisterAgent extends javax.swing.JFrame {
     
         
             
-
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
