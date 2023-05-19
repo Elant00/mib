@@ -61,6 +61,11 @@ public class AgentStatistics extends javax.swing.JFrame {
         });
 
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Agent top list");
 
@@ -144,6 +149,12 @@ public class AgentStatistics extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        dispose();
+        AgentActionPage agentAction = new AgentActionPage(idb);
+        agentAction.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     
     
