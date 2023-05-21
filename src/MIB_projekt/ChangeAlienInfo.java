@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -392,13 +394,20 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
     
     
     private void changeName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeName1ActionPerformed
-        String newRace = newRaceText.getText();
+        String newRace = newRaceText.getText().toLowerCase();
         String alienID = alienIDText.getText();
         boolean isBoglodite = false;
         boolean isWorm = false;
         boolean isSquid = false;
+        String raceType = "";
+        String sqlCheckIfAlienExists = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
+        
+        JFrame frame = new JFrame("Extra information");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JButton button = new JButton("Add extra information");
         
         
+                
         String sqlQuestionBoglo = "INSERT INTO boglodite (Alien_ID) VALUES (" + alienID + ")";
         String sqlRemoveBoglo = "DELETE FROM boglodite WHERE Alien_ID = " + alienID;
        
@@ -413,28 +422,65 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             "(SELECT 'worm' FROM worm WHERE Alien_ID = " + alienID + "), " +
             "(SELECT 'boglodite' FROM boglodite WHERE Alien_ID = " + alienID + ") " +
             ");";
+        
+        String sqlCheckIfRaceExists = "SELECT COUNT(*) " +
+                  "FROM information_schema.tables " +
+                  "WHERE table_schema = 'mibdb' AND table_name = '" + newRace + "'";
 
         
         try{
+            String answerAlienID = idb.fetchSingle(sqlCheckIfAlienExists);
+            ArrayList<HashMap<String, String>> result = idb.fetchRows(sqlCheckIfRaceExists);
+            HashMap<String, String> row = result.get(0);
+        String count = row.get("COUNT(*)");
+        int tableCount = Integer.parseInt(count);
+        
+            if(validator.isEmpty(alienID) || validator.isEmpty(newRace)){
+                JOptionPane.showMessageDialog(this, "You must enter an alienID and a new race");
+            }
+            if(validator.checkIfNull(answerAlienID)){
+                JOptionPane.showMessageDialog(this, "This alienID does not exist");
+            }
+        
+            else if(tableCount == 0){
+                JOptionPane.showMessageDialog(this, "There is no race with this name");
+            } else{
+            
             ArrayList<HashMap<String, String>> list = idb.fetchRows(sqlCheckWhatRace);
             for(HashMap<String, String> alienRace : list){
                 for(String key : alienRace.keySet()){
-                    String raceType = alienRace.get(key);
+                    raceType = alienRace.get(key);
+                    
+                    
                     if(raceType.equals("boglodite")){
                         isBoglodite = true;
                     }
-                    else if(raceType.equals("worm")){
+                    if(raceType.equals("worm")){
                         isWorm = true;
                     }
-                    else if(raceType.equals("squid")){
+                    if(raceType.equals("squid")){
                         isSquid = true;
                     }
+                   
                 }
+                
             }
+            
+            
+            if(validator.checkIfNull(raceType)){
+                
+            }
+            
+            if(newRace.equals(raceType)){
+                        JOptionPane.showMessageDialog(this, "The alien is already of this race!");
+                    } else {
+            
             
             if(isBoglodite){
                 idb.delete(sqlRemoveBoglo);
             }
+            
+            
             
             if(isWorm){
                 idb.delete(sqlRemoveWorm);
@@ -444,23 +490,76 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                 idb.delete(sqlRemoveSquid);
             }
             
-            if(newRace.equals("boglodite")){
+            else if(newRace.equals("boglodite")){
             idb.insert(sqlQuestionBoglo);
             JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+            button.addActionListener(e -> {
+                        String input = JOptionPane.showInputDialog(frame, "Enter amount of boogies:");
+           
+             String sqlUpdateWorm = "UPDATE boglodite SET Antal_Boogies = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
+
+            try {
+              idb.update(sqlUpdateWorm);
+              JOptionPane.showMessageDialog(this, "Boglodite boogies updated successfully!");
+             
+             } catch (InfException ex) {
+    System.out.println("An exception occurred: " + ex.getMessage());}
+              });
+             
+             frame.add(button);
+             frame.setSize(400, 300);
+             frame.setVisible(true);
+             
+            
             }
             
             else if(newRace.equals("worm")){
              idb.insert(sqlQuestionWorm);
              JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+             button.addActionListener(e -> {
+                        String input = JOptionPane.showInputDialog(frame, "Enter length:");
+           
+             String sqlUpdateWorm = "UPDATE worm SET Langd = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
+
+            try {
+              idb.update(sqlUpdateWorm);
+              JOptionPane.showMessageDialog(this, "Worm length updated successfully!");
+             
+             } catch (InfException ex) {
+    System.out.println("An exception occurred: " + ex.getMessage());}
+              });
+             
+             frame.add(button);
+             frame.setSize(400, 300);
+             frame.setVisible(true);
+             
             }
             
             else if(newRace.equals("squid")){
                 idb.insert(sqlQuestionSquid);
                 JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
+                button.addActionListener(e -> {
+                        String input = JOptionPane.showInputDialog(frame, "Enter amount of arms:");
+           
+             String sqlUpdateWorm = "UPDATE squid SET Antal_Armar = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
+
+            try {
+              idb.update(sqlUpdateWorm);
+              JOptionPane.showMessageDialog(this, "Squid arms updated successfully!");
+             
+             } catch (InfException ex) {
+    System.out.println("An exception occurred: " + ex.getMessage());}
+              });
+             
+             frame.add(button);
+             frame.setSize(400, 300);
+             frame.setVisible(true);
+             
             }
             
-            
-            
+            }
+                
+            }
             
         } catch (InfException ex) {
     Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
