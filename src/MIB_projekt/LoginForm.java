@@ -169,7 +169,7 @@ public class LoginForm extends javax.swing.JFrame {
         char[] charPassword = passwordField.getPassword();
         String passwordString = new String(charPassword);
         
-        if(selectedType.equals("Admin")){
+        if(selectedType.equals("Admin")){ // om admin är vald i comboboxen körs denna kod
             if(usernameString.isEmpty() || passwordString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
             }
@@ -205,7 +205,7 @@ public class LoginForm extends javax.swing.JFrame {
         
         
         
-        if(selectedType.equals("Agent")){
+        if(selectedType.equals("Agent")){ //om agent är vald i comboboxen körs denna kod 
         
         
         if(usernameString.isEmpty() || passwordString.isEmpty()) {
@@ -232,7 +232,7 @@ public class LoginForm extends javax.swing.JFrame {
             } 
         } 
         
-        if (selectedType.equals("Alien")){
+        if (selectedType.equals("Alien")){ // om alien är vald i comboboxen körs denna kod 
             String alienUser = userNameField.getText();
             char[] alienPassChar = passwordField.getPassword();
             String alienPassword = new String (alienPassChar);

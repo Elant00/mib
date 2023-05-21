@@ -91,16 +91,16 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         
         
         
-        if(validator.isEmpty(alienID)){
+        if(validator.isEmpty(alienID)){ //kolla så att information skrivs in 
             JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
         }
         try{
-            String sqlCheckA = idb.fetchSingle(sqlCheck);
-            if(sqlCheckA == null){
+            String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om alienID finns 
+            if(validator.checkIfNull(sqlCheckA)){
                 JOptionPane.showMessageDialog(this, "There is no Alien with this ID");
             }
             
-            if(!alienID.isEmpty()){
+            if(!alienID.isEmpty()){ // ta bort all information som finns registrerad om specifikt alienID
                 idb.delete(sqlWorm);
                 idb.delete(sqlSquid);
                 idb.delete(sqlBogloditen);
