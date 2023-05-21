@@ -125,7 +125,7 @@ public class SpecificInfoAboutAgent extends javax.swing.JFrame {
         String checkIfAgentExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentID;
         
         try {
-        ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlQuestion);
+        ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlQuestion); //hämta all information om alien och spara i lista
         String answerAgentExists = idb.fetchSingle(checkIfAgentExists);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         
@@ -140,15 +140,15 @@ public class SpecificInfoAboutAgent extends javax.swing.JFrame {
         
         else if(!validator.checkIfNull(answerAgentExists) && !validator.isEmpty(agentID)){
         for(HashMap<String, String> row : rows){
-            for(String key : row.keySet()){
+            for(String key : row.keySet()){ //gå igenom varje del av information om Alien
                 if(!key.equals("Alien_ID")){
                     String addInfo = key + ": " +row.get(key);
-                    listModel.addElement(addInfo);
+                    listModel.addElement(addInfo); //lägg till information från alien och lägg till i Jlist
                 }
             }
         }
         
-        jList1.setModel(listModel);
+        jList1.setModel(listModel); // visa upp informationen om alien
         
         }
         

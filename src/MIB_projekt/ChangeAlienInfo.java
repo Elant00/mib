@@ -259,21 +259,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        String newPass = passwordField.getText();
-        String alienID = alienIDText.getText();
-        String sqlQuestion = "UPDATE alien set Losenord = '" + newPass + "' WHERE Alien_ID = '" + alienID + "'";
-        
-        if(newPass.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please fill the textbox with a password");
-        }
-        
-        try{
-            if(!newPass.isEmpty()){
-                idb.update(sqlQuestion);
-            }
-        }catch (InfException ex) {
-        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
+       
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void changeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeNameActionPerformed
@@ -282,13 +268,13 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         String newName = nameField.getText();
         
         String sqlQuestion = "UPDATE alien SET Namn = '" + newName + "' WHERE Alien_ID = '" + alienIdt + "'";
-        if(validator.isEmpty(newName) && validator.isEmpty(alienIdt)){
+        if(validator.isEmpty(newName) && validator.isEmpty(alienIdt)){ //Kollar om AlienID eller nytt namn är tomt
             JOptionPane.showMessageDialog(this, "Please fill the textbox with a name and enter an Alien_ID");
         }
         
         try{
         if(!alienIdt.isEmpty()){
-            idb.update(sqlQuestion);
+            idb.update(sqlQuestion); // uppdaterar namn
             JOptionPane.showMessageDialog(this, "Name has been updated");
         }
         } catch (InfException ex) {
@@ -306,14 +292,17 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         
         String sqlQuestion = "UPDATE alien set Telefon = '" + newPhone + "' WHERE Alien_ID = '" + alienID + "'";
         
-        if(newPhone.isEmpty()){
+        if(validator.isEmpty(newPhone)){ // kollar om angivet telefonnummer är tomt
             JOptionPane.showMessageDialog(this, "You need to enter a new phone number");
         }
         
+        else if(!validator.isNumeric(newPhone)){
+            JOptionPane.showMessageDialog(this, "Please enter a numeric phone number");
+        }
         
         try{
             if(!newPhone.isEmpty()){
-                idb.update(sqlQuestion);
+                idb.update(sqlQuestion); // uppdaterar telefonnummer
                 JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
             }
         }catch (InfException ex) {
@@ -328,12 +317,12 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         
         String sqlQuestion = "UPDATE alien SET Losenord = '" + newPass + "' WHERE Alien_ID = '" + newPass +"'";
         
-        if(newPass.isEmpty()){
+        if(validator.isEmpty(newPass)){ // kollar om nytt lösenord är tomt
             JOptionPane.showMessageDialog(this, "Please enter a new password");
         }
         try{
             if(!newPass.isEmpty()){
-                idb.update(sqlQuestion);
+                idb.update(sqlQuestion); //uppdaterar lösenord
                 JOptionPane.showMessageDialog(this, "Password has been updated");
             }
             
@@ -349,18 +338,20 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         
         String sqlQuestion = "UPDATE alien SET plats = '" + newArea + "' WHERE Alien_ID = '" + alienID + "'";
         
-        if(newArea.isEmpty()){
+        if(validator.isEmpty(newArea)){  // kollar om nytt omrade är tomt
             JOptionPane.showMessageDialog(this, "You muster enter an area");
         }
         
+        else{
+        
         try{
-            if(!newArea.isEmpty()){
-                idb.update(sqlQuestion);
+            
+                idb.update(sqlQuestion); // uppdaterar områda
                 JOptionPane.showMessageDialog(this, "Area has been updated");
-            }
+            
         }catch (InfException ex) {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
+    }}
     }//GEN-LAST:event_changeAreaActionPerformed
 
     private void changeAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAgentActionPerformed
@@ -368,7 +359,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         String alienID = alienIDText.getText();
         
         String sqlQuestion = "UPDATE alien SET Ansvarig_Agent = '" + newAgent + "' WHERE Alien_ID = '" + alienID + "*";
-        String sqlCheckAgent = "SELECT namn from agent where Agent_ID = '" + newAgent + "'";
+        String sqlCheckAgent = "SELECT Agent_ID from agent where Agent_ID = '" + newAgent + "'"; //sql kod för att kolla om agent finns med angivet agentID
         
         if(newAgent.isEmpty()){
             JOptionPane.showMessageDialog(this, "You must enter a value");
@@ -379,8 +370,8 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "There is no excisting agent with this ID");
         }
         
-        if(!newAgent.isEmpty()){
-            idb.update(sqlQuestion);
+        if(!newAgent.isEmpty()){      
+            idb.update(sqlQuestion); //uppdaterar ansvarade agent
         }
         
         
@@ -399,12 +390,12 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         boolean isBoglodite = false;
         boolean isWorm = false;
         boolean isSquid = false;
-        String raceType = "";
+        String raceType = ""; // initiering för att kunna kolla vilken/vilka raser som finns
         String sqlCheckIfAlienExists = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
         
         JFrame frame = new JFrame("Extra information");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JButton button = new JButton("Add extra information");
+                JButton button = new JButton("Add extra information"); // skapa en ny frame och knapp för att lägga till extra information
         
         
                 
@@ -433,20 +424,20 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             ArrayList<HashMap<String, String>> result = idb.fetchRows(sqlCheckIfRaceExists);
             HashMap<String, String> row = result.get(0);
         String count = row.get("COUNT(*)");
-        int tableCount = Integer.parseInt(count);
+        int tableCount = Integer.parseInt(count); // returnerar antalet tabeller som finns av rasen man anger, är det 0 så innebär det att rasen ej finns som tabell
         
             if(validator.isEmpty(alienID) || validator.isEmpty(newRace)){
                 JOptionPane.showMessageDialog(this, "You must enter an alienID and a new race");
             }
             if(validator.checkIfNull(answerAlienID)){
-                JOptionPane.showMessageDialog(this, "This alienID does not exist");
+                JOptionPane.showMessageDialog(this, "This alienID does not exist"); 
             }
         
             else if(tableCount == 0){
-                JOptionPane.showMessageDialog(this, "There is no race with this name");
+                JOptionPane.showMessageDialog(this, "There is no race with this name"); 
             } else{
             
-            ArrayList<HashMap<String, String>> list = idb.fetchRows(sqlCheckWhatRace);
+            ArrayList<HashMap<String, String>> list = idb.fetchRows(sqlCheckWhatRace); // går igenom alla typer av raser och returnerar rasnamn där alienIDt finns
             for(HashMap<String, String> alienRace : list){
                 for(String key : alienRace.keySet()){
                     raceType = alienRace.get(key);
@@ -467,30 +458,28 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             }
             
             
-            if(validator.checkIfNull(raceType)){
-                
-            }
+            
             
             if(newRace.equals(raceType)){
                         JOptionPane.showMessageDialog(this, "The alien is already of this race!");
                     } else {
             
             
-            if(isBoglodite){
+            if(isBoglodite){  // om alienID var en boglodite tar den bort denne ur boglodite tabellen
                 idb.delete(sqlRemoveBoglo);
             }
             
             
             
-            if(isWorm){
+            if(isWorm){   // om alienID var en worm tar den bort denne ur boglodite tabellen
                 idb.delete(sqlRemoveWorm);
             }
             
-            if(isSquid){
+            if(isSquid){  // om alienID var en squid tar den bort denne ur boglodite tabellen
                 idb.delete(sqlRemoveSquid);
             }
             
-            else if(newRace.equals("boglodite")){
+            else if(newRace.equals("boglodite")){ //kommer in i denna else if om man lagt in "boglodite" som ras
             idb.insert(sqlQuestionBoglo);
             JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
             button.addActionListener(e -> {
@@ -499,7 +488,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
              String sqlUpdateWorm = "UPDATE boglodite SET Antal_Boogies = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
 
             try {
-              idb.update(sqlUpdateWorm);
+              idb.update(sqlUpdateWorm); //uppdaterar extra information för boglodite
               JOptionPane.showMessageDialog(this, "Boglodite boogies updated successfully!");
              
              } catch (InfException ex) {
@@ -513,7 +502,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
             
             }
             
-            else if(newRace.equals("worm")){
+            else if(newRace.equals("worm")){ //kommer in i denna else if om man lagt in "worm" som ras
              idb.insert(sqlQuestionWorm);
              JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
              button.addActionListener(e -> {
@@ -522,7 +511,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
              String sqlUpdateWorm = "UPDATE worm SET Langd = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
 
             try {
-              idb.update(sqlUpdateWorm);
+              idb.update(sqlUpdateWorm); //uppdaterar extra information om worm
               JOptionPane.showMessageDialog(this, "Worm length updated successfully!");
              
              } catch (InfException ex) {
@@ -535,7 +524,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
              
             }
             
-            else if(newRace.equals("squid")){
+            else if(newRace.equals("squid")){ //kommer in i denna else if om man lagt in "squid" som ras
                 idb.insert(sqlQuestionSquid);
                 JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
                 button.addActionListener(e -> {
