@@ -6,6 +6,7 @@ package MIB_projekt;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
 
@@ -15,6 +16,7 @@ import oru.inf.InfException;
  */
 public class AlienByDate extends javax.swing.JFrame {
 
+    Validation validator = new Validation();
     private static InfDB idb;
     // Create a connection to the database
 
@@ -161,19 +163,35 @@ public class AlienByDate extends javax.swing.JFrame {
         String toDate = dateToText.getText();
         ArrayList<String> listOfAliens = new ArrayList<>();
         DefaultListModel<String> list = new DefaultListModel<>();
-        
-        
-        try {
-        String sqlQuestion = "SELECT namn from alien where Registreringsdatum BETWEEN '" + fromDate + "' AND '" + toDate + "'";
-        listOfAliens = idb.fetchColumn(sqlQuestion);
-        for(String oneAlien : listOfAliens){
-            list.addElement(oneAlien);
+
+        // Kontrollera om fromDate eller toDate är tomma
+        if (validator.isEmpty(fromDate) || validator.isEmpty(toDate)) {
+            // Visa ett meddelande att datum saknas
+            JOptionPane.showMessageDialog(this, "Date missing!");
+        } // Kontrollera om fromDate eller toDate inte har en giltig datumformat
+        else if (!validator.isValidDate(fromDate) || !validator.isValidDate(toDate)) {
+            // Visa ett meddelande att datumet har felaktigt format
+            JOptionPane.showMessageDialog(this, "The date is in wrong format!");
+        } else {
+            try {
+                // Skapa SQL-frågan för att hämta namn från alien-tabellen baserat på Registreringsdatum mellan fromDate och toDate
+                String sqlQuestion = "SELECT namn from alien where Registreringsdatum BETWEEN '" + fromDate + "' AND '" + toDate + "'";
+
+                // Hämta resultaten från databasen baserat på SQL-frågan och spara dem i listOfAliens
+                listOfAliens = idb.fetchColumn(sqlQuestion);
+
+                // Lägg till varje alien-namn i listan
+                for (String oneAlien : listOfAliens) {
+                    list.addElement(oneAlien);
+                }
+
+                // Sätt modellen för jList1 till listan
+                jList1.setModel(list);
+
+            } catch (InfException ex) {
+                java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
-        jList1.setModel(list);
-        
-        } catch (InfException ex) {
-        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

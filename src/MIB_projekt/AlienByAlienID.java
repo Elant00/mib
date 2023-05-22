@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -18,7 +19,9 @@ import oru.inf.InfException;
  * @author emilrydberg
  */
 public class AlienByAlienID extends javax.swing.JFrame {
- private static InfDB idb;
+  
+    Validation validator = new Validation();
+    private static InfDB idb;
     // Create a connection to the database
 
     /**
@@ -107,29 +110,51 @@ public class AlienByAlienID extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      try {
-          String alienID = searchAlienID.getText();
-          String question = "SELECT * from Alien WHERE Alien_ID = '" + alienID + "'";
-          ArrayList<HashMap<String, String>> alienRows = idb.fetchRows(question);
+        String alienID = searchAlienID.getText();
+        String sqlCheckIfAlienExists = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
 
-          DefaultListModel<String> model = new DefaultListModel<>();
+        try {
+            // Kontrollera om alienID är tomt
+            if (validator.isEmpty(alienID)) {
+                // Visa ett meddelande att ett Alien_ID måste anges
+                JOptionPane.showMessageDialog(this, "You must enter an Alien_ID");
+            } else {
+                String answerAlienID = idb.fetchSingle(sqlCheckIfAlienExists);
+                if (validator.checkIfNull(answerAlienID)) {
+                    JOptionPane.showMessageDialog(this, "This alienID does not exist");
+                } else {
 
-          for (HashMap<String, String> row : alienRows) {
-             for (String key : row.keySet()) {
-               if (!key.equals("Alien_ID")) {
-                String alienInfo = key + ": " + row.get(key);
-                model.addElement(alienInfo);
+                    // Skapa SQL-frågan för att hämta alla kolumner från Alien-tabellen baserat på ett specifikt Alien_ID
+                    String question = "SELECT * from Alien WHERE Alien_ID = '" + alienID + "'";
+
+                    // Hämta rader från databasen baserat på SQL-frågan och spara resultaten i alienRows
+                    ArrayList<HashMap<String, String>> alienRows = idb.fetchRows(question);
+
+                    // Skapa en DefaultListModel för att lagra informationen om alien
+                    DefaultListModel<String> model = new DefaultListModel<>();
+
+                    // Gå igenom varje rad (HashMap) i alienRows
+                    for (HashMap<String, String> row : alienRows) {
+                        // Gå igenom varje nyckel (key) i raden
+                        for (String key : row.keySet()) {
+                            // Kontrollera om nyckeln inte är "Alien_ID"
+                            if (!key.equals("Alien_ID")) {
+                                // Skapa en sträng med informationen om alien och lägg till den i modellen
+                                String alienInfo = key + ": " + row.get(key);
+                                model.addElement(alienInfo);
+                            }
+                        }
+                    }
+
+                    // Sätt modellen för jList1 till modellen med alieninformationen
+                    jList1.setModel(model);
+
+                }
             }
+        } catch (InfException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    }
 
-    jList1.setModel(model);
-   
-
-} catch (InfException ex) {
-    java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-}
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

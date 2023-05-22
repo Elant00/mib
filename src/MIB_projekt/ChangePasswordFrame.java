@@ -166,12 +166,13 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     
     if(selectedType.equals("Agent")){
     String frågaTillSql = "Select Losenord from agent where Epost = '" + email + "'";
-   
+    
        try {
         String svarFrånSql = idb.fetchSingle(frågaTillSql);
         
+        // Kontrollera om det gamla lösenorder matchar med e-posten och skriver ut felmeddelande om det inte matchar
         if((!oldPasswordString.equals(svarFrånSql)) && nyttLösen.length()<7) {
-            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
+            JOptionPane.showMessageDialog(null, "Wrong Email or password, try again!");
         }
 
         // Kontrollera om det gamla lösenordet matchar med e-posten
@@ -179,7 +180,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             // Om lösenorden matchar, ändra lösenordet
             String updateTillSql = "UPDATE agent SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
             idb.update(updateTillSql);
-            JOptionPane.showMessageDialog(null, "Lösenordet har ändrats!");
+            JOptionPane.showMessageDialog(null, "The password has been updated!");
         } 
     } catch (InfException ex) {
         Logger.getLogger(ChangePasswordFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -192,14 +193,16 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
        try {
         String svarFrånSql2 = idb.fetchSingle(frågaTillSql2);
         
-        if((!oldPasswordString.equals(svarFrånSql2)) && nyttLösen.length()<7){
-            JOptionPane.showMessageDialog(null, "Felaktig e-post eller lösenord. Försök igen!");
+        // Kontrollera om det gamla lösenorder matchar med e-posten och skriver ut felmeddelande om det inte matchar
+        if((!oldPasswordString.equals(svarFrånSql2)) && nyttLösen.length()<7){ 
+            JOptionPane.showMessageDialog(null, "Wrong Email or password, try again!");
     }
         // Kontrollera om det gamla lösenordet matchar med e-posten
         if(oldPasswordString.equals(svarFrånSql2)){
+            // Om lösenorden matchar, ändra lösenordet
             String updateTillSql2 = "UPDATE alien SET Losenord = '" + nyttLösen + "' WHERE Epost = '" + email + "'";
             idb.update(updateTillSql2);
-            JOptionPane.showMessageDialog(null, "Lösenordet har ändrats!");
+            JOptionPane.showMessageDialog(null, "The password has been updated!");
         }
     } 
        catch (InfException ex) {

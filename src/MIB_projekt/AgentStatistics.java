@@ -121,6 +121,7 @@ public class AgentStatistics extends javax.swing.JFrame {
         String area = AreaSelectionBox.getSelectedItem().toString();
 
         try {
+            // Skapa SQL-frågan för att hämta agentens namn och antalet aliens för det specifika området
             String sqlFraga = "SELECT agent.Namn, COUNT(*) AS Antal_Aliens "
                     + "FROM agent "
                     + "JOIN alien ON agent.Agent_ID = alien.ansvarig_Agent "
@@ -131,18 +132,25 @@ public class AgentStatistics extends javax.swing.JFrame {
                     + "ORDER BY COUNT(*) DESC "
                     + "LIMIT 3;";
 
+            // Hämta en rad (HashMap) från databasen baserat på SQL-frågan och spara resultatet i result
             HashMap<String, String> result = idb.fetchRow(sqlFraga);
+
+            // Hämta agentens namn och antalet aliens från result
             String name = result.get("Namn");
             String alienCountStr = result.get("Antal_Aliens");
             int alienCount = alienCountStr != null ? Integer.parseInt(alienCountStr) : 0;
 
+            // Kontrollera om det finns några aliens i området
             if (alienCount > 0) {
+                // Skapa en sträng för att visa resultatet av agentens namn och antalet aliens
                 String displayResult = name + ": " + alienCount;
+
+                // Sätt topListTextArea till att visa displayResult
                 topListTextArea.setText(displayResult);
             } else {
+                // Om det inte finns några aliens i området, visa ett meddelande
                 topListTextArea.setText("Det finns inga aliens i det här området för tillfället.");
             }
-
 
         } catch (InfException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);

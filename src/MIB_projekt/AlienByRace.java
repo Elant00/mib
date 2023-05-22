@@ -16,12 +16,12 @@ import oru.inf.InfException;
  */
 public class AlienByRace extends javax.swing.JFrame {
 
-
-    private static InfDB idb;
     // Create a connection to the database
+    private static InfDB idb;
 
     /**
      * Creates new form LoginForm
+     *
      * @param iidb
      */
     public AlienByRace(InfDB iidb) {
@@ -133,42 +133,60 @@ public class AlienByRace extends javax.swing.JFrame {
         String selectedRace = raceSelect.getSelectedItem().toString();
         DefaultListModel<String> list = new DefaultListModel<>();
         ArrayList<String> sqlAnswerList = new ArrayList<>();
-        try{
-        if(selectedRace.equals("boglodite")){
-            String sqlQuestionB = "SELECT Alien_ID from boglodite";
-            
-            sqlAnswerList = idb.fetchColumn(sqlQuestionB);
-            for(String oneAlien : sqlAnswerList)
-            {
-               list.addElement(oneAlien);
+        try {
+            // Om vald ras är "boglodite"
+            if (selectedRace.equals("boglodite")) {
+                // Skapa SQL-frågan för att hämta Alien_ID från boglodite-tabellen
+                String sqlQuestionB = "SELECT Alien_ID from boglodite";
+
+                // Hämta resultaten från databasen baserat på SQL-frågan och spara dem i sqlAnswerList
+                sqlAnswerList = idb.fetchColumn(sqlQuestionB);
+
+                // Lägg till varje Alien_ID i listan
+                for (String oneAlien : sqlAnswerList) {
+                    list.addElement(oneAlien);
+                }
+
+                // Sätt modellen för jList1 till listan
+                jList1.setModel(list);
             }
-            
-            jList1.setModel(list);
-            
-            
-        }
-        
-        if(selectedRace.equals("squid")){
-            String sqlQuestionS = "Select Alien_ID from squid";
-            sqlAnswerList = idb.fetchColumn(sqlQuestionS);
-            for(String oneSquid : sqlAnswerList){
-                list.addElement(oneSquid);
+
+            // Om vald ras är "squid"
+            if (selectedRace.equals("squid")) {
+                // Skapa SQL-frågan för att hämta Alien_ID från squid-tabellen
+                String sqlQuestionS = "Select Alien_ID from squid";
+
+                // Hämta resultaten från databasen baserat på SQL-frågan och spara dem i sqlAnswerList
+                sqlAnswerList = idb.fetchColumn(sqlQuestionS);
+
+                // Lägg till varje Alien_ID i listan
+                for (String oneSquid : sqlAnswerList) {
+                    list.addElement(oneSquid);
+                }
+
+                // Sätt modellen för jList1 till listan
+                jList1.setModel(list);
             }
-            
-            jList1.setModel(list);
-        }
-        
-        if(selectedRace.equals("worm")){
-            String sqlQuestionW = "Select Alien_ID from worm";
-            sqlAnswerList = idb.fetchColumn(sqlQuestionW);
-            for(String oneWorm : sqlAnswerList){
-                list.addElement(oneWorm);
+
+            // Om vald ras är "worm"
+            if (selectedRace.equals("worm")) {
+                // Skapa SQL-frågan för att hämta Alien_ID från worm-tabellen
+                String sqlQuestionW = "Select Alien_ID from worm";
+
+                // Hämta resultaten från databasen baserat på SQL-frågan och spara dem i sqlAnswerList
+                sqlAnswerList = idb.fetchColumn(sqlQuestionW);
+
+                // Lägg till varje Alien_ID i listan
+                for (String oneWorm : sqlAnswerList) {
+                    list.addElement(oneWorm);
+                }
+
+                // Sätt modellen för jList1 till listan
+                jList1.setModel(list);
             }
-            jList1.setModel(list);
-        }
         } catch (InfException ex) {
-        java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_searchButtonActionPerformed
 
     /**

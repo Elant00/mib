@@ -21,6 +21,9 @@ import java.util.Date;
  * @author emilrydberg
  */
 public class RegisterEquipment extends javax.swing.JFrame {
+    
+    Validation validator = new Validation();
+
 
    private static InfDB idb;
     // Create a connection to the database
@@ -195,110 +198,117 @@ public class RegisterEquipment extends javax.swing.JFrame {
         String equipmentId = EquipmentIdText.getText();
         String equipmentName = EquipmentNameText.getText();
         String newDate = dateText.getText();
+        String sqlCheck = "SELECT Agent_ID from agent where Agent_ID = " + agentId;
+        String sqlCheck1 = "SELECT Utrustnings_ID from Utrustning where Utrustnings_ID = " + equipmentId;
+
+        if (validator.isEmpty(agentId)) { //kolla så att information skrivs in 
+            JOptionPane.showMessageDialog(this, "You must enter an Agent_ID to register equipment");
+        }
+
+        try {
+            String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om agentID finns 
+            if (validator.checkIfNull(sqlCheckA)) {
+                JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
+            }
+
+            String sqlCheckB = idb.fetchSingle(sqlCheck1);
+            if (!validator.checkIfNull(sqlCheckB)) {
+                JOptionPane.showMessageDialog(this, "This equipment_ID already exists!");
+            }
+
+            // redigering ovan
+        } catch (InfException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         try {
             String query = "SELECT * FROM Utrustning WHERE Utrustnings_ID = '" + equipmentId + "'";
             String result = idb.fetchSingle(query);
 
-            if (result == null) {
-
-                try {
-                    idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
-                } catch (InfException ex) {
-                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
-                } catch (InfException ex) {
-                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                if (selectedType.equalsIgnoreCase("Vapen")) {
-
-                    JFrame frame = new JFrame("Extra information:");
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    JButton button = new JButton("Add extra information");
-                    button.addActionListener(e -> {
-                        String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
-                        if (input != null && !input.isEmpty()) {
-                            try {
-
-                                String tableName = "Vapen";
-                                int quantity = Integer.parseInt(input);
-                                idb.insert("INSERT INTO " + tableName + "  (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
-                                JOptionPane.showMessageDialog(frame, "Updated successfully!");
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(frame, "Invalid quantity. Please enter a valid integer.");
-                            } catch (InfException ex) {
-                                Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    });
-
-                    frame.getContentPane().add(button);
-                    frame.pack();
-                    frame.setVisible(true);
-
-                } else if (selectedType.equalsIgnoreCase("Teknik")) {
-
-                    JFrame frame = new JFrame("Extra information:");
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    JButton button = new JButton("Add extra information");
-                    button.addActionListener(e -> {
-                        String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
-                        if (input != null && !input.isEmpty()) {
-                            try {
-
-                                String tableName = "Teknik";
-                                String kraftkalla = input;
-                                idb.insert("INSERT INTO " + tableName + "  (Teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
-                                JOptionPane.showMessageDialog(frame, "Updated successfully!");
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(frame, "Wrong! Please enter a valid name.");
-                            } catch (InfException ex) {
-                                Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    });
-
-                    frame.getContentPane().add(button);
-                    frame.pack();
-                    frame.setVisible(true);
-
-                } else if (selectedType.equalsIgnoreCase("Kommunikation")) {
-
-                    JFrame frame = new JFrame("Extra information:");
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    JButton button = new JButton("Add extra information");
-                    button.addActionListener(e -> {
-                        String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
-                        if (input != null && !input.isEmpty()) {
-                            try {
-
-                                String tableName = "Kommunikation";
-                                String overforingsTeknik = input;
-                                idb.insert("INSERT INTO " + tableName + "  (Kommunikation.Utrustnings_ID, Overforingsteknik) Values('" + equipmentId + "', '" + overforingsTeknik + "')");
-                                JOptionPane.showMessageDialog(frame, "Updated successfully!");
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(frame, "Wrong! Please enter a valid name.");
-                            } catch (InfException ex) {
-                                Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    });
-
-                    frame.getContentPane().add(button);
-                    frame.pack();
-                    frame.setVisible(true);
-
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Error! The weapon with ID " + equipmentId + " already exists in the database.");
+            try {
+                idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
+            } catch (InfException ex) {
+                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            if (selectedType.equalsIgnoreCase("Vapen")) {
+
+                JFrame frame = new JFrame("Extra information:");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JButton button = new JButton("Add extra information");
+                button.addActionListener(e -> {
+                    String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
+                    if (input != null && !input.isEmpty()) {
+                        try {
+
+                            String tableName = "Vapen";
+                            int quantity = Integer.parseInt(input);
+                            idb.insert("INSERT INTO " + tableName + "  (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
+                            JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                        } catch (InfException ex) {
+                            Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+
+            } else if (selectedType.equalsIgnoreCase("Teknik")) {
+
+                JFrame frame = new JFrame("Extra information:");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JButton button = new JButton("Add extra information");
+                button.addActionListener(e -> {
+                    String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
+                    if (input != null && !input.isEmpty()) {
+                        try {
+
+                            String tableName = "Teknik";
+                            String kraftkalla = input;
+                            idb.insert("INSERT INTO " + tableName + "  (Teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
+                            JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                        } catch (InfException ex) {
+                            Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+
+            } else if (selectedType.equalsIgnoreCase("Kommunikation")) {
+
+                JFrame frame = new JFrame("Extra information:");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JButton button = new JButton("Add extra information");
+                button.addActionListener(e -> {
+                    String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
+                    if (input != null && !input.isEmpty()) {
+                        try {
+
+                            String tableName = "Kommunikation";
+                            String overforingsTeknik = input;
+                            idb.insert("INSERT INTO " + tableName + "  (Kommunikation.Utrustnings_ID, Overforingsteknik) Values('" + equipmentId + "', '" + overforingsTeknik + "')");
+                            JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                        } catch (InfException ex) {
+                            Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+
+            }
+
         } catch (InfException ex) {
             Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
         }

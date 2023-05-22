@@ -134,13 +134,20 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseAreaComboBoxActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-  
+
         try {
+            // Hämta det valda området från ChooseAreaComboBox och konvertera det till en sträng
             String area = ChooseAreaComboBox.getSelectedItem().toString();
+
+            // Skapa SQL-frågan för att hämta namn från Agent-tabellen baserat på områdesinformation
             String query = "SELECT Namn FROM Agent "
                     + "JOIN omradeschef ON agent.agent_id = omradeschef.agent_id "
                     + "JOIN omrade ON omradeschef.omrade = omrade.omrades_id where benamning = '" + area + "'";
+
+            // Hämta det enskilda resultatet från databasen baserat på SQL-frågan och spara det i result
             String result = idb.fetchSingle(query);
+
+            // Sätt TextArea till att visa resultatet
             TextArea.setText(result);
 
         } catch (InfException ex) {
@@ -148,7 +155,6 @@ public class ShowAreaCheifSpecific extends javax.swing.JFrame {
         }
 
 
-        
     }//GEN-LAST:event_SearchButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
