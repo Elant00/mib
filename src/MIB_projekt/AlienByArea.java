@@ -114,48 +114,59 @@ public class AlienByArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        textSearch = jTextField1.getText();
+        String textSearch = jTextField1.getText();
 
         try {
-            if (validator.isEmpty(textSearch)) { //kolla så att information skrivs in 
+            // Kolla så att information skrivs in
+            if (validator.isEmpty(textSearch)) {
                 JOptionPane.showMessageDialog(this, "You must enter an Area_ID");
+            } // Kolla så att rätt datatyp skrivs in
+            else if (!validator.isNumeric(textSearch)) {
+                JOptionPane.showMessageDialog(this, "You must search Area by ID (number)");
             } else {
+                // Kolla så att platsen finns i databasen
+                String sqlCheckIfAreaIdExists = "SELECT Plats FROM alien WHERE Plats = '" + textSearch + "'";
+                String areaID = idb.fetchSingle(sqlCheckIfAreaIdExists);
+                if (validator.checkIfNull(areaID)) {
+                    JOptionPane.showMessageDialog(this, "This area does not exist!");
+                } else {
 
-                // Skapa SQL-frågan för att hämta rader från tabellen "alien" baserat på en specifik plats
-                String sqlQuestion = "SELECT * FROM mibdb.alien WHERE Plats = '" + textSearch + "'";
+                    // Skapa SQL-frågan för att hämta rader från tabellen "alien" baserat på en specifik plats
+                    String sqlQuestion = "SELECT * FROM mibdb.alien WHERE Plats = '" + textSearch + "'";
 
-                // Hämta rader från databasen baserat på SQL-frågan och spara resultatet i en ArrayList av HashMap
-                ArrayList<HashMap<String, String>> alienRows = idb.fetchRows(sqlQuestion);
+                    // Hämta rader från databasen baserat på SQL-frågan och spara resultatet i en ArrayList av HashMap
+                    ArrayList<HashMap<String, String>> alienRows = idb.fetchRows(sqlQuestion);
 
-                // Skapa en ArrayList för att lagra resultaten som strängmatriser (String arrays)
-                ArrayList<String[]> aliens = new ArrayList<>();
+                    // Skapa en ArrayList för att lagra resultaten som strängmatriser (String arrays)
+                    ArrayList<String[]> aliens = new ArrayList<>();
 
-                // Gå igenom varje rad (HashMap) i alienRows
-                for (HashMap<String, String> row : alienRows) {
-                    // Skapa en strängmatris (String array) med storlek baserad på antalet kolumner i raden
-                    String[] alien = new String[row.size()];
+                    // Gå igenom varje rad (HashMap) i alienRows
+                    for (HashMap<String, String> row : alienRows) {
+                        // Skapa en strängmatris (String array) med storlek baserad på antalet kolumner i raden
+                        String[] alien = new String[row.size()];
 
-                    int i = 0;
-                    // Gå igenom varje värde (value) i raden och lägg till det i strängmatrisen
-                    for (String value : row.values()) {
-                        alien[i++] = value;
+                        int i = 0;
+                        // Gå igenom varje värde (value) i raden och lägg till det i strängmatrisen
+                        for (String value : row.values()) {
+                            alien[i++] = value;
+                        }
+
+                        // Lägg till strängmatrisen i aliens-listan
+                        aliens.add(alien);
                     }
 
-                    // Lägg till strängmatrisen i aliens-listan
-                    aliens.add(alien);
+                    // Skapar en DefaultListModel för att lagra alla Alien_ID
+                    DefaultListModel<String> model = new DefaultListModel<>();
+
+                    // Lägger till varje alien till modellen
+                    for (String[] alien : aliens) {
+                        model.addElement(alien[0]); // Assuming Alien_ID is the first column in the table
+                    }
+
+                    // Sätter modellen till en lista
+                    jList1.setModel(model);
+
                 }
-
-                // Skapar en DefaultListModel för att lagra alla Alien_ID
-                DefaultListModel<String> model = new DefaultListModel<>();
-
-                // Lägger till varje alien till modellen
-                for (String[] alien : aliens) {
-                    model.addElement(alien[0]); // Assuming Alien_ID is the first column in the table
-                }
-
-                // Sätter modellen till en lista
-                jList1.setModel(model);
-
             }
         } catch (InfException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
