@@ -16,9 +16,8 @@ public class RemoveEquipment extends javax.swing.JFrame {
 
     Validation validator = new Validation();
     private static InfDB idb;
- 
-    // Create a connection to the database
 
+    // Create a connection to the database
     /**
      * Creates new form RegisterAgent
      */
@@ -100,38 +99,38 @@ public class RemoveEquipment extends javax.swing.JFrame {
         dispose();
         AdminHomePage adminHome = new AdminHomePage(idb);
         adminHome.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String equipmentID = equipmentIDT.getText();
         String sqlCheck = "SELECT Utrustnings_ID from utrustning WHERE Utrustnings_ID = " + equipmentID;
-        if(!validator.isNumeric(equipmentID)){
+        if (!validator.isNumeric(equipmentID)) {
             JOptionPane.showMessageDialog(this, "You must enter an equipment ID which is numerical");
         }
-        try{
-        String sqlAnswer = idb.fetchSingle(sqlCheck);
-        if(validator.checkIfNull(sqlAnswer)){
-            JOptionPane.showMessageDialog(this, "There is no equipment with this ID");
-        }
-        else {
-            String removeFromHas = "DELETE FROM innehar_utrustning WHERE Utrustnings_ID = " + equipmentID;
-            String removeFromWeapon = "DELETE FROM vapen WHERE Utrustnings_ID = " + equipmentID;
-            String removeFromTeknik = "DELETE FROM teknik WHERE Utrustnings_ID = " + equipmentID;
-            String removeFromCommunication = "DELETE FROM kommunikation WHERE Utrustnings_ID = "+ equipmentID;
-            String removeFinal = "DELETE FROM utrustning WHERE Utrustnings_ID = " + equipmentID;
-            idb.delete(removeFromHas);
-            idb.delete(removeFromTeknik);
-            idb.delete(removeFromWeapon);
-            idb.delete(removeFromCommunication);
-            idb.delete(removeFinal);
-            JOptionPane.showMessageDialog(this, "Equipment has been removed from the database");
-        }
-        
+        try {
+            String sqlAnswer = idb.fetchSingle(sqlCheck);
+            if (validator.checkIfNull(sqlAnswer)) {
+                JOptionPane.showMessageDialog(this, "There is no equipment with this ID");
+            } else {
+                String removeFromHas = "DELETE FROM innehar_utrustning WHERE Utrustnings_ID = " + equipmentID;
+                String removeFromWeapon = "DELETE FROM vapen WHERE Utrustnings_ID = " + equipmentID;
+                String removeFromTeknik = "DELETE FROM teknik WHERE Utrustnings_ID = " + equipmentID;
+                String removeFromCommunication = "DELETE FROM kommunikation WHERE Utrustnings_ID = " + equipmentID;
+                String removeFinal = "DELETE FROM utrustning WHERE Utrustnings_ID = " + equipmentID;
+                idb.delete(removeFromHas);
+                idb.delete(removeFromTeknik);
+                idb.delete(removeFromWeapon);
+                idb.delete(removeFromCommunication);
+                idb.delete(removeFinal);
+                JOptionPane.showMessageDialog(this, "Equipment has been removed from the database");
+            }
+
         } catch (InfException ex) {
-    System.out.println("An exception occurred: " + ex.getMessage());}
-        
-        
+            System.out.println("An exception occurred: " + ex.getMessage());
+        }
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
