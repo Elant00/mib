@@ -186,7 +186,7 @@ public class AgentActionPage extends javax.swing.JFrame {
 
     private void EditAlienButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditAlienButtonActionPerformed
         dispose();
-        EditAlienInfo edit = new EditAlienInfo (idb);
+        ChangeAlienInfoAsAgent edit = new ChangeAlienInfoAsAgent (idb);
         edit.setVisible(true);
     }//GEN-LAST:event_EditAlienButtonActionPerformed
 
