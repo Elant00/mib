@@ -4,17 +4,11 @@
  */
 package MIB_projekt;
 
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import oru.inf.InfDB;
-import java.sql.ResultSet;
-import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import oru.inf.InfException;
 
 
@@ -24,6 +18,7 @@ import oru.inf.InfException;
  */
 public class OwnedEquipment extends javax.swing.JFrame {
 
+    Validation validator = new Validation();
     
     private static InfDB idb;
     /**
@@ -114,37 +109,46 @@ public class OwnedEquipment extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Visa en lista om utrustningen en agent har utkvitterad just nu
-        
-         String agentensID = agentIDInmatning.getText();
+        String agentensID = agentIDInmatning.getText();
+        String sqlCheckIfAgentExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentensID;
 
         try {
-            // Agent fyller i sitt AgentID
-            
-            String sqlFraga = "select Benamning from utrustning " +
-                    "join innehar_utrustning on utrustning.Utrustnings_ID = innehar_utrustning.Utrustnings_ID " +
-                    "join agent on innehar_utrustning.Agent_ID = agent.Agent_ID " +
-                    "where agent.Agent_ID = '" + agentensID + "'";
-            ArrayList<HashMap<String, String>> equipmentRows = idb.fetchRows(sqlFraga);
-            
-            DefaultListModel<String> model = new DefaultListModel<>();
+            // Kontrollera om alienID är tomt
+            if (validator.isEmpty(agentensID)) {
+            //Visa ett meddelande att ett existerande Agent_ID måste anges
+                JOptionPane.showMessageDialog(this, "You must enter an Agent_ID");
+            } else {
+                String answerAgentID = idb.fetchSingle(sqlCheckIfAgentExists);
+                if (validator.checkIfNull(answerAgentID)) {
+                    JOptionPane.showMessageDialog(this, "This alienID does not exist");
+                } else {
 
-          for (HashMap<String, String> row : equipmentRows) {
-             for (String key : row.keySet()) {
-               if (!key.equals("Agent_ID")) {
-                String equipmentInfo = key + ": " + row.get(key);
-                model.addElement(equipmentInfo);
+                    // Skapar en SQL-fråga som hämtar 
+                    String sqlFraga = "select Benamning from utrustning "
+                            + "join innehar_utrustning on utrustning.Utrustnings_ID = innehar_utrustning.Utrustnings_ID "
+                            + "join agent on innehar_utrustning.Agent_ID = agent.Agent_ID "
+                            + "where agent.Agent_ID = '" + agentensID + "'";
+                    ArrayList<HashMap<String, String>> equipmentRows = idb.fetchRows(sqlFraga);
+
+                    DefaultListModel<String> model = new DefaultListModel<>();
+
+                    for (HashMap<String, String> row : equipmentRows) {
+                        for (String key : row.keySet()) {
+                            if (!key.equals("Agent_ID")) {
+                                String equipmentInfo = key + ": " + row.get(key);
+                                model.addElement(equipmentInfo);
+                            }
+                        }
+                    }
+
+                    equipmentList.setModel(model);
+                }
             }
-        }
-    }
 
-        equipmentList.setModel(model);
-            
-
-            
-            } catch (InfException ex) {
+                }catch (InfException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
