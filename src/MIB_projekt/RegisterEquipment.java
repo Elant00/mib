@@ -236,7 +236,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
-                    if (input != null && !input.isEmpty()) {
+                    if(!validator.isNumeric(input)){
+                        JOptionPane.showMessageDialog(this, "You must enter a numeric value on 'Kaliber'");
+                    }
+                    else if (input != null && !input.isEmpty()) {
                         try {
 
                             String tableName = "Vapen";
@@ -262,7 +265,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
-                    if (input != null && !input.isEmpty()) {
+                    if(validator.isNumeric(input)){
+                        JOptionPane.showMessageDialog(this, "'Kraftkälla' must be entered as a string");
+                    }
+                    else if (input != null && !input.isEmpty()) {
                         try {
 
                             String tableName = "Teknik";
@@ -288,7 +294,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
-                    if (input != null && !input.isEmpty()) {
+                    if(validator.isNumeric(input)){
+                        JOptionPane.showMessageDialog(this, "'Överföringsteknik' must be entered as a string");
+                    }
+                    else if (input != null && !input.isEmpty()) {
                         try {
 
                             String tableName = "Kommunikation";
