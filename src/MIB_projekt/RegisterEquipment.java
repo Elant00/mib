@@ -81,7 +81,7 @@ public class RegisterEquipment extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Your AgnetID:");
+        jLabel3.setText("Your AgentID:");
 
         AgentIDText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,42 +200,38 @@ public class RegisterEquipment extends javax.swing.JFrame {
         String newDate = dateText.getText();
         String sqlCheck = "SELECT Agent_ID from agent where Agent_ID = " + agentId;
         String sqlCheck1 = "SELECT Utrustnings_ID from Utrustning where Utrustnings_ID = " + equipmentId;
-
-        if (validator.isEmpty(agentId)) { //kolla så att information skrivs in 
+        try {
+            
+            if (validator.isEmpty(agentId)) { //kolla så att information skrivs in 
             JOptionPane.showMessageDialog(this, "You must enter an Agent_ID to register equipment");
         }
-
-        try {
-            String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om agentID finns 
-            if (validator.checkIfNull(sqlCheckA)) {
-                JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
+        else if(!validator.isValidDate(newDate)){
+            JOptionPane.showMessageDialog(this, "Date must be entered in format xxxx-xx-xx");
+        }
+        else if(!validator.isNumeric(equipmentId)){
+                JOptionPane.showMessageDialog(this, "You must enter a numerical value as an equipmentID");
             }
-
+        else if(!validator.isNumeric(agentId)){
+            JOptionPane.showMessageDialog(this, "Please enter agentID and not a string");
+        }
+        String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om agentID finns 
             String sqlCheckB = idb.fetchSingle(sqlCheck1);
-            if (!validator.checkIfNull(sqlCheckB)) {
+     
+         if (validator.checkIfNull(sqlCheckA)) {
+                JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
+            }            
+            else if (!validator.checkIfNull(sqlCheckB)) {
                 JOptionPane.showMessageDialog(this, "This equipment_ID already exists!");
             }
-
-            // redigering ovan
-        } catch (InfException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            String query = "SELECT * FROM Utrustning WHERE Utrustnings_ID = '" + equipmentId + "'";
-            String result = idb.fetchSingle(query);
-
-            try {
+            
+            
+            
+            else if (selectedType.equalsIgnoreCase("Vapen")) {
                 idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
                 idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
-            } catch (InfException ex) {
-                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (selectedType.equalsIgnoreCase("Vapen")) {
 
                 JFrame frame = new JFrame("Extra information:");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
@@ -258,9 +254,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 frame.setVisible(true);
 
             } else if (selectedType.equalsIgnoreCase("Teknik")) {
-
+                idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
                 JFrame frame = new JFrame("Extra information:");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
@@ -283,9 +280,10 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 frame.setVisible(true);
 
             } else if (selectedType.equalsIgnoreCase("Kommunikation")) {
-
+                idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
                 JFrame frame = new JFrame("Extra information:");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
