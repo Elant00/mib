@@ -151,6 +151,9 @@ public class ChangeSpecificAgentinfo extends javax.swing.JFrame {
        
         
         if(selectedItem.equals("Name")){
+            if(validator.isNumeric(change)){
+                JOptionPane.showMessageDialog(this, "You cannot enter a numerical value as a name for an agent");
+            }
             String sqlQuestion = "UPDATE agent SET Namn = '" + change + "' WHERE Agent_ID = " + agentID;
                 idb.update(sqlQuestion);
                 JOptionPane.showMessageDialog(this, "Agent's name for ID: " + agentID + " has been updated to: " + change);

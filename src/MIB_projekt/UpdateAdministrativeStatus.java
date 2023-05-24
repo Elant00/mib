@@ -137,6 +137,8 @@ public class UpdateAdministrativeStatus extends javax.swing.JFrame {
         String sqlUpdate = "UPDATE agent SET Administrator = 'J' WHERE Agent_ID = " +updateAgent;
         String checkIfAlready = "SELECT Administrator from agent WHERE Agent_ID = " + updateAgent;
         String checkIfAdmin = "SELECT Administrator from agent WHERE Agent_ID = " + currentAgentID;
+        String checkIfAdminExists = "SELECT Agent_ID FROM agent WHERE Agent_ID = " + currentAgentID;
+        String checkIfExists = "SELECT Agent_ID FROM agent WHERE Agent_ID = " + updateAgent;
         
                 
         if(validator.isEmpty(currentAgentID) || validator.isEmpty(updateAgent)){
@@ -146,19 +148,35 @@ public class UpdateAdministrativeStatus extends javax.swing.JFrame {
         try{
             String adminStatus = idb.fetchSingle(checkIfAdmin);
             String alreadyAnswer = idb.fetchSingle(checkIfAlready);
+            String agentExists = idb.fetchSingle(checkIfExists);
+            String adminExists = idb.fetchSingle(checkIfAdminExists);
             
-            if(adminStatus.equals("N")){
+            if(validator.checkIfNull(agentExists)){
+                JOptionPane.showMessageDialog(this, "The agentID you entered to change does not exist");
+            }
+            
+            else if(validator.checkIfNull(adminExists)){
+                JOptionPane.showMessageDialog(this, "Your adminID does not exist, please check that it is entered correctly");
+            }
+            
+            else if(adminStatus.equals("N")){
                 JOptionPane.showMessageDialog(this, "You are not an admin, you cannot make this change");
             }
             
-            else if(adminStatus.equals("J") && (alreadyAnswer.equals("N") || validator.checkIfNull(alreadyAnswer))){
+            else if(adminStatus.equals("J") && currentAgentID.equals(updateAgent)){
+                JOptionPane.showMessageDialog(this, "You cannot change your own status");
+            }
+            
+            else if(alreadyAnswer.equals("J")){
+                JOptionPane.showMessageDialog(this, "The agent you've entered is already an administrator");
+            }
+            
+            else if(adminStatus.equals("J")){
                 idb.update(sqlUpdate);
                 JOptionPane.showMessageDialog(this, "Agent " + updateAgent + " now has administrative status!");
             }
             
-            if(adminStatus.equals("J") && currentAgentID.equals(updateAgent)){
-                JOptionPane.showMessageDialog(this, "You cannot change your own status");
-            }
+            
             
         } catch (InfException ex) {
         java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -172,6 +190,8 @@ public class UpdateAdministrativeStatus extends javax.swing.JFrame {
         String sqlUpdate = "UPDATE agent SET Administrator = 'N' WHERE Agent_ID = " +updateAgent;
         String checkIfAlready = "SELECT Administrator from agent WHERE Agent_ID = " + updateAgent;
         String checkIfAdmin = "SELECT Administrator from agent WHERE Agent_ID = " + currentAgentID;
+        String checkIfExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + updateAgent;
+        String checkIfAdminExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + currentAgentID;
         
         if(validator.isEmpty(currentAgentID) || validator.isEmpty(updateAgent)){
             JOptionPane.showMessageDialog(this, "You must enter both your and the Agent_ID you want to change");
@@ -179,8 +199,18 @@ public class UpdateAdministrativeStatus extends javax.swing.JFrame {
         try{
             String adminStatus = idb.fetchSingle(checkIfAdmin);
             String alreadyAnswer = idb.fetchSingle(checkIfAlready);
+            String exists = idb.fetchSingle(checkIfExists);
+            String adminExists = idb.fetchSingle(checkIfAdminExists);
             
-            if(adminStatus.equals("N")){
+            if(validator.checkIfNull(exists)){
+                JOptionPane.showMessageDialog(this, "The agentID you want to update does not exist");
+            }
+            
+            else if(validator.checkIfNull(adminExists)){
+                JOptionPane.showMessageDialog(this, "Your adminID that you entered does not exist, please check that it is correctly entered");
+            }
+            
+            else if(adminStatus.equals("N")){
                 JOptionPane.showMessageDialog(this, "You are not an admin, you cannot make this change");
             }
             
@@ -189,7 +219,11 @@ public class UpdateAdministrativeStatus extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "You cannot change your own status");
             }
             
-            else if(adminStatus.equals("J") && (alreadyAnswer.equals("J") || validator.checkIfNull(alreadyAnswer))){
+            else if(alreadyAnswer.equals("N")){
+                JOptionPane.showMessageDialog(this, "This agent's administrative status is already set to NO");
+            }
+            
+            else if(adminStatus.equals("J")){
                 idb.update(sqlUpdate);
                 JOptionPane.showMessageDialog(this, "Agent " + updateAgent + " is no longer an administrator");
             }

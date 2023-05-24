@@ -90,21 +90,18 @@ public class RemoveAnAgent extends javax.swing.JFrame {
                 .addGap(123, 123, 123))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(124, 124, 124)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(23, 23, 23)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(158, 158, 158)
                         .addComponent(agentToRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(162, 162, 162)
-                        .addComponent(adminIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addComponent(adminIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,12 +142,13 @@ public class RemoveAnAgent extends javax.swing.JFrame {
         String sqlRemoveAgent = "DELETE FROM agent WHERE Agent_ID = " + agentID;
         String checkIfAgentExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentID;
         String checkIfAdmin  = "SELECT Administrator from agent WHERE Agent_ID = " + adminID;
+        String checkIfAdminExists = "SELECT Agent_ID FROM agent WHERE Agent_ID = " + adminID;
         
         
         try{
             
             String agentCheck = idb.fetchSingle(checkIfAgentExists);
-            
+            String adminExists = idb.fetchSingle(checkIfAdminExists);
             
             
             if(validator.isEmpty(agentID) || validator.isEmpty(adminID)){
@@ -167,6 +165,10 @@ public class RemoveAnAgent extends javax.swing.JFrame {
             
             else if(validator.checkIfNull(agentCheck)){
                 JOptionPane.showMessageDialog(this, "There is no Agent with this ID in the database");
+            }
+            
+            else if(validator.checkIfNull(adminExists)){
+                JOptionPane.showMessageDialog(this, "Your own ID does not exist in the database, please check if you entered correctly");
             }
             
             else if(!validator.isEmpty(agentID)){

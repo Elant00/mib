@@ -115,7 +115,10 @@ public class SpecificInfoAboutAgent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        AdminHomePage adminHome = new AdminHomePage(idb);
+        adminHome.setVisible(true);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -125,7 +128,7 @@ public class SpecificInfoAboutAgent extends javax.swing.JFrame {
         String checkIfAgentExists = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentID;
         
         try {
-        ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlQuestion); //hämta all information om alien och spara i lista
+        ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlQuestion); //hämta all information om agent och spara i lista
         String answerAgentExists = idb.fetchSingle(checkIfAgentExists);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         

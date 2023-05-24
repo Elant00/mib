@@ -184,7 +184,7 @@ public class ChangeInformationAgent extends javax.swing.JFrame {
             String sqlCheckA = idb.fetchSingle(sqlCheck);
             
             if(validator.checkIfNull(sqlCheckA)){
-                JOptionPane.showMessageDialog(this, "There is not office with the name " + newOffice);
+                JOptionPane.showMessageDialog(this, "There is no office with the name " + newOffice);
             }
             
             if(!validator.isEmpty(newOffice) || !validator.isEmpty(agent)){
