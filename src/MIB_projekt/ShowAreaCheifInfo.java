@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
 
@@ -18,6 +19,7 @@ import oru.inf.InfException;
  */
 public class ShowAreaCheifInfo extends javax.swing.JFrame {
 
+    Validation validator = new Validation();
     private static InfDB idb;
     /**
      * Creates new form ChangePasswordFrame
@@ -52,7 +54,7 @@ public class ShowAreaCheifInfo extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Fyll i ditt områdesID här!");
+        jLabel1.setText("Write your Area ID:");
 
         jScrollPane2.setViewportView(minLista);
 
@@ -67,33 +69,32 @@ public class ShowAreaCheifInfo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(108, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(107, 107, 107))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(156, 156, 156)
-                .addComponent(alienAreaID, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(GetInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(alienAreaID, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(alienAreaID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(alienAreaID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(GetInfoButton))
@@ -104,40 +105,44 @@ public class ShowAreaCheifInfo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GetInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetInfoButtonActionPerformed
-        // Visa information om den agent som är områdeschef.
-        // Fyll i en form av validering med ett if statement
-        
-    try {
-        // Alien fyller i sitt områdesID
-        String omradesID = alienAreaID.getText();
-       
-        String sqlFraga = "Select Namn, Telefon, Anstallningsdatum, Epost, omradeschef.Omrade from agent " +
-        "join omradeschef on agent.Agent_ID = omradeschef.Agent_ID " +
-        "where omradeschef.Omrade = " + omradesID ;
-        
-        ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlFraga);
-        
-        DefaultListModel<String> model = new DefaultListModel<>();
-           
-        for (HashMap<String, String> row : rows) {
-        for (String key : row.keySet()) {
-            if (!key.equals("Alien_ID")) {
-                String alienInfo = key + ": " + row.get(key);
-                model.addElement(alienInfo);
-                
+        try {
+            // Alien fyller i sitt områdesID
+            String omradesID = alienAreaID.getText();
+            String sqlCheckIfAlienExists = "SELECT Plats from alien WHERE Plats = " + omradesID;
+
+            if (validator.isEmpty(omradesID)) {
+                // Visa ett meddelande att ett Alien_ID måste anges
+                JOptionPane.showMessageDialog(this, "You must enter an AreaID");
+            } else if (!validator.isNumeric(omradesID)) {
+                JOptionPane.showMessageDialog(this, "You must search Area by ID (number)");
+            } else {
+                String answerAlienID = idb.fetchSingle(sqlCheckIfAlienExists);
+                if (validator.checkIfNull(answerAlienID)) {
+                    JOptionPane.showMessageDialog(this, "This AreaID does not exist");
+                } else {
+
+                    String sqlFraga = "Select Namn, Telefon, Anstallningsdatum, Epost, omradeschef.Omrade from agent "
+                            + "join omradeschef on agent.Agent_ID = omradeschef.Agent_ID "
+                            + "where omradeschef.Omrade = " + omradesID;
+
+                    ArrayList<HashMap<String, String>> rows = idb.fetchRows(sqlFraga);
+
+                    DefaultListModel<String> model = new DefaultListModel<>();
+
+                    for (HashMap<String, String> row : rows) {
+                        for (String key : row.keySet()) {
+                            if (!key.equals("Alien_ID")) {
+                                String alienInfo = key + ": " + row.get(key);
+                                model.addElement(alienInfo);
+                            }
+                        }
+                    }
+                    minLista.setModel(model);
+                }
             }
+        } catch (InfException ex) {
+            Logger.getLogger(ShowAreaCheifInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-    }
-        minLista.setModel(model);
-    }
-    
-    catch(InfException ex){
-        Logger.getLogger(ShowAreaCheifInfo.class.getName()).log(Level.SEVERE, null, ex);
-    } 
-    
-     
     }//GEN-LAST:event_GetInfoButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

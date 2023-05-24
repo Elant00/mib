@@ -128,7 +128,7 @@ public class AlienByArea extends javax.swing.JFrame {
                 String sqlCheckIfAreaIdExists = "SELECT Plats FROM alien WHERE Plats = '" + textSearch + "'";
                 String areaID = idb.fetchSingle(sqlCheckIfAreaIdExists);
                 if (validator.checkIfNull(areaID)) {
-                    JOptionPane.showMessageDialog(this, "This area does not exist!");
+                    JOptionPane.showMessageDialog(this, "This area does not exist or does not have any registred aliens!");
                 } else {
 
                     // Skapa SQL-frågan för att hämta rader från tabellen "alien" baserat på en specifik plats

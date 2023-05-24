@@ -18,13 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-
-
-// ...
-
-
-
-
 /**
  *
  * @author antti
@@ -168,97 +161,113 @@ public class LoginForm extends javax.swing.JFrame {
         String usernameString = userNameField.getText();
         char[] charPassword = passwordField.getPassword();
         String passwordString = new String(charPassword);
-        
-        if(selectedType.equals("Admin")){ // om admin är vald i comboboxen körs denna kod
-            if(usernameString.isEmpty() || passwordString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
+
+        if (selectedType.equals("Admin")) {
+            // Kontrollera om användarnamn eller lösenord är tomma och visa felmeddelande-dialogruta om så är fallet
+            if (usernameString.isEmpty() || passwordString.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
             }
+
             try {
+                // Hämta lösenordet för agenten baserat på angivet användarnamn
                 String sqlQuestion = "SELECT Losenord from agent where Epost = '" + usernameString + "'";
-                String getAgentID = "SELECT Agent_ID from agent where Epost = '" + usernameString + "'"; 
+                // Hämta agentens ID baserat på angivet användarnamn
+                String getAgentID = "SELECT Agent_ID from agent where Epost = '" + usernameString + "'";
+                // Hämta agentens ID som en sträng
                 String agentID = idb.fetchSingle(getAgentID);
-                String sqlQuestionAdmin = "SELECT Administrator from agent WHERE Agent_ID = "  + agentID;
+                // Hämta agentens administratorstatus baserat på agentens ID
+                String sqlQuestionAdmin = "SELECT Administrator from agent WHERE Agent_ID = " + agentID;
+                // Hämta svaren på SQL-frågorna
                 String sqlAnswerP = idb.fetchSingle(sqlQuestion);
                 String sqlAnswerA = idb.fetchSingle(sqlQuestionAdmin);
-                
-                
-                
-                if(passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("J")){
+
+                // Kontrollera om angivet lösenord matchar det hämtade lösenordet och om agenten är administratör
+                if (passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("J")) {
                     dispose();
+                    // Öppna administratörens startsida
                     AdminHomePage adminHome = new AdminHomePage(idb);
                     adminHome.setVisible(true);
                 }
-                
-                if(passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("N")){
+
+                // Kontrollera om angivet lösenord matchar det hämtade lösenordet men agenten är inte administratör
+                if (passwordString.equals(sqlAnswerP) && sqlAnswerA.equals("N")) {
                     JOptionPane.showMessageDialog(this, "You are not an administrator, please select Agent as login type");
                 }
-                
-                if(!passwordString.equals(sqlAnswerP)){
+
+                // Kontrollera om angivet lösenord inte matchar det hämtade lösenordet
+                if (!passwordString.equals(sqlAnswerP)) {
                     JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
                 }
-                
+
             } catch (InfException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            }
         }
-        
-        
-        
-        
-        if(selectedType.equals("Agent")){ //om agent är vald i comboboxen körs denna kod 
-        
-        
-        if(usernameString.isEmpty() || passwordString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
-        }
-           try {
-            String sqlQuestion = "Select Losenord from agent where Epost = '" + usernameString + "'"; 
-            
+
+        if (selectedType.equals("Agent")) {
+            // Kontrollera om användarnamn eller lösenord är tomma och visa felmeddelande-dialogruta om så är fallet
+            if (usernameString.isEmpty() || passwordString.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "You must enter a username as well as a password. Try again!");
+            }
+
+            try {
+                // Hämta lösenordet för agenten baserat på angivet användarnamn
+                String sqlQuestion = "Select Losenord from agent where Epost = '" + usernameString + "'";
+                // Hämta svaret på SQL-frågan
                 String sqlAnswer = idb.fetchSingle(sqlQuestion);
-                
-                if(passwordString.equals(sqlAnswer)){
+
+                // Kontrollera om angivet lösenord matchar det hämtade lösenordet
+                if (passwordString.equals(sqlAnswer)) {
                     dispose();
+                    // Öppna agentens startsida
                     AgentHomePage agentPage = new AgentHomePage(idb);
                     agentPage.setVisible(true);
                 }
-                
-                if(!passwordString.equals(sqlAnswer)){
+
+                if (!passwordString.equals(sqlAnswer)) {
                     JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
                 }
-           
-          
-          } catch (InfException ex) {
+                // Kontrollera om angivet lösenord inte matchar det hämtade lösenordet
+                // Visa felmeddelande-dialogruta om användarnamn eller lösenord är inkorrekta
+
+            } catch (InfException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-        } 
-        
-        if (selectedType.equals("Alien")){ // om alien är vald i comboboxen körs denna kod 
-            String alienUser = userNameField.getText();
-            char[] alienPassChar = passwordField.getPassword();
-            String alienPassword = new String (alienPassChar);
-            
-            if(alienUser.isEmpty() || alienPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You must enter an username as well as a password. Try again!");
+            }
         }
-          try {
-             String sqlQuestionAlien = "SELECT Losenord from alien WHERE Epost = '" + usernameString + "'";
-             
-             String sqlAnswerAlien = idb.fetchSingle(sqlQuestionAlien);
-             if(passwordString.equals(sqlAnswerAlien)){
-                 dispose();
-                 AlienHomePage alienHomeP = new AlienHomePage(idb);
-                 alienHomeP.setVisible(true);
-             }
-             
-             if(!passwordString.equals(sqlAnswerAlien)){
-                 JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
-             }
-            
-        } catch (InfException ex) {
-                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-        
-        } 
+
+
+            if (selectedType.equals("Alien")) { // om alien är vald i comboboxen körs denna kod 
+                String alienUser = userNameField.getText();
+                char[] alienPassChar = passwordField.getPassword();
+                String alienPassword = new String(alienPassChar);
+
+                if (alienUser.isEmpty() || alienPassword.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "You must enter an username as well as a password. Try again!");
+                }
+                // Kontrollera om användarnamn eller lösenord för Alien är tomma och visa felmeddelande-dialogruta om så är fallet
+
+                try {
+                    String sqlQuestionAlien = "SELECT Losenord from alien WHERE Epost = '" + usernameString + "'";
+                    String sqlAnswerAlien = idb.fetchSingle(sqlQuestionAlien);
+
+                    if (passwordString.equals(sqlAnswerAlien)) {
+                        LoginForm.this.dispose();
+                        AlienHomePage alienHomeP = new AlienHomePage(idb);
+                        alienHomeP.setVisible(true);
+                    }
+                    // Kontrollera om angivet lösenord matchar det hämtade Alien-lösenordet
+                    // Öppna AlienHomePage-fönstret om lösenordet är korrekt
+
+                    if (!passwordString.equals(sqlAnswerAlien)) {
+                        JOptionPane.showMessageDialog(this, "Username or password is incorrect!");
+                    }
+                    // Visa felmeddelande-dialogruta om angivet lösenord inte matchar det hämtade Alien-lösenordet
+
+                } catch (InfException ex) {
+                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
