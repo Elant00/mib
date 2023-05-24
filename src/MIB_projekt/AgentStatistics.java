@@ -149,7 +149,7 @@ public class AgentStatistics extends javax.swing.JFrame {
                 topListTextArea.setText(displayResult);
             } else {
                 // Om det inte finns några aliens i området, visa ett meddelande
-                topListTextArea.setText("Det finns inga aliens i det här området för tillfället.");
+                topListTextArea.setText("There are no aliens in the currently selected area. ");
             }
 
         } catch (InfException ex) {
