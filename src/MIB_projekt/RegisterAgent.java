@@ -214,59 +214,46 @@ public class RegisterAgent extends javax.swing.JFrame {
         String password = passwordText.getText();
         String area = areaText.getText();
         String sqlCheckArea = "SELECT Omrades_ID from omrade WHERE Omrades_ID = " + area;
-    try {
-        
-        
-        if (validator.isEmpty(agentID) || validator.isEmpty(name) || validator.isEmpty(phone)
-                || validator.isEmpty(employDate) || validator.isEmpty(admin)
-                || validator.isEmpty(email) || validator.isEmpty(password) || validator.isEmpty(area)) {
-            JOptionPane.showMessageDialog(this, "You must enter info into every field to register a new agent, please try again");
-        }
-        
-        String sqlAnswer = idb.fetchSingle(sqlCheckArea);
-        
-        if(validator.checkIfNull(sqlAnswer)){
-            JOptionPane.showMessageDialog(this, "There is no area registered with the ID: " + area);
-        }
-        
-        else if(!email.endsWith("@mib.net")){
-            JOptionPane.showMessageDialog(this, "Email must end with '@mib.net'");
-        }
-        
-        else if(!validator.isNumeric(phone)){
-            JOptionPane.showMessageDialog(this, "You must enter a numerical phone number, " + phone + " does not work");
-        }
-        
-        else if (password.length() > 6) {
-            JOptionPane.showMessageDialog(areaText, "Please enter 6 charachters maximum on the password field");
-        }
+        try {
 
-        else if (area.isEmpty()) {
-            area = null;
-        } else if (!validator.isValidDate(employDate)) {
-            JOptionPane.showMessageDialog(this, "You must enter the employment date as xxxx-xx-xx");
-        } 
+            if (validator.isEmpty(agentID) || validator.isEmpty(name) || validator.isEmpty(phone)
+                    || validator.isEmpty(employDate) || validator.isEmpty(admin)
+                    || validator.isEmpty(email) || validator.isEmpty(password) || validator.isEmpty(area)) {
+                JOptionPane.showMessageDialog(this, "You must enter info into every field to register a new agent, please try again");
+            }
 
-       
-            String query = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentID;
-            String result = idb.fetchSingle(query);
-            
+            String sqlAnswer = idb.fetchSingle(sqlCheckArea);
 
-            if (!validator.checkIfNull(result)) {
-                JOptionPane.showMessageDialog(this, " Agent with ID: " + agentID + " already exists in the database.");
+            if (validator.checkIfNull(sqlAnswer)) {
+                JOptionPane.showMessageDialog(this, "There is no area registered with the ID: " + area);
+            } else if (!email.endsWith("@mib.net")) {
+                JOptionPane.showMessageDialog(this, "Email must end with '@mib.net'");
+            } else if (!validator.isNumeric(phone)) {
+                JOptionPane.showMessageDialog(this, "You must enter a numerical phone number, " + phone + " does not work");
+            } else if (password.length() > 6) {
+                JOptionPane.showMessageDialog(areaText, "Please enter 6 charachters maximum on the password field");
+            } else if (area.isEmpty()) {
+                area = null;
+            } else if (!validator.isValidDate(employDate)) {
+                JOptionPane.showMessageDialog(this, "You must enter the employment date as xxxx-xx-xx");
             } else {
-                if(admin.length() > 1){
-                    JOptionPane.showMessageDialog(this, "You must enter either 'J' or 'J' into the admin field, one charachter only");
+
+                String query = "SELECT Agent_ID from agent WHERE Agent_ID = " + agentID;
+                String result = idb.fetchSingle(query);
+
+                if (!validator.checkIfNull(result)) {
+                    JOptionPane.showMessageDialog(this, " Agent with ID: " + agentID + " already exists in the database.");
+                } else {
+                    if (admin.length() > 1) {
+                        JOptionPane.showMessageDialog(this, "You must enter either 'J' or 'J' into the admin field, one charachter only");
+                    } else if (admin.startsWith("J") || admin.startsWith("N")) {
+                        idb.insert("INSERT INTO agent (Agent_ID, Namn, Telefon, Anstallningsdatum, Administrator, Epost, Losenord, Omrade) VALUES ('" + agentID + "', '" + name + "' , '" + phone + "' , '" + employDate + "',  '" + admin + "' , '" + email + "', '" + password + "' , '" + area + "')");
+                        JOptionPane.showMessageDialog(this, "Agent with ID " + agentID + " was added do the database.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "You must enter either 'J' or 'N' into the admin field");
+                    }
+
                 }
-                else if(admin.startsWith("J")||admin.startsWith("N")){
-                idb.insert("INSERT INTO agent (Agent_ID, Namn, Telefon, Anstallningsdatum, Administrator, Epost, Losenord, Omrade) VALUES ('" + agentID + "', '" + name + "' , '" + phone + "' , '" + employDate + "',  '" + admin + "' , '" + email + "', '" + password + "' , '" + area + "')");
-                JOptionPane.showMessageDialog(this, "Agent with ID " + agentID + " was added do the database.");
-                }
-                
-                else{
-                    JOptionPane.showMessageDialog(this, "You must enter either 'J' or 'N' into the admin field");
-                }
-                
             }
         } catch (InfException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
