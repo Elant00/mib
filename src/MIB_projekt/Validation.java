@@ -4,12 +4,16 @@
  */
 package MIB_projekt;
 
+
 /**
  *
  * @author antti
  */
 public class Validation {
     
+  
+
+
     
     public boolean isEmpty(String textFieldCheck){
     String textField = textFieldCheck;
@@ -40,6 +44,10 @@ public boolean isValidDate(String stringIn){
     String pattern = "\\d{4}-\\d{2}-\\d{2}";
     return stringIn.matches(pattern);
 }
+
+
+
+
 
 
     

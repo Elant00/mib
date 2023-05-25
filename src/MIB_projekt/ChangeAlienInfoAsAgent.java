@@ -43,66 +43,47 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        responsibleAgentField = new javax.swing.JTextField();
-        changeAgent = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        newRaceText = new javax.swing.JTextField();
-        phoneNumberField = new javax.swing.JTextField();
-        changeName1 = new javax.swing.JButton();
-        areaField = new javax.swing.JTextField();
-        backButton = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        alienIDText = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
-        changeName = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        changePassword = new javax.swing.JButton();
         nameField = new javax.swing.JTextField();
         changePhone = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        changePassword = new javax.swing.JButton();
+        passwordField = new javax.swing.JTextField();
+        changeName = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        alienIDText = new javax.swing.JTextField();
+        backButton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        areaField = new javax.swing.JTextField();
+        phoneNumberField = new javax.swing.JTextField();
+        changeName1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        newRaceText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        responsibleAgentField = new javax.swing.JTextField();
+        changeAgent = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         changeArea = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        changeAgent.setText("Confirm change");
-        changeAgent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeAgentActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Change area");
-
         jLabel2.setText("Change race to:");
 
-        jLabel6.setText("Change responsible agent");
-
-        phoneNumberField.addActionListener(new java.awt.event.ActionListener() {
+        changePhone.setText("Confirm change");
+        changePhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phoneNumberFieldActionPerformed(evt);
+                changePhoneActionPerformed(evt);
             }
         });
 
-        changeName1.setText("Confirm change");
-        changeName1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setText("Change password:");
+
+        changePassword.setText("Confirm change");
+        changePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeName1ActionPerformed(evt);
+                changePasswordActionPerformed(evt);
             }
         });
-
-        backButton.setText("Back");
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("Enter alienID here:");
-
-        jLabel1.setText("Change name:");
 
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,19 +98,38 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Change password:");
+        jLabel1.setText("Change name:");
 
-        changePassword.setText("Confirm change");
-        changePassword.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changePasswordActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
 
-        changePhone.setText("Confirm change");
-        changePhone.addActionListener(new java.awt.event.ActionListener() {
+        jLabel7.setText("Enter alienID here:");
+
+        phoneNumberField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changePhoneActionPerformed(evt);
+                phoneNumberFieldActionPerformed(evt);
+            }
+        });
+
+        changeName1.setText("Confirm change");
+        changeName1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeName1ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Change responsible agent");
+
+        jLabel5.setText("Change area");
+
+        changeAgent.setText("Confirm change");
+        changeAgent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeAgentActionPerformed(evt);
             }
         });
 
@@ -249,31 +249,109 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void changeAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAgentActionPerformed
-        String newAgent = responsibleAgentField.getText();
-        String alienID = alienIDText.getText();
-
-        String sqlQuestion = "UPDATE alien SET Ansvarig_Agent = '" + newAgent + "' WHERE Alien_ID = '" + alienID + "*";
-        String sqlCheckAgent = "SELECT Agent_ID from agent where Agent_ID = '" + newAgent + "'"; //sql kod för att kolla om agent finns med angivet agentID
-
-        if(newAgent.isEmpty()){
-            JOptionPane.showMessageDialog(this, "You must enter a value");
-        }
-        try{
-            String sqlCheck = idb.fetchSingle(sqlCheckAgent);
-            if(sqlCheck == null){
-                JOptionPane.showMessageDialog(this, "There is no excisting agent with this ID");
-            }
-
-            if(!newAgent.isEmpty()){
-                idb.update(sqlQuestion); //uppdaterar ansvarade agent
-            }
-
-        }catch (InfException ex) {
+    public boolean checkIfExists(String sql) {
+        boolean exists = true;
+        try {
+            String existsS = idb.fetchSingle(sql);
+            if(existsS == null) {
+                return false;
+            } 
+            
+        } catch (InfException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        return exists;
+    }
+    
+    private void changePhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePhoneActionPerformed
+        String newPhone = phoneNumberField.getText();
+        String alienID = alienIDText.getText();
+        String sqlQuestion = "UPDATE alien set Telefon = '" + newPhone + "' WHERE Alien_ID = '" + alienID + "'";
+        String sqlCheck = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
 
-    }//GEN-LAST:event_changeAgentActionPerformed
+        if (validator.isEmpty(alienID)) {
+            JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
+        } else if (validator.isEmpty(newPhone)) { // kollar om angivet telefonnummer är tomt
+            JOptionPane.showMessageDialog(this, "You need to enter a new phone number");
+        } else if (!checkIfExists(sqlCheck)) {
+            JOptionPane.showMessageDialog(this, "There is no alien with this ID");
+        } else if (!validator.isNumeric(newPhone)) {
+            JOptionPane.showMessageDialog(this, "Please enter a numeric phone number");
+        } else {
+            try {
+                if (!newPhone.isEmpty()) {
+                    idb.update(sqlQuestion); // uppdaterar telefonnummer
+                    JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
+                }
+            } catch (InfException ex) {
+                java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_changePhoneActionPerformed
+
+    private void changePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordActionPerformed
+        String newPass = passwordField.getText();
+        String alienID = alienIDText.getText();
+        String sqlQuestion = "UPDATE alien SET Losenord = '" + newPass + "' WHERE Alien_ID = '" + alienID + "'";
+        String sqlCheck1 = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
+
+        if (validator.isEmpty(alienID)) {
+            JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
+        } else if (validator.isEmpty(newPass)) { // kollar om nytt lösenord är tomt
+            JOptionPane.showMessageDialog(this, "Please enter a new password");
+
+        } else if (!checkIfExists(sqlCheck1)) {
+            JOptionPane.showMessageDialog(this, "There is no alien with this ID");
+        } else {
+
+            try {
+                if (!newPass.isEmpty()) {
+                    idb.update(sqlQuestion); //uppdaterar lösenord
+                    JOptionPane.showMessageDialog(this, "Password has been updated");
+                }
+
+            } catch (InfException ex) {
+                java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_changePasswordActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void changeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeNameActionPerformed
+        String alienIdt = alienIDText.getText();
+        String newName = nameField.getText();
+        String sqlQuestion = "UPDATE alien SET Namn = '" + newName + "' WHERE Alien_ID = '" + alienIdt + "'"; // SQL-uppdateringsfråga för att ändra namnet på alien med specificerat Alien_ID
+        String sqlCheck = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienIdt; // SQL-fråga för att kontrollera om det finns en alien med det angivna Alien_ID
+
+        if (validator.isEmpty(alienIdt)) { // Kontrollera om alienIdt är tomt
+            JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID"); // Visa ett meddelande om att användaren måste ange ett Alien_ID
+        } else if (validator.isEmpty(newName)) { // Kontrollera om både newName och alienIdt är tomma
+            JOptionPane.showMessageDialog(this, "Please fill the textbox with a name"); // Visa ett meddelande om att användaren måste fylla i ett namn
+        } else if (!checkIfExists(sqlCheck)) { // Kontrollera om det inte finns någon alien med det angivna Alien_ID
+            JOptionPane.showMessageDialog(this, "There is no alien with this ID"); // Visa ett meddelande om att det inte finns någon alien med det angivna Alien_ID
+        } else if (validator.isNumeric(newName)) {
+            JOptionPane.showMessageDialog(this, "You have to enter the name as a string!");
+        } else {
+            try {
+                if (!alienIdt.isEmpty()) { // Kontrollera om alienIdt inte är tomt
+                    idb.update(sqlQuestion); // Uppdatera namnet i databasen genom att köra SQL-uppdateringsfrågan
+                    JOptionPane.showMessageDialog(this, "Name has been updated"); // Visa ett meddelande om att namnet har uppdaterats
+                }
+            } catch (InfException ex) {
+                java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_changeNameActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        dispose();
+        AdminHomePage adminHome = new AdminHomePage(idb);
+        adminHome.setVisible(true);
+
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private void phoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberFieldActionPerformed
 
@@ -301,46 +379,52 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
         String sqlQuestionSquid = "INSERT INTO squid (Alien_ID) VALUES (" + alienID + ")";
         String sqlRemoveSquid = "DELETE FROM squid WHERE Alien_ID = " + alienID;
 
-        String sqlCheckWhatRace = "SELECT COALESCE(" +
-        "(SELECT 'squid' FROM squid WHERE Alien_ID = " + alienID + "), " +
-        "(SELECT 'worm' FROM worm WHERE Alien_ID = " + alienID + "), " +
-        "(SELECT 'boglodite' FROM boglodite WHERE Alien_ID = " + alienID + ") " +
-        ");";
+        String sqlCheckWhatRace = "SELECT COALESCE("
+        + "(SELECT 'squid' FROM squid WHERE Alien_ID = " + alienID + "), "
+        + "(SELECT 'worm' FROM worm WHERE Alien_ID = " + alienID + "), "
+        + "(SELECT 'boglodite' FROM boglodite WHERE Alien_ID = " + alienID + ") "
+        + ");";
 
-        String sqlCheckIfRaceExists = "SELECT COUNT(*) " +
-        "FROM information_schema.tables " +
-        "WHERE table_schema = 'mibdb' AND table_name = '" + newRace + "'";
+        String sqlCheckIfRaceExists = "SELECT COUNT(*) "
+        + "FROM information_schema.tables "
+        + "WHERE table_schema = 'mibdb' AND table_name = '" + newRace + "'";
 
-        try{
+        try {
             String answerAlienID = idb.fetchSingle(sqlCheckIfAlienExists);
             ArrayList<HashMap<String, String>> result = idb.fetchRows(sqlCheckIfRaceExists);
             HashMap<String, String> row = result.get(0);
             String count = row.get("COUNT(*)");
             int tableCount = Integer.parseInt(count); // returnerar antalet tabeller som finns av rasen man anger, är det 0 så innebär det att rasen ej finns som tabell
 
-            if(validator.isEmpty(alienID) || validator.isEmpty(newRace)){
-                JOptionPane.showMessageDialog(this, "You must enter an alienID and a new race");
-            }
-            if(validator.checkIfNull(answerAlienID)){
-                JOptionPane.showMessageDialog(this, "This alienID does not exist");
+            if (validator.isEmpty(alienID)) {
+                JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
             }
 
-            else if(tableCount == 0){
+            else if (validator.isEmpty(newRace)) {
+                JOptionPane.showMessageDialog(this, "You must enter a new race");
+            }
+            else if (validator.checkIfNull(answerAlienID)) {
+                JOptionPane.showMessageDialog(this, "This alienID does not exist");
+            } else if (tableCount == 0) {
                 JOptionPane.showMessageDialog(this, "There is no race with this name");
-            } else{
+            } else {
 
                 ArrayList<HashMap<String, String>> list = idb.fetchRows(sqlCheckWhatRace); // går igenom alla typer av raser och returnerar rasnamn där alienIDt finns
-                for(HashMap<String, String> alienRace : list){
-                    for(String key : alienRace.keySet()){
+                for (HashMap<String, String> alienRace : list) {
+                    for (String key : alienRace.keySet()) {
                         raceType = alienRace.get(key);
 
-                        if(raceType.equals("boglodite")){
+                        if(validator.checkIfNull(raceType)){
+                            JOptionPane.showMessageDialog(this, "This AlienID is not connected to any race");
+                        }
+
+                        else if (raceType.equals("boglodite")) {
                             isBoglodite = true;
                         }
-                        if(raceType.equals("worm")){
+                        else if (raceType.equals("worm")) {
                             isWorm = true;
                         }
-                        if(raceType.equals("squid")){
+                        else if (raceType.equals("squid")) {
                             isSquid = true;
                         }
 
@@ -348,23 +432,21 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
 
                 }
 
-                if(newRace.equals(raceType)){
+                if (newRace.equals(raceType)) {
                     JOptionPane.showMessageDialog(this, "The alien is already of this race!");
                 } else {
 
-                    if(isBoglodite){  // om alienID var en boglodite tar den bort denne ur boglodite tabellen
+                    if (isBoglodite) {  // om alienID var en boglodite tar den bort denne ur boglodite tabellen
                         idb.delete(sqlRemoveBoglo);
                     }
 
-                    if(isWorm){   // om alienID var en worm tar den bort denne ur boglodite tabellen
+                    if (isWorm) {   // om alienID var en worm tar den bort denne ur boglodite tabellen
                         idb.delete(sqlRemoveWorm);
                     }
 
-                    if(isSquid){  // om alienID var en squid tar den bort denne ur boglodite tabellen
+                    if (isSquid) {  // om alienID var en squid tar den bort denne ur boglodite tabellen
                         idb.delete(sqlRemoveSquid);
-                    }
-
-                    else if(newRace.equals("boglodite")){ //kommer in i denna else if om man lagt in "boglodite" som ras
+                    } else if (newRace.equals("boglodite")) { //kommer in i denna else if om man lagt in "boglodite" som ras
                         idb.insert(sqlQuestionBoglo);
                         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
                         button.addActionListener(e -> {
@@ -377,16 +459,15 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Boglodite boogies updated successfully!");
 
                             } catch (InfException ex) {
-                                System.out.println("An exception occurred: " + ex.getMessage());}
+                                System.out.println("An exception occurred: " + ex.getMessage());
+                            }
                         });
 
                         frame.add(button);
                         frame.setSize(400, 300);
                         frame.setVisible(true);
 
-                    }
-
-                    else if(newRace.equals("worm")){ //kommer in i denna else if om man lagt in "worm" som ras
+                    } else if (newRace.equals("worm")) { //kommer in i denna else if om man lagt in "worm" som ras
                         idb.insert(sqlQuestionWorm);
                         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
                         button.addActionListener(e -> {
@@ -399,16 +480,15 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Worm length updated successfully!");
 
                             } catch (InfException ex) {
-                                System.out.println("An exception occurred: " + ex.getMessage());}
+                                System.out.println("An exception occurred: " + ex.getMessage());
+                            }
                         });
 
                         frame.add(button);
                         frame.setSize(400, 300);
                         frame.setVisible(true);
 
-                    }
-
-                    else if(newRace.equals("squid")){ //kommer in i denna else if om man lagt in "squid" som ras
+                    } else if (newRace.equals("squid")) { //kommer in i denna else if om man lagt in "squid" som ras
                         idb.insert(sqlQuestionSquid);
                         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
                         button.addActionListener(e -> {
@@ -421,7 +501,8 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Squid arms updated successfully!");
 
                             } catch (InfException ex) {
-                                System.out.println("An exception occurred: " + ex.getMessage());}
+                                System.out.println("An exception occurred: " + ex.getMessage());
+                            }
                         });
 
                         frame.add(button);
@@ -435,108 +516,72 @@ public class ChangeAlienInfoAsAgent extends javax.swing.JFrame {
             }
 
         } catch (InfException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_changeName1ActionPerformed
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        dispose();
-        AgentActionPage actionPage = new AgentActionPage(idb);
-        actionPage.setVisible(true);
-
-    }//GEN-LAST:event_backButtonActionPerformed
-
-    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-
-    }//GEN-LAST:event_passwordFieldActionPerformed
-
-    private void changeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeNameActionPerformed
-
-        String alienIdt = alienIDText.getText();
-        String newName = nameField.getText();
-
-        String sqlQuestion = "UPDATE alien SET Namn = '" + newName + "' WHERE Alien_ID = '" + alienIdt + "'";
-        if(validator.isEmpty(newName) && validator.isEmpty(alienIdt)){ //Kollar om AlienID eller nytt namn är tomt
-            JOptionPane.showMessageDialog(this, "Please fill the textbox with a name and enter an Alien_ID");
-        }
-
-        try{
-            if(!alienIdt.isEmpty()){
-                idb.update(sqlQuestion); // uppdaterar namn
-                JOptionPane.showMessageDialog(this, "Name has been updated");
-            }
-        } catch (InfException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_changeNameActionPerformed
-
-    private void changePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordActionPerformed
-        String newPass = passwordField.getText();
+    private void changeAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAgentActionPerformed
+        String newAgent = responsibleAgentField.getText();
         String alienID = alienIDText.getText();
+        String sqlQuestion = "UPDATE alien SET Ansvarig_Agent = '" + newAgent + "' WHERE Alien_ID = '" + alienID + "'";
+        String sqlCheckAgent = "SELECT Agent_ID from agent where Agent_ID = '" + newAgent + "'"; //sql kod för att kolla om agent finns med angivet agentID
+        String sqlCheck1 = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
 
-        String sqlQuestion = "UPDATE alien SET Losenord = '" + newPass + "' WHERE Alien_ID = '" + newPass +"'";
+        if (validator.isEmpty(alienID)) {
+            JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
+        } else if (validator.isEmpty(newAgent)) {
+            JOptionPane.showMessageDialog(this, "You must enter a value");
+        } else if (!checkIfExists(sqlCheck1)) {
+            JOptionPane.showMessageDialog(this, "There is no alien with this ID");
+        } else if (validator.isNumeric(newAgent)) {
+            JOptionPane.showMessageDialog(this, "You have to enter the agent by ID!");
+        } else {
 
-        if(validator.isEmpty(newPass)){ // kollar om nytt lösenord är tomt
-            JOptionPane.showMessageDialog(this, "Please enter a new password");
-        }
-        try{
-            if(!newPass.isEmpty()){
-                idb.update(sqlQuestion); //uppdaterar lösenord
-                JOptionPane.showMessageDialog(this, "Password has been updated");
+            try {
+                String sqlCheck = idb.fetchSingle(sqlCheckAgent);
+                if (sqlCheck == null) {
+                    JOptionPane.showMessageDialog(this, "There is no excisting agent with this ID");
+                } else if (!newAgent.isEmpty()) {
+                    idb.update(sqlQuestion); //uppdaterar ansvarade agent
+                    JOptionPane.showMessageDialog(this, "Responsible agent has been updated");
+
+                }
+
+            } catch (InfException ex) {
+                java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-
-        }catch (InfException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_changePasswordActionPerformed
-
-    private void changePhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePhoneActionPerformed
-        String newPhone = phoneNumberField.getText();
-        String alienID = alienIDText.getText();
-
-        String sqlQuestion = "UPDATE alien set Telefon = '" + newPhone + "' WHERE Alien_ID = '" + alienID + "'";
-
-        if(validator.isEmpty(newPhone)){ // kollar om angivet telefonnummer är tomt
-            JOptionPane.showMessageDialog(this, "You need to enter a new phone number");
-        }
-
-        else if(!validator.isNumeric(newPhone)){
-            JOptionPane.showMessageDialog(this, "Please enter a numeric phone number");
-        }
-
-        try{
-            if(!newPhone.isEmpty()){
-                idb.update(sqlQuestion); // uppdaterar telefonnummer
-                JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
-            }
-        }catch (InfException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_changePhoneActionPerformed
+    }//GEN-LAST:event_changeAgentActionPerformed
 
     private void changeAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAreaActionPerformed
         String newArea = areaField.getText();
         String alienID = alienIDText.getText();
-
         String sqlQuestion = "UPDATE alien SET plats = '" + newArea + "' WHERE Alien_ID = '" + alienID + "'";
+        String sqlCheck1 = "SELECT Alien_ID from alien WHERE Alien_ID = " + alienID;
+        String sqlCheck2 = "SELECT Omrades_ID from omrade WHERE Omrades_ID = " + newArea;
 
-        if(validator.isEmpty(newArea)){  // kollar om nytt omrade är tomt
+        if (validator.isEmpty(alienID)) {
+            JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
+        } else if (validator.isEmpty(newArea)) {  // kollar om nytt omrade är tomt
             JOptionPane.showMessageDialog(this, "You muster enter an area");
-        }
+        } else if (!checkIfExists(sqlCheck1)) {
+            JOptionPane.showMessageDialog(this, "There is no alien with this ID");
+        } else if (!checkIfExists(sqlCheck2)) {
+            JOptionPane.showMessageDialog(this, "There is no area with this ID");
+        } else if (!validator.isNumeric(newArea)) {
+            JOptionPane.showMessageDialog(this, "You have to enter the area by ID!");
+        } else {
 
-        else{
-
-            try{
+            try {
 
                 idb.update(sqlQuestion); // uppdaterar områda
                 JOptionPane.showMessageDialog(this, "Area has been updated");
 
-            }catch (InfException ex) {
+            } catch (InfException ex) {
                 java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }}
+            }
+        }
     }//GEN-LAST:event_changeAreaActionPerformed
 
     /**
