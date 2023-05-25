@@ -14,22 +14,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.util.Date;
 
-
-
 /**
  *
  * @author emilrydberg
  */
 public class RegisterEquipment extends javax.swing.JFrame {
-    
+
     Validation validator = new Validation();
 
-
-   private static InfDB idb;
+    private static InfDB idb;
     // Create a connection to the database
 
     /**
      * Creates new form LoginForm
+     *
      * @param iidb
      */
     public RegisterEquipment(InfDB iidb) {
@@ -185,7 +183,7 @@ public class RegisterEquipment extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeActionPerformed
-        
+
     }//GEN-LAST:event_comboTypeActionPerformed
 
     private void AgentIDTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgentIDTextActionPerformed
@@ -201,42 +199,24 @@ public class RegisterEquipment extends javax.swing.JFrame {
         String sqlCheck = "SELECT Agent_ID from agent where Agent_ID = " + agentId;
         String sqlCheck1 = "SELECT Utrustnings_ID from Utrustning where Utrustnings_ID = " + equipmentId;
         try {
-            
+
             if (validator.isEmpty(agentId)) { //kolla så att information skrivs in 
-            JOptionPane.showMessageDialog(this, "You must enter an Agent_ID to register equipment");
-        }
-            else if(validator.isEmpty(equipmentId)){
+                JOptionPane.showMessageDialog(this, "You must enter an Agent_ID to register equipment");
+            } else if (validator.isEmpty(equipmentId)) {
                 JOptionPane.showMessageDialog(this, "You must enter an equipmentID to register equipment");
-            }
-            
-            else if(validator.isEmpty(equipmentName)){
+            } else if (validator.isEmpty(equipmentName)) {
                 JOptionPane.showMessageDialog(this, "You must enter an equipment name to register equipment");
-            }
-            
-        else if(!validator.isValidDate(newDate)){
-            JOptionPane.showMessageDialog(this, "Date must be entered in format xxxx-xx-xx");
-        }
-        else if(!validator.isNumeric(equipmentId)){
+            } else if (!validator.isValidDate(newDate)) {
+                JOptionPane.showMessageDialog(this, "Date must be entered in format xxxx-xx-xx");
+            } else if (!validator.isNumeric(equipmentId)) {
                 JOptionPane.showMessageDialog(this, "You must enter a numerical value as an equipmentID");
-            }
-        else if(!validator.isNumeric(agentId)){
-            JOptionPane.showMessageDialog(this, "Please enter agentID and not a string");
-        }
-       
-          
-     
-        else if (validator.checkIfNull(idb.fetchSingle(sqlCheck))) {
+            } else if (!validator.isNumeric(agentId)) {
+                JOptionPane.showMessageDialog(this, "Please enter agentID and not a string");
+            } else if (validator.checkIfNull(idb.fetchSingle(sqlCheck))) {
                 JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
-            }            
-            else if (!validator.checkIfNull(idb.fetchSingle(sqlCheck1))) {
+            } else if (!validator.checkIfNull(idb.fetchSingle(sqlCheck1))) {
                 JOptionPane.showMessageDialog(this, "This equipment_ID already exists!");
-            }
-            
-            
-            
-            else if (selectedType.equalsIgnoreCase("Vapen")) {
-                idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
-                idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
+            } else if (selectedType.equalsIgnoreCase("Vapen")) {
 
                 JFrame frame = new JFrame("Extra information:");
                 frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
@@ -244,15 +224,14 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
-                    if(validator.isEmpty(input)){
+                    if (validator.isEmpty(input)) {
                         JOptionPane.showMessageDialog(this, "Please enter a value");
-                    }
-                    else if(!validator.isNumeric(input)){
+                    } else if (!validator.isNumeric(input)) {
                         JOptionPane.showMessageDialog(this, "You must enter a numeric value on 'Kaliber'");
-                    }
-                    else{
+                    } else {
                         try {
-
+                            idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                            idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
                             String tableName = "vapen";
                             int quantity = Integer.parseInt(input);
                             idb.insert("INSERT INTO " + tableName + "  (vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
@@ -276,15 +255,14 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
-                    if(validator.isEmpty(input)){
+                    if (validator.isEmpty(input)) {
                         JOptionPane.showMessageDialog(this, "Please enter a value");
-                    }
-                    else if(validator.isNumeric(input)){
+                    } else if (validator.isNumeric(input)) {
                         JOptionPane.showMessageDialog(this, "'Kraftkälla' must be entered as a string");
-                    }
-                    else{
+                    } else {
                         try {
-
+                            idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                            idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
                             String tableName = "teknik";
                             String kraftkalla = input;
                             idb.insert("INSERT INTO " + tableName + " (teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
@@ -308,15 +286,14 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
-                    if(validator.isEmpty(input)){
+                    if (validator.isEmpty(input)) {
                         JOptionPane.showMessageDialog(this, "Please enter a value");
-                    }
-                    else if(validator.isNumeric(input)){
+                    } else if (validator.isNumeric(input)) {
                         JOptionPane.showMessageDialog(this, "'Överföringsteknik' must be entered as a string");
-                    }
-                    else{
+                    } else {
                         try {
-
+                            idb.insert("INSERT INTO Utrustning (Utrustnings_ID, Benamning) Values('" + equipmentId + "', '" + equipmentName + "')");
+                            idb.insert("INSERT INTO Innehar_Utrustning (Agent_ID, Utrustnings_ID, Utkvitteringsdatum) Values('" + agentId + "', '" + equipmentId + "', '" + newDate + "')");
                             String tableName = "Kommunikation";
                             String overforingsTeknik = input;
                             idb.insert("INSERT INTO " + tableName + "  (Kommunikation.Utrustnings_ID, Overforingsteknik) Values('" + equipmentId + "', '" + overforingsTeknik + "')");
