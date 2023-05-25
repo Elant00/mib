@@ -20,6 +20,7 @@ public class ChangeSpecificAgentinfo extends javax.swing.JFrame {
 
     /**
      * Creates new form LoginForm
+     *
      * @param iidb
      */
     public ChangeSpecificAgentinfo(InfDB iidb) {
@@ -137,99 +138,88 @@ public class ChangeSpecificAgentinfo extends javax.swing.JFrame {
         String selectedItem = jComboBox1.getSelectedItem().toString();
         String agentID = agentIDT.getText();
         String change = changeText.getText();
-        try{
-            
+        try {
+
             String sqlCheck = idb.fetchSingle("SELECT Agent_ID from agent WHERE Agent_ID = " + agentID);
-            
-        if(validator.isEmpty(agentID) || validator.isEmpty(change)){
-            JOptionPane.showMessageDialog(this, "You must enter an agentID as well as what change to make");
-        }
-    
-        else if(validator.checkIfNull(sqlCheck)){
-            JOptionPane.showMessageDialog(this, "There is no agent with this ID");
-        }
-       
-        
-        if(selectedItem.equals("Name")){
-            if(validator.isNumeric(change)){
-                JOptionPane.showMessageDialog(this, "You cannot enter a numerical value as a name for an agent");
+
+            if (validator.isEmpty(agentID) || validator.isEmpty(change)) {
+                JOptionPane.showMessageDialog(this, "You must enter an agentID as well as what change to make");
+            } else if (validator.checkIfNull(sqlCheck)) {
+                JOptionPane.showMessageDialog(this, "There is no agent with this ID");
             }
-            String sqlQuestion = "UPDATE agent SET Namn = '" + change + "' WHERE Agent_ID = " + agentID;
+
+            if (selectedItem.equals("Name")) {
+                if (validator.isNumeric(change)) {
+                    JOptionPane.showMessageDialog(this, "You cannot enter a numerical value as a name for an agent");
+                }
+                String sqlQuestion = "UPDATE agent SET Namn = '" + change + "' WHERE Agent_ID = " + agentID;
                 idb.update(sqlQuestion);
                 JOptionPane.showMessageDialog(this, "Agent's name for ID: " + agentID + " has been updated to: " + change);
-            
+
+            }
+
+            if (selectedItem.equals("Phonenumber")) {
+                String sqlUpdate = "UPDATE agent SET Telefon = '" + change + "' WHERE Agent_ID = " + agentID;
+                if (!validator.isNumeric(change)) { // Kollar om det nya telefonnumret som lagts in är numeriskt, så att ex inte bara bokstäver läggs in
+                    JOptionPane.showMessageDialog(this, "Please enter a numeric phone number");
+                } else {
+                    idb.update(sqlUpdate);
+                    JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
+                }
+            }
+
+            if (selectedItem.equals("Employment date")) {
+                String sqlEmploye = "UPDATE agent set Anstallningsdatum = '" + change + "' WHERE Agent_ID = " + agentID;
+                if (!validator.isValidDate(change)) {
+                    JOptionPane.showMessageDialog(this, "Input must be in this format with only numbers: xxxx-xx-xx");
+                } else {
+                    idb.update(sqlEmploye);
+                    JOptionPane.showMessageDialog(this, "Employment date has been updated");
+                }
+
+            }
+
+            if (selectedItem.equals("Password")) {
+                String sqlPassword = "UPDATE agent SET Losenord = '" + change + "' WHERE Agent_ID = " + agentID;
+                if (change.length() > 6) {
+                    JOptionPane.showMessageDialog(this, "Password cannot be longer than 6 chars");
+                } else {
+                    idb.update(sqlPassword);
+                    JOptionPane.showMessageDialog(this, "Password has been updated");
+                }
+            }
+
+            if (selectedItem.equals("Area")) {
+                String sqlCheckArea = "SELECT Omrades_ID from omrade WHERE Omrades_ID = " + change;
+                String sqlArea = "UPDATE agent SET Omrade = " + change + " WHERE Agent_ID = " + agentID;
+
+                if (!validator.isNumeric(change)) {
+                    JOptionPane.showMessageDialog(this, "Please enter the new area as numerical, enter an areaID");
+                }
+                String answerArea = idb.fetchSingle(sqlCheckArea);
+                if (validator.checkIfNull(answerArea)) {
+                    JOptionPane.showMessageDialog(this, "There is no area with the ID you have entered");
+                } else {
+                    idb.update(sqlArea);
+                    JOptionPane.showMessageDialog(this, "Area has been updated");
+                }
+
+            }
+
+            if (selectedItem.equals("Email")) {
+                String sqlMail = "UPDATE agent SET Epost = '" + change + "' WHERE Agent_ID = " + agentID;
+                if (!change.endsWith("@mib.net")) {
+                    JOptionPane.showMessageDialog(this, "The email must end in @mib.net");
+                } else {
+                    idb.update(sqlMail);
+                    JOptionPane.showMessageDialog(this, "Email has been updated");
+                }
+
+            }
+
+        } catch (InfException ex) {
+            System.out.println("An exception occurred: " + ex.getMessage());
         }
-        
-        if(selectedItem.equals("Phonenumber")){
-            String sqlUpdate = "UPDATE agent SET Telefon = '" + change + "' WHERE Agent_ID = " + agentID;
-            if(!validator.isNumeric(change)){ // Kollar om det nya telefonnumret som lagts in är numeriskt, så att ex inte bara bokstäver läggs in
-                JOptionPane.showMessageDialog(this, "Please enter a numeric phone number");
-            }
-            
-            else{
-                idb.update(sqlUpdate);
-                JOptionPane.showMessageDialog(this, "Phonenumber has been updated");
-            }
-        }
-        
-        if(selectedItem.equals("Employment date")){
-            String sqlEmploye = "UPDATE agent set Anstallningsdatum = '" + change + "' WHERE Agent_ID = " + agentID;
-            if(!validator.isValidDate(change)){
-                JOptionPane.showMessageDialog(this, "Input must be in this format with only numbers: xxxx-xx-xx");
-            }
-            else{
-            idb.update(sqlEmploye);
-            JOptionPane.showMessageDialog(this, "Employment date has been updated");
-            }
-            
-        }
-        
-        if(selectedItem.equals("Password")){
-            String sqlPassword = "UPDATE agent SET Losenord = '" + change + "' WHERE Agent_ID = " + agentID;
-            if(change.length() > 6){
-                JOptionPane.showMessageDialog(this, "Password cannot be longer than 6 chars");
-            }
-            else{
-                idb.update(sqlPassword);
-                JOptionPane.showMessageDialog(this, "Password has been updated");
-            }
-        }
-        
-        if(selectedItem.equals("Area")){
-            String sqlCheckArea = "SELECT Omrades_ID from omrade WHERE Omrades_ID = " + change;
-            String sqlArea = "UPDATE agent SET Omrade = " + change + " WHERE Agent_ID = " + agentID;
-            
-            
-            if(!validator.isNumeric(change)){
-                JOptionPane.showMessageDialog(this, "Please enter the new area as numerical, enter an areaID");
-            }
-            String answerArea = idb.fetchSingle(sqlCheckArea);
-            if(validator.checkIfNull(answerArea)){
-                JOptionPane.showMessageDialog(this, "There is no area with the ID you have entered");
-            }
-            
-            else{
-                idb.update(sqlArea);
-                JOptionPane.showMessageDialog(this, "Area has been updated");
-            }
-            
-        }
-        
-        if(selectedItem.equals("Email")){
-            String sqlMail = "UPDATE agent SET Epost = '" + change + "' WHERE Agent_ID = " + agentID;
-            if(!change.endsWith("@mib.net")){
-                JOptionPane.showMessageDialog(this, "The email must end in @mib.net");
-            }
-            else{
-                idb.update(sqlMail);
-                JOptionPane.showMessageDialog(this, "Email has been updated");
-            }
-            
-        }
-        
-        
-        }catch (InfException ex) {
-    System.out.println("An exception occurred: " + ex.getMessage());}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
