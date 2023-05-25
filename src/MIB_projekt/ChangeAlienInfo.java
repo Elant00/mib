@@ -453,19 +453,27 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                 + "FROM information_schema.tables "
                 + "WHERE table_schema = 'mibdb' AND table_name = '" + newRace + "'";
 
+        if (validator.isEmpty(alienID)) {
+                JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
+            }
+        else{
         try {
+            // returnerar antalet tabeller som finns av rasen man anger, är det 0 så innebär det att rasen ej finns som tabell
+
+            
             String answerAlienID = idb.fetchSingle(sqlCheckIfAlienExists);
             ArrayList<HashMap<String, String>> result = idb.fetchRows(sqlCheckIfRaceExists);
             HashMap<String, String> row = result.get(0);
             String count = row.get("COUNT(*)");
-            int tableCount = Integer.parseInt(count); // returnerar antalet tabeller som finns av rasen man anger, är det 0 så innebär det att rasen ej finns som tabell
-
-            if (validator.isEmpty(alienID)) {
-                JOptionPane.showMessageDialog(this, "You need to enter an Alien_ID");
-            }
-            else if (validator.isEmpty(newRace)) {
+            int tableCount = Integer.parseInt(count);
+            
+            if (validator.isEmpty(newRace)) {
                 JOptionPane.showMessageDialog(this, "You must enter a new race");
             }
+            else if(validator.checkIfNull(idb.fetchSingle("SELECT Alien_ID from alien WHERE Alien_ID = '" + alienID + "'"))){
+                JOptionPane.showMessageDialog(this, "There is no alien with this ID");
+            }
+            
             else if (validator.checkIfNull(answerAlienID)) {
                 JOptionPane.showMessageDialog(this, "This alienID does not exist");
             } else if (tableCount == 0) {
@@ -514,8 +522,11 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " has been update to race: " + newRace);
                         button.addActionListener(e -> {
                             String input = JOptionPane.showInputDialog(frame, "Enter amount of boogies:");
-
                             String sqlUpdateWorm = "UPDATE boglodite SET Antal_Boogies = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
+                            if (!validator.isNumeric(input)){
+                                JOptionPane.showMessageDialog(this, "You must enter a numerical value");
+                            }
+                            else{
 
                             try {
                                 idb.update(sqlUpdateWorm); //uppdaterar extra information för boglodite
@@ -523,7 +534,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
 
                             } catch (InfException ex) {
                                 System.out.println("An exception occurred: " + ex.getMessage());
-                            }
+                            }}
                         });
 
                         frame.add(button);
@@ -537,14 +548,17 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                             String input = JOptionPane.showInputDialog(frame, "Enter length:");
 
                             String sqlUpdateWorm = "UPDATE worm SET Langd = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
-
+                            if (!validator.isNumeric(input)){
+                                JOptionPane.showMessageDialog(this, "You must enter a numerical value");
+                            }
+                            else{
                             try {
                                 idb.update(sqlUpdateWorm); //uppdaterar extra information om worm
                                 JOptionPane.showMessageDialog(this, "Worm length updated successfully!");
 
                             } catch (InfException ex) {
                                 System.out.println("An exception occurred: " + ex.getMessage());
-                            }
+                            }}
                         });
 
                         frame.add(button);
@@ -558,14 +572,17 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
                             String input = JOptionPane.showInputDialog(frame, "Enter amount of arms:");
 
                             String sqlUpdateWorm = "UPDATE squid SET Antal_Armar = '" + input + "' WHERE Alien_ID = '" + alienID + "'";
-
+                            if (!validator.isNumeric(input)){
+                                JOptionPane.showMessageDialog(this, "You must enter a numerical value");
+                            }
+                            else{
                             try {
                                 idb.update(sqlUpdateWorm);
                                 JOptionPane.showMessageDialog(this, "Squid arms updated successfully!");
 
                             } catch (InfException ex) {
                                 System.out.println("An exception occurred: " + ex.getMessage());
-                            }
+                            }}
                         });
 
                         frame.add(button);
@@ -581,7 +598,7 @@ public class ChangeAlienInfo extends javax.swing.JFrame {
         } catch (InfException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        }
 
     }//GEN-LAST:event_changeName1ActionPerformed
 
