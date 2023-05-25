@@ -205,6 +205,14 @@ public class RegisterEquipment extends javax.swing.JFrame {
             if (validator.isEmpty(agentId)) { //kolla så att information skrivs in 
             JOptionPane.showMessageDialog(this, "You must enter an Agent_ID to register equipment");
         }
+            else if(validator.isEmpty(equipmentId)){
+                JOptionPane.showMessageDialog(this, "You must enter an equipmentID to register equipment");
+            }
+            
+            else if(validator.isEmpty(equipmentName)){
+                JOptionPane.showMessageDialog(this, "You must enter an equipment name to register equipment");
+            }
+            
         else if(!validator.isValidDate(newDate)){
             JOptionPane.showMessageDialog(this, "Date must be entered in format xxxx-xx-xx");
         }
@@ -214,13 +222,13 @@ public class RegisterEquipment extends javax.swing.JFrame {
         else if(!validator.isNumeric(agentId)){
             JOptionPane.showMessageDialog(this, "Please enter agentID and not a string");
         }
-        String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om agentID finns 
-            String sqlCheckB = idb.fetchSingle(sqlCheck1);
+       
+          
      
-         if (validator.checkIfNull(sqlCheckA)) {
+        else if (validator.checkIfNull(idb.fetchSingle(sqlCheck))) {
                 JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
             }            
-            else if (!validator.checkIfNull(sqlCheckB)) {
+            else if (!validator.checkIfNull(idb.fetchSingle(sqlCheck1))) {
                 JOptionPane.showMessageDialog(this, "This equipment_ID already exists!");
             }
             
@@ -236,15 +244,18 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kaliber quantity:");
-                    if(!validator.isNumeric(input)){
+                    if(validator.isEmpty(input)){
+                        JOptionPane.showMessageDialog(this, "Please enter a value");
+                    }
+                    else if(!validator.isNumeric(input)){
                         JOptionPane.showMessageDialog(this, "You must enter a numeric value on 'Kaliber'");
                     }
-                    else if (input != null && !input.isEmpty()) {
+                    else{
                         try {
 
-                            String tableName = "Vapen";
+                            String tableName = "vapen";
                             int quantity = Integer.parseInt(input);
-                            idb.insert("INSERT INTO " + tableName + "  (Vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
+                            idb.insert("INSERT INTO " + tableName + "  (vapen.Utrustnings_ID, Kaliber) Values('" + equipmentId + "'," + quantity + ")");
                             JOptionPane.showMessageDialog(frame, "Updated successfully!");
                         } catch (InfException ex) {
                             Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,9 +282,9 @@ public class RegisterEquipment extends javax.swing.JFrame {
                     else if (input != null && !input.isEmpty()) {
                         try {
 
-                            String tableName = "Teknik";
+                            String tableName = "teknik";
                             String kraftkalla = input;
-                            idb.insert("INSERT INTO " + tableName + "  (Teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
+                            idb.insert("INSERT INTO " + tableName + " (teknik.Utrustnings_ID, Kraftkalla) Values('" + equipmentId + "', '" + kraftkalla + "')");
                             JOptionPane.showMessageDialog(frame, "Updated successfully!");
                         } catch (InfException ex) {
                             Logger.getLogger(RegisterEquipment.class.getName()).log(Level.SEVERE, null, ex);
