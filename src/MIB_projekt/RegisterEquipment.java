@@ -216,6 +216,8 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "There is no Agent with this ID");
             } else if (!validator.checkIfNull(idb.fetchSingle(sqlCheck1))) {
                 JOptionPane.showMessageDialog(this, "This equipment_ID already exists!");
+                
+                
             } else if (selectedType.equalsIgnoreCase("Vapen")) {
 
                 JFrame frame = new JFrame("Extra information:");

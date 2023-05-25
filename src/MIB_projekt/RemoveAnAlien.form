@@ -29,8 +29,8 @@
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Component id="alienIDT" min="-2" pref="72" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="removeButton" min="-2" pref="73" max="-2" attributes="0"/>
-              <EmptySpace pref="59" max="32767" attributes="0"/>
+              <Component id="removeButton" min="-2" pref="107" max="-2" attributes="0"/>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

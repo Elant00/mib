@@ -17,12 +17,13 @@ import oru.inf.InfException;
 public class RemoveAnAlien extends javax.swing.JFrame {
 
     Validation validator = new Validation();
-    
+
     private static InfDB idb;
     // Create a connection to the database
 
     /**
      * Creates new form LoginForm
+     *
      * @param iidb
      */
     public RemoveAnAlien(InfDB iidb) {
@@ -64,8 +65,8 @@ public class RemoveAnAlien extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(alienIDT, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,33 +88,27 @@ public class RemoveAnAlien extends javax.swing.JFrame {
         String sqlSquid = "DELETE FROM squid WHERE Alien_ID = '" + alienID + "'";
         String sqlBogloditen = "DELETE FROM boglodite WHERE Alien_ID = '" + alienID + "'";
         String sqlAlien = "DELETE FROM alien WHERE Alien_ID = '" + alienID + "'";
-        String sqlCheck = "SELECT Alien_ID from alien where Alien_ID = " + alienID;
-        
-        
-        
-        if(validator.isEmpty(alienID)){ //kolla så att information skrivs in 
-            JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
-        }
-        try{
-            String sqlCheckA = idb.fetchSingle(sqlCheck); //kolla om alienID finns 
-            if(validator.checkIfNull(sqlCheckA)){
+        String sqlCheck = "SELECT Alien_ID from alien where Alien_ID = '" + alienID + "'";
+
+        try {
+            if (!validator.isNumeric(alienID)) {
+                JOptionPane.showMessageDialog(this, "You must enter an Alien_ID as a numeric value, not their name");
+            } else if (validator.isEmpty(alienID)) { //kolla så att information skrivs in 
+                JOptionPane.showMessageDialog(this, "You must enter an Alien_ID to remove");
+            } else if (validator.checkIfNull(idb.fetchSingle(sqlCheck))) {
                 JOptionPane.showMessageDialog(this, "There is no Alien with this ID");
-            }
-            
-            if(!alienID.isEmpty()){ // ta bort all information som finns registrerad om specifikt alienID
+            } else {
                 idb.delete(sqlWorm);
                 idb.delete(sqlSquid);
                 idb.delete(sqlBogloditen);
                 idb.delete(sqlAlien);
             }
-            
-        }catch (InfException ex) {
-                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+        } catch (InfException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    
-    
     /**
      * @param args the command line arguments
      */
