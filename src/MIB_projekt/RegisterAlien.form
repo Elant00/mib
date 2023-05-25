@@ -7,6 +7,8 @@
         <Property name="text" type="java.lang.String" value="jButton1"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -36,7 +38,7 @@
               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -59,21 +61,26 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jScrollPane1" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="registryDateText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="emailText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="passwordText" alignment="0" pref="165" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="areaText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="phoneText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="agentText" alignment="0" max="32767" attributes="0"/>
                           <Component id="alienIDText" alignment="0" pref="165" max="32767" attributes="0"/>
+                          <Component id="comboType" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="17" pref="142" max="32767" attributes="0"/>
+              <EmptySpace min="200" pref="189" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -104,7 +111,7 @@
                           <Component id="passwordText" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -124,7 +131,12 @@
                   <Component id="agentText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboType" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
               <Component id="registerButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
           </Group>
@@ -227,6 +239,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Responsible agent:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel10">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Choose race:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboType">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="Worm"/>
+            <StringItem index="1" value="Squid"/>
+            <StringItem index="2" value="Boglodite"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
