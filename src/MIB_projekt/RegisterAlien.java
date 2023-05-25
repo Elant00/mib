@@ -17,7 +17,8 @@ import oru.inf.InfException;
 public class RegisterAlien extends javax.swing.JFrame {
 
     private static InfDB idb;
-    private String alienID;
+    Validation validator = new Validation();
+   
     // Create a connection to the database
 
     /**
@@ -51,12 +52,12 @@ public class RegisterAlien extends javax.swing.JFrame {
         alienIDText = new javax.swing.JTextField();
         areaText = new javax.swing.JTextField();
         registryDateText = new javax.swing.JTextField();
-        nameText = new javax.swing.JTextField();
+        phoneText = new javax.swing.JTextField();
         passwordText = new javax.swing.JTextField();
         emailText = new javax.swing.JTextField();
         registerButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        telefonText = new javax.swing.JTextPane();
+        nameText = new javax.swing.JTextPane();
         jLabel8 = new javax.swing.JLabel();
         agentText = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -97,9 +98,9 @@ public class RegisterAlien extends javax.swing.JFrame {
             }
         });
 
-        nameText.addActionListener(new java.awt.event.ActionListener() {
+        phoneText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameTextActionPerformed(evt);
+                phoneTextActionPerformed(evt);
             }
         });
 
@@ -122,7 +123,7 @@ public class RegisterAlien extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(telefonText);
+        jScrollPane1.setViewportView(nameText);
 
         jLabel8.setText("Phone:");
 
@@ -163,7 +164,7 @@ public class RegisterAlien extends javax.swing.JFrame {
                             .addComponent(passwordText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                             .addComponent(areaText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(nameText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(phoneText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                             .addComponent(agentText)
                             .addComponent(alienIDText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))))
                 .addGap(17, 142, Short.MAX_VALUE))
@@ -200,7 +201,7 @@ public class RegisterAlien extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -229,9 +230,9 @@ public class RegisterAlien extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_registryDateTextActionPerformed
 
-    private void nameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextActionPerformed
+    private void phoneTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextActionPerformed
+    }//GEN-LAST:event_phoneTextActionPerformed
 
     private void passwordTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextActionPerformed
         // TODO add your handling code here:
@@ -248,40 +249,46 @@ public class RegisterAlien extends javax.swing.JFrame {
     String email = emailText.getText();
     String password = passwordText.getText();
     String name = nameText.getText();
-    String telefon = telefonText.getText();
+    String telefon = phoneText.getText();
     String agentID = agentText.getText();
 
-    // Kontrollera om alienID är tomt, i så fall använd null-värde
-    if (alienID.isEmpty()) {
-        alienID = null;
+    try {
+    if(validator.isEmpty(alienID)||validator.isEmpty(area)||validator.isEmpty(registryDate)||
+            validator.isEmpty(email)||validator.isEmpty(password)||validator.isEmpty(name)||
+            validator.isEmpty(telefon)||validator.isEmpty(agentID)){
+        JOptionPane.showMessageDialog(this, "Please fill in all the fields to register an alien");
     }
-    if (password.length() > 6) {
-        JOptionPane.showMessageDialog(areaText, "please 6 charachters maximum");
+    else if(!validator.checkIfNull(idb.fetchSingle("SELECT Alien_ID from alien WHERE Alien_ID = " + alienID))){
+        JOptionPane.showMessageDialog(this, "There is already an alien with this ID, please enter another ID");
     }
-    
-
-    // Kontrollera om area är tomt, i så fall använd null-värde
-    if (area.isEmpty()) {
-        area = null;
+    else if(!validator.isNumeric(area)){
+        JOptionPane.showMessageDialog(this, "You must enter an area ID and not the name of the area");
     }
-
-    
-
-
-
-try {
-    // Check if the alien already exists
-    String query = "SELECT COUNT(*) FROM alien WHERE Alien_ID = '" + alienID + "' AND Plats = '" + area + "'";
-    String result = idb.fetchSingle(query);
-    int count = Integer.parseInt(result);
-
-    if (count > 0) {
-        JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " already exists in the database.");
-    } else {
-        // Insert the new alien with the specified agent ID
+    else if(password.length() > 6){
+        JOptionPane.showMessageDialog(this, "Password cannot be longer than 6 chars");
+    }
+    else if(!email.endsWith("@mib.net")){
+        JOptionPane.showMessageDialog(this, "Email must end with '@mib.net'");
+    }
+    else if(!validator.isValidDate(registryDate)){
+        JOptionPane.showMessageDialog(this, "Registry date must be entered in format: xxxx-xx-xx");
+    }
+    else if(!validator.isNumeric(telefon)){
+        JOptionPane.showMessageDialog(this, "Phone number must be numerical");
+    }
+    else if(validator.checkIfNull(idb.fetchSingle("SELECT Agent_ID from agent WHERE Agent_ID = '" + agentID + "'"))){
+        JOptionPane.showMessageDialog(this, "There is no agent with the entered ID");
+    }
+    else if(validator.checkIfNull(idb.fetchSingle("SELECT Omrades_ID from omrade WHERE Omrades_ID = '" + area + "'"))){
+        JOptionPane.showMessageDialog(this, "There is no area with this ID");
+    }
+    else{
         idb.insert("INSERT INTO alien (Alien_ID, Registreringsdatum, Epost, Losenord, Namn, Telefon, Plats, Ansvarig_Agent) VALUES ('" + alienID + "', '" + registryDate + "', '" + email + "', '" + password + "', '" + name + "', '" + telefon + "', '" + area + "', '" + agentID +"')");
         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " added to the database.");
     }
+
+        
+    
 } catch (InfException ex) {
     Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
 }
@@ -307,10 +314,10 @@ try {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField nameText;
+    private javax.swing.JTextPane nameText;
     private javax.swing.JTextField passwordText;
+    private javax.swing.JTextField phoneText;
     private javax.swing.JButton registerButton;
     private javax.swing.JTextField registryDateText;
-    private javax.swing.JTextPane telefonText;
     // End of variables declaration//GEN-END:variables
 }

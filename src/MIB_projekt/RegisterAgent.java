@@ -232,8 +232,7 @@ public class RegisterAgent extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "You must enter a numerical phone number, " + phone + " does not work");
             } else if (password.length() > 6) {
                 JOptionPane.showMessageDialog(areaText, "Please enter 6 charachters maximum on the password field");
-            } else if (area.isEmpty()) {
-                area = null;
+            
             } else if (!validator.isValidDate(employDate)) {
                 JOptionPane.showMessageDialog(this, "You must enter the employment date as xxxx-xx-xx");
             } else {

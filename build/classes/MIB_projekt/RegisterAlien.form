@@ -67,7 +67,7 @@
                           <Component id="passwordText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="areaText" alignment="0" pref="165" max="32767" attributes="0"/>
-                          <Component id="nameText" alignment="0" pref="165" max="32767" attributes="0"/>
+                          <Component id="phoneText" alignment="0" pref="165" max="32767" attributes="0"/>
                           <Component id="agentText" alignment="0" max="32767" attributes="0"/>
                           <Component id="alienIDText" alignment="0" pref="165" max="32767" attributes="0"/>
                       </Group>
@@ -116,7 +116,7 @@
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="nameText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="phoneText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -182,9 +182,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registryDateTextActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="nameText">
+    <Component class="javax.swing.JTextField" name="phoneText">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="phoneTextActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="passwordText">
@@ -212,7 +212,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextPane" name="telefonText">
+        <Component class="javax.swing.JTextPane" name="nameText">
         </Component>
       </SubComponents>
     </Container>
