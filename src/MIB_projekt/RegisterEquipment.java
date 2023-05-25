@@ -276,10 +276,13 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter kraftkalla:");
-                    if(validator.isNumeric(input)){
+                    if(validator.isEmpty(input)){
+                        JOptionPane.showMessageDialog(this, "Please enter a value");
+                    }
+                    else if(validator.isNumeric(input)){
                         JOptionPane.showMessageDialog(this, "'Kraftkälla' must be entered as a string");
                     }
-                    else if (input != null && !input.isEmpty()) {
+                    else{
                         try {
 
                             String tableName = "teknik";
@@ -305,10 +308,13 @@ public class RegisterEquipment extends javax.swing.JFrame {
                 JButton button = new JButton("Add extra information");
                 button.addActionListener(e -> {
                     String input = JOptionPane.showInputDialog(frame, "Enter Overforingsteknik:");
-                    if(validator.isNumeric(input)){
+                    if(validator.isEmpty(input)){
+                        JOptionPane.showMessageDialog(this, "Please enter a value");
+                    }
+                    else if(validator.isNumeric(input)){
                         JOptionPane.showMessageDialog(this, "'Överföringsteknik' must be entered as a string");
                     }
-                    else if (input != null && !input.isEmpty()) {
+                    else{
                         try {
 
                             String tableName = "Kommunikation";
