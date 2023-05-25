@@ -9,6 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import oru.inf.InfException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+
+
 
 /**
  *
@@ -17,7 +22,7 @@ import oru.inf.InfException;
 public class RegisterAlien extends javax.swing.JFrame {
 
     private static InfDB idb;
-    private String alienID;
+    private int alienID;
     // Create a connection to the database
 
     /**
@@ -41,6 +46,7 @@ public class RegisterAlien extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -60,6 +66,8 @@ public class RegisterAlien extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         agentText = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        comboType = new javax.swing.JComboBox<>();
 
         jButton1.setText("jButton1");
 
@@ -128,6 +136,10 @@ public class RegisterAlien extends javax.swing.JFrame {
 
         jLabel9.setText("Responsible agent:");
 
+        jLabel10.setText("Choose race:");
+
+        comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Worm", "Squid", "Boglodite" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,7 +149,7 @@ public class RegisterAlien extends javax.swing.JFrame {
                 .addComponent(registerButton)
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addComponent(jLabel1))
@@ -155,18 +167,22 @@ public class RegisterAlien extends javax.swing.JFrame {
                                     .addComponent(jLabel7)))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel9)))
+                                .addComponent(jLabel9))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel10)))
                         .addGap(53, 53, 53)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(registryDateText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(emailText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(passwordText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(areaText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(nameText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(agentText)
-                            .addComponent(alienIDText, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))))
-                .addGap(17, 142, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(registryDateText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(emailText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(passwordText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(areaText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(nameText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(agentText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(alienIDText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(comboType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(189, 189, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +222,11 @@ public class RegisterAlien extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agentText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(registerButton)
                 .addGap(18, 18, 18))
         );
@@ -242,7 +262,7 @@ public class RegisterAlien extends javax.swing.JFrame {
     }//GEN-LAST:event_emailTextActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-    String alienID = alienIDText.getText();
+   final var alienID = alienIDText.getText();
     String area = areaText.getText();
     String registryDate = registryDateText.getText();
     String email = emailText.getText();
@@ -250,23 +270,86 @@ public class RegisterAlien extends javax.swing.JFrame {
     String name = nameText.getText();
     String telefon = telefonText.getText();
     String agentID = agentText.getText();
+    String selectedType = comboType.getSelectedItem().toString();
 
-    // Kontrollera om alienID är tomt, i så fall använd null-värde
-    if (alienID.isEmpty()) {
-        alienID = null;
-    }
+  
+   // validitet för lösenord. maximum 6 bokstäver 
     if (password.length() > 6) {
-        JOptionPane.showMessageDialog(areaText, "please 6 charachters maximum");
+        JOptionPane.showMessageDialog(areaText, "please 6 charachters maximum (password)");
     }
+    // validitet för registreringsdatum för alien. måste vara ett datum i rätt format
+    if (registryDate.length() != 10) {
+        JOptionPane.showMessageDialog(areaText, "please enter email as exampled format: 2023-05-24(10 characters");
+    }
+    // validitet för telefonnummer. maximum 30 siffror
+    if (telefon.length()> 30) {
+        JOptionPane.showMessageDialog(areaText,  "Phone number has to be less than 30 digits");
+    }
+     if (name.length() > 20) {
+            JOptionPane.showMessageDialog(areaText, "Name is too long. Maximum is 20 characters!");
+    }
+     if (email.length() > 20) {
+         JOptionPane.showMessageDialog(areaText, "Email is too long. Maximum is 20 characters!");
+     }
+      
+    // Anta att agentID är värdet du vill söka efter
+
+try {
+    // Skapa en SQL-fråga för att söka efter Agent_ID i tabellen
+    String sql = "SELECT Agent_ID FROM agent WHERE Agent_ID = '" + agentID + "'";
+
+    // Utför SQL-frågan och hämta resultatet
+    String existingAgentID = idb.fetchSingle(sql);
+
+    // Kontrollera om resultatet är null, vilket indikerar att inget matchande Agent_ID hittades
+    if (existingAgentID == null) {
+        JOptionPane.showMessageDialog(areaText, "Inget agent registrerad med ID: " + agentID);
     
+    }
+} catch (InfException e) {
+   JOptionPane.showMessageDialog(areaText,"Ett fel uppstod vid sökningen i databasen: " + e.getMessage());
+} try {
+    // Skapa en SQL-fråga för att söka efter Plats_ID i tabellen
+    String sql = "SELECT Plats_ID FROM plats WHERE Plats_ID = '" + area + "'";
+
+    // Utför SQL-frågan och hämta resultatet
+    String existingPlatsID = idb.fetchSingle(sql);
+
+    // Kontrollera om resultatet är null, vilket indikerar att inget matchande Plats_ID hittades
+    if (existingPlatsID == null) {
+        JOptionPane.showMessageDialog(null, "Ingen plats registrerad med ID: " + area);
+    } else {
+        // Platsen hittades, fortsätt med övrig logik här
+        // ...
+    }
+} catch (InfException e) {
+    JOptionPane.showMessageDialog(null, "Ett fel uppstod vid sökningen i databasen: " + e.getMessage());
+}
+try {
+    // Skapa en SQL-fråga för att söka efter Alien_ID i tabellen
+    String sql = "SELECT Alien_ID FROM alien WHERE Alien_ID = '" + alienID + "'";
+
+    // Utför SQL-frågan och hämta resultatet
+    String existingAlienID = idb.fetchSingle(sql);
+
+    // Kontrollera om resultatet är null, vilket indikerar att inget matchande Alien_ID hittades
+    if (existingAlienID == null) {
+        // Inget Alien_ID finns registrerat, fortsätt med önskad logik här
+        // ...
+    } else {
+        JOptionPane.showMessageDialog(null, "Alien med ID: " + alienID + " finns redan registrerad");
+    }
+} catch (InfException e) {
+    JOptionPane.showMessageDialog(null, "Ett fel uppstod vid sökningen i databasen: " + e.getMessage());
+}
+
+
+
 
     // Kontrollera om area är tomt, i så fall använd null-värde
     if (area.isEmpty()) {
         area = null;
     }
-
-    
-
 
 
 try {
@@ -282,9 +365,91 @@ try {
         idb.insert("INSERT INTO alien (Alien_ID, Registreringsdatum, Epost, Losenord, Namn, Telefon, Plats, Ansvarig_Agent) VALUES ('" + alienID + "', '" + registryDate + "', '" + email + "', '" + password + "', '" + name + "', '" + telefon + "', '" + area + "', '" + agentID +"')");
         JOptionPane.showMessageDialog(this, "Alien with ID " + alienID + " added to the database.");
     }
+    //om man trycker in worm i comboboxen kommer nästa fönster som berättar vad för ytterliggare information som ska registreras. i detta fall är det längden på alien
+    if (selectedType.equalsIgnoreCase("Worm")) {
+
+                JFrame frame = new JFrame("Extra information:");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JButton button = new JButton("Add extra information");
+                button.addActionListener(e -> {
+                    String input = JOptionPane.showInputDialog(frame, "Enter length in digits only:");
+                    if (input != null && !input.isEmpty()) {
+                        try {
+// här följer alienID från tidigare fönster med längden på alien in i tabellen i sql.
+                            
+                            int langd = Integer.parseInt(input);
+                            idb.insert("INSERT INTO worm (Alien_ID, Langd) Values('" + alienID + "'," + langd + ")");
+                            JOptionPane.showMessageDialog(frame, "Updated successfully!");
+                        } catch (InfException ex) {
+                            Logger.getLogger(RegisterAlien.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+// en else sats utifall man registrerar squid, exakt samma fast squid anger man antal armar istället för längd
+            } else {
+        if (selectedType.equalsIgnoreCase("Squid")) {
+            JFrame frame = new JFrame("Extra information");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JButton button = new JButton("Add extra information");
+            button.addActionListener(e -> {
+                String input = JOptionPane.showInputDialog("Enter antal armar:");
+                if (input != null && !input.isEmpty()) {
+                    try {
+                        
+                        
+                        int antalArmar = Integer.parseInt(input);
+                        idb.insert("INSERT INTO squid (Alien_ID, Antal_Armar) Values ('" + alienID + "'," + antalArmar + ")");
+                        JOptionPane.showMessageDialog(frame, "Updated succesfully!");
+                    } catch (InfException ex) {
+                        Logger.getLogger(RegisterAlien.class.getName()).log(Level.SEVERE,null,ex);
+                    }
+                }
+            });
+            frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+                // här anger man boglodites antal boogies. 3e alternativet av aliens ras man kan registrera.
+        } else {
+            if (selectedType.equalsIgnoreCase("Boglodite")) {
+                JFrame frame = new JFrame("Extra information");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JButton button = new JButton("Add extra information");
+                button.addActionListener(e-> {
+                    String input = JOptionPane.showInputDialog("Enter antal boogies:");
+                    if (input != null && !input.isEmpty()) {
+                        try {
+                            
+                            int antalBoogies = Integer.parseInt(input);
+                            idb.insert("INSERT INTO boglodite (Alien_ID, Antal_Boogies) Values ('" + alienID + "'," + antalBoogies + ")");
+                            JOptionPane.showMessageDialog(frame, "Updated succesfullt!");
+                        } catch (InfException ex) {
+                        Logger.getLogger(RegisterAlien.class.getName()).log(Level.SEVERE,null,ex);
+                    }
+                }
+            });
+            frame.getContentPane().add(button);
+                frame.pack();
+                frame.setVisible(true);
+                        }
+                    }
+    }
+            
+        
+    
+    // kladd
+    
 } catch (InfException ex) {
     Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
 }
+
+
+    
+
 
     }//GEN-LAST:event_registerButtonActionPerformed
 
@@ -295,9 +460,12 @@ try {
     private javax.swing.JTextField agentText;
     private javax.swing.JTextField alienIDText;
     private javax.swing.JTextField areaText;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> comboType;
     private javax.swing.JTextField emailText;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

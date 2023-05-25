@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
 
+
 /**
  *
  * @author Björn
@@ -202,13 +203,13 @@ public class RegisterAgent extends javax.swing.JFrame {
     if (agentID.isEmpty()) {
         agentID = null;
     }
-    if (password.length() > 6) {
-        JOptionPane.showMessageDialog(areaText, "please 6 charachters maximum");
+    else if (password.length() > 6) {
+        JOptionPane.showMessageDialog(areaText, "please 6 charachters maximum (password)");
     }
-    if (admin.length() > 1) {
-        JOptionPane.showMessageDialog(areaText, "please 1 character maximum");
+    else if (admin.length() > 1) {
+        JOptionPane.showMessageDialog(areaText, "please 1 character maximum (admin))");
     }
-    if (area.isEmpty()) {
+    else if (area.isEmpty()) {
         area = null;
     }
     
